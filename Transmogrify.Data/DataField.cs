@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Transmogrify
+namespace Transmogrify.Data
 {
     public abstract class DataField : IComparable<DataField>
     {

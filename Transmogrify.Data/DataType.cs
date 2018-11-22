@@ -1,4 +1,4 @@
-﻿namespace Transmogrify
+﻿namespace Transmogrify.Data
 {
     public abstract class DataType
     {

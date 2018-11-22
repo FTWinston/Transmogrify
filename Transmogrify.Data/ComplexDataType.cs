@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Transmogrify
+namespace Transmogrify.Data
 {
     public class ComplexDataType : DataType
     {
