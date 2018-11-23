@@ -11,6 +11,12 @@ namespace Transmogrify.Data
             Fields = fields;
         }
 
+        public ComplexDataType(string name, params DataField[] fields)
+            : base(name, false)
+        {
+            Fields = fields;
+        }
+
         public IList<DataField> Fields { get; set; }
     }
 }

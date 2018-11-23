@@ -2,9 +2,9 @@
 
 namespace Transmogrify.Data
 {
-    public abstract class DataField : IComparable<DataField>
+    public class DataField : IComparable<DataField>
     {
-        protected DataField(string name, DataType type)
+        public DataField(string name, DataType type)
         {
             Name = name;
             Type = type;

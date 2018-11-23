@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Transmogrify.Data.EndPoints
 {
-    public class PlainTextEndPoint : DataEndPoint
+    public class PlainTextEndPoint : DataEndPoint<PlainTextEndPoint.PlainTextConfig>
     {
         public PlainTextEndPoint(string name)
             : base(name)
@@ -29,24 +27,14 @@ namespace Transmogrify.Data.EndPoints
             return new PlainTextWriter(this, collection);
         }
 
-        // TODO: if populating from a file, read all field headings ... just call them Column 1 ... X if HasHeaders is false
-        // Collections has a single item, representing the file contents...
-        public ComplexDataType DataType { get; set; }
+        // Data type has a single field, representing a line of the file contents
+        public ComplexDataType DataType { get; } = new ComplexDataType("Line", new DataField("Value", SimpleDataType.String));
 
 
-        // configuration options
-
-        public string FilePath { get; set; }
-
-        public bool HasHeaders { get; set; }
-
-        public char Delimiter { get; set; }
-
-        public char Quote { get; set; }
-
-        public char Escape { get; set; }
-
-        public char Comment { get; set; }
+        public class PlainTextConfig
+        {
+            public string FilePath { get; set; }
+        }
 
 
         private class PlainTextReader : DataItemReader
@@ -56,7 +44,7 @@ namespace Transmogrify.Data.EndPoints
                 this.endPoint = endPoint;
                 this.collection = collection;
                 lineNumber = -1;
-                lines = File.ReadAllLines(endPoint.FilePath);
+                lines = File.ReadAllLines(endPoint.Configuration.FilePath);
             }
 
             private PlainTextEndPoint endPoint;
@@ -94,6 +82,7 @@ namespace Transmogrify.Data.EndPoints
             }
         }
 
+
         private class PlainTextWriter : DataItemWriter
         {
             public PlainTextWriter(PlainTextEndPoint endPoint, EndPointDataCollection collection)
@@ -113,7 +102,7 @@ namespace Transmogrify.Data.EndPoints
 
             public override void Flush()
             {
-                File.WriteAllLines(endPoint.FilePath, lines);
+                File.WriteAllLines(endPoint.Configuration.FilePath, lines);
             }
 
             public override void Dispose()

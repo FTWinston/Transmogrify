@@ -1,8 +1,8 @@
 ﻿namespace Transmogrify.Data.EndPoints
 {
-    public class TsqlEndPoint : DataEndPoint
+    public class TSqlEndPoint : DataEndPoint<TSqlEndPoint.TSqlConfig>
     {
-        public TsqlEndPoint(string name)
+        public TSqlEndPoint(string name)
             : base(name)
         {
 
@@ -25,8 +25,9 @@
             throw new System.NotImplementedException();
         }
 
-        // configuration options
-
-        public string ConnectionString { get; set; }
+        public class TSqlConfig
+        {
+            public string ConnectionString { get; set; }
+        }
     }
 }
