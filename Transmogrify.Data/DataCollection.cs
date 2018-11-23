@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace Transmogrify.Data
+﻿namespace Transmogrify.Data
 {
     public abstract class DataCollection
     {
@@ -14,7 +11,7 @@ namespace Transmogrify.Data
         public string Name { get; }
         public ComplexDataType ItemType { get; }
 
-        public abstract IEnumerator<ComplexDataItem> GetReader();
+        public abstract DataItemReader GetReader();
 
         public abstract DataItemWriter GetWriter();
     }

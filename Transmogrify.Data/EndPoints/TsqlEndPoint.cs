@@ -1,4 +1,6 @@
-﻿namespace Transmogrify.Data.EndPoints
+﻿using System.Collections.Generic;
+
+namespace Transmogrify.Data.EndPoints
 {
     public class TSqlEndPoint : DataEndPoint<TSqlEndPoint.TSqlConfig>
     {
@@ -8,7 +10,7 @@
 
         }
 
-        public override void PopulateCollections()
+        public override IEnumerable<MappingCollection> PopulateCollections(Mapping mapping)
         {
             // TODO: read all tables from database
             // Collections has an entry for each table or view

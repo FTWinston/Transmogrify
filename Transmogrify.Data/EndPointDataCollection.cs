@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Transmogrify.Data
+﻿namespace Transmogrify.Data
 {
     public class EndPointDataCollection : DataCollection
     {
@@ -12,7 +10,7 @@ namespace Transmogrify.Data
 
         public DataEndPoint EndPoint { get; }
 
-        public override IEnumerator<ComplexDataItem> GetReader() => EndPoint.GetReader(this);
+        public override DataItemReader GetReader() => EndPoint.GetReader(this);
 
         public override DataItemWriter GetWriter() => EndPoint.GetWriter(this);
     }

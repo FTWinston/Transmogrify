@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Transmogrify.Data;
 
@@ -9,45 +10,40 @@ namespace Transmogrify.Engine
     {
         public async Task Run(Project project)
         {
-            var migrationQueue = DetermineMigrationOrder(project);
+            var migrationQueue = DetermineMappingOrder(project);
 
             foreach (var migration in migrationQueue)
             {
-                await RunMigration(migration);
+                await RunMapping(migration);
             }
         }
 
-        public Queue<Migration> DetermineMigrationOrder(Project project)
+        public Queue<Mapping> DetermineMappingOrder(Project project)
         {
             // TODO: actually put thought into this, in terms of intermediate collections, etc.
-            return new Queue<Migration>(project.Migrations);
+            // ... hmm, this probably should be done at design/saving time, same as deciding a mapping's operation order.
+            return new Queue<Mapping>(project.Mappings);
         }
 
-        protected async Task RunMigration(Migration migration)
+        protected async Task RunMapping(Mapping mapping)
         {
-            using (var writer = migration.Destination.GetWriter())
+            // TODO: Allow this to run multi-threaded, make one MappingRunner per thread (and re-use them)
+            var mappingRunner = new MappingRunner(mapping);
+
+            using (var writer = mapping.Destination.GetWriter())
             {
-                using (var reader = migration.Source.GetReader())
+                using (var reader = mapping.Source.GetReader())
                 {
                     while (reader.MoveNext())
                     {
                         var sourceItem = reader.Current;
-                        var destItem = await TransformDataItem(migration, sourceItem);
+                        var destItem = await mappingRunner.Run(sourceItem);
                         writer.Write(destItem);
                     }
                 }
 
                 writer.Flush();
             }
-        }
-
-        protected async Task<ComplexDataItem> TransformDataItem(Migration migration, ComplexDataItem sourceItem)
-        {
-            var destItem = new ComplexDataItem(migration.Destination.ItemType);
-
-            // TODO: apply migration's operations to populate the destination item's fields, I guess?
-
-            return destItem;
         }
     }
 }

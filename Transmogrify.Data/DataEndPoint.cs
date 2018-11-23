@@ -4,9 +4,7 @@ namespace Transmogrify.Data
 {
     public abstract class DataEndPoint
     {
-        public List<DataCollection> Collections { get; } = new List<DataCollection>();
-
-        public abstract void PopulateCollections();
+        public abstract IEnumerable<MappingCollection> PopulateCollections(Mapping mapping);
 
         protected internal abstract DataItemReader GetReader(EndPointDataCollection collection);
         protected internal abstract DataItemWriter GetWriter(EndPointDataCollection collection);

@@ -12,9 +12,19 @@ namespace Transmogrify.Data.EndPoints
 
         }
 
-        public override void PopulateCollections()
+        public override IEnumerable<MappingCollection> PopulateCollections(Mapping mapping)
         {
-            Collections.Add(new EndPointDataCollection(this, "Lines", DataType));
+            // Data type has a single field, representing a line of the file contents
+
+            // TODO: revisit MappingCollection vs DataCollection ... shouldn't DataCollections (OR SOMETHING data related) exist outside the mapping?
+
+            // TODO: the data type needs to know about the collection, and the collection needs to know about the data type. Unpick this.
+
+            var field = new DataField(collection, "Value", SimpleDataType.String);
+            var collection = new EndPointDataCollection(this, "Lines", dataType);
+            var dataType = new ComplexDataType("Line", field);
+
+            yield return new MappingCollection(mapping, collection);
         }
 
         protected internal override DataItemReader GetReader(EndPointDataCollection collection)
@@ -26,10 +36,6 @@ namespace Transmogrify.Data.EndPoints
         {
             return new PlainTextWriter(this, collection);
         }
-
-        // Data type has a single field, representing a line of the file contents
-        public ComplexDataType DataType { get; } = new ComplexDataType("Line", new DataField("Value", SimpleDataType.String));
-
 
         public class PlainTextConfig
         {

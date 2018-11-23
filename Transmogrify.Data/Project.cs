@@ -6,6 +6,6 @@ namespace Transmogrify.Data
     {
         public List<DataEndPoint> EndPoints { get; } = new List<DataEndPoint>();
 
-        public List<Migration> Migrations { get; } = new List<Migration>();
+        public List<Mapping> Mappings { get; } = new List<Mapping>();
     }
 }
