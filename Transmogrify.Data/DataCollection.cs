@@ -1,15 +1,25 @@
-﻿namespace Transmogrify.Data
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Transmogrify.Data
 {
-    public abstract class DataCollection
+    public abstract class DataCollection : MappingElement
     {
-        public DataCollection(string name, ComplexDataType type)
+        public DataCollection(Mapping mapping, string name, ComplexDataType type)
+            : base(mapping)
         {
             Name = name;
             ItemType = type;
+
+            Fields = type.Fields.Select(f => new DataFieldInstance(this, f))
+                .ToArray();
         }
 
         public string Name { get; }
+
         public ComplexDataType ItemType { get; }
+
+        public IList<DataFieldInstance> Fields { get; }
 
         public abstract DataItemReader GetReader();
 

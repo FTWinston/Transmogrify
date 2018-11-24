@@ -12,19 +12,14 @@ namespace Transmogrify.Data.EndPoints
 
         }
 
-        public override IEnumerable<MappingCollection> PopulateCollections(Mapping mapping)
+        public override IEnumerable<EndPointDataCollection> PopulateCollections(Mapping mapping)
         {
             // Data type has a single field, representing a line of the file contents
 
-            // TODO: revisit MappingCollection vs DataCollection ... shouldn't DataCollections (OR SOMETHING data related) exist outside the mapping?
+            var dataType = new ComplexDataType("Line", new DataField("Value", SimpleDataType.String));
+            var collection = new EndPointDataCollection(mapping, this, "Lines", dataType);
 
-            // TODO: the data type needs to know about the collection, and the collection needs to know about the data type. Unpick this.
-
-            var field = new DataField(collection, "Value", SimpleDataType.String);
-            var collection = new EndPointDataCollection(this, "Lines", dataType);
-            var dataType = new ComplexDataType("Line", field);
-
-            yield return new MappingCollection(mapping, collection);
+            yield return collection;
         }
 
         protected internal override DataItemReader GetReader(EndPointDataCollection collection)

@@ -4,8 +4,8 @@ namespace Transmogrify.Data
 {
     public abstract class Operation
     {
-        public abstract DataType[] InputTypes { get; }
-        public abstract DataType[] OutputTypes { get; }
+        public abstract DataField[] Inputs { get; }
+        public abstract DataField[] Outputs { get; }
 
         public abstract Task<object[]> Perform(object[] inputs);
     }

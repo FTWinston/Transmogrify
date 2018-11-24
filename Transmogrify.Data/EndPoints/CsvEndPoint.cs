@@ -14,9 +14,9 @@ namespace Transmogrify.Data.EndPoints
 
         }
 
-        public override IEnumerable<MappingCollection> PopulateCollections(Mapping mapping)
+        public override IEnumerable<EndPointDataCollection> PopulateCollections(Mapping mapping)
         {
-            yield return new MappingCollection(mapping, new EndPointDataCollection(this, "Rows", DataType));
+            yield return new EndPointDataCollection(mapping, this, "Rows", DataType);
         }
 
         protected internal override DataItemReader GetReader(EndPointDataCollection collection)
@@ -37,14 +37,15 @@ namespace Transmogrify.Data.EndPoints
         {
             // See https://joshclose.github.io/CsvHelper/configuration
 
-            var configuration = new CsvHelper.Configuration.Configuration();
-
-            configuration.SanitizeForInjection = true;
-            configuration.HasHeaderRecord = Configuration.HasHeaders;
-            configuration.Delimiter = Configuration.Delimiter;
-            configuration.Quote = Configuration.Quote;
-            configuration.Comment = Configuration.Comment;
-            configuration.QuoteAllFields = Configuration.AlwaysQuote;
+            var configuration = new CsvHelper.Configuration.Configuration
+            {
+                SanitizeForInjection = true,
+                HasHeaderRecord = Configuration.HasHeaders,
+                Delimiter = Configuration.Delimiter,
+                Quote = Configuration.Quote,
+                Comment = Configuration.Comment,
+                QuoteAllFields = Configuration.AlwaysQuote
+            };
 
             return configuration;
         }
@@ -76,8 +77,8 @@ namespace Transmogrify.Data.EndPoints
                 recordEnumerator = csvReader.GetRecords<dynamic>().GetEnumerator();
             }
 
-            private CsvEndPoint endPoint;
-            private EndPointDataCollection collection;
+            private readonly CsvEndPoint endPoint;
+            private readonly EndPointDataCollection collection;
 
             private StreamReader streamReader;
             private CsvHelper.CsvReader csvReader;
@@ -143,8 +144,8 @@ namespace Transmogrify.Data.EndPoints
                 csvWriter = new CsvHelper.CsvWriter(streamWriter, endPoint.ConvertConfiguration());
             }
 
-            private CsvEndPoint endPoint;
-            private EndPointDataCollection collection;
+            private readonly CsvEndPoint endPoint;
+            private readonly EndPointDataCollection collection;
 
             private StreamWriter streamWriter;
             private CsvHelper.CsvWriter csvWriter;

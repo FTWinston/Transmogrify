@@ -10,7 +10,7 @@ namespace Transmogrify.Data.EndPoints
 
         }
 
-        public override IEnumerable<MappingCollection> PopulateCollections(Mapping mapping)
+        public override IEnumerable<EndPointDataCollection> PopulateCollections(Mapping mapping)
         {
             // TODO: read all tables from database
             // Collections has an entry for each table or view

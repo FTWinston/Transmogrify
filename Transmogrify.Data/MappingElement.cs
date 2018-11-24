@@ -15,7 +15,7 @@ namespace Transmogrify.Data
 
         public int CompareTo(MappingElement other)
         {
-            throw new NotImplementedException();
+            return Identifier.CompareTo(other.Identifier);
         }
     }
 }

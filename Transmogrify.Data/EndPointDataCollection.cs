@@ -2,8 +2,8 @@
 {
     public class EndPointDataCollection : DataCollection
     {
-        public EndPointDataCollection(DataEndPoint endPoint, string name, ComplexDataType type)
-            : base(name, type)
+        public EndPointDataCollection(Mapping mapping, DataEndPoint endPoint, string name, ComplexDataType type)
+            : base(mapping, name, type)
         {
             EndPoint = endPoint;
         }
