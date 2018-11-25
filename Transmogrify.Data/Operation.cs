@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Transmogrify.Data
 {
+    [JsonObject(IsReference = true)]
     public abstract class Operation
     {
         public abstract DataField[] Inputs { get; }

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Transmogrify.Data
 {
+    [JsonObject(IsReference = true)]
     public abstract class DataCollection : MappingElement
     {
         public DataCollection(Mapping mapping, string name, ComplexDataType type)

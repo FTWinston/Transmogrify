@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Transmogrify.Data
 {
@@ -10,8 +11,11 @@ namespace Transmogrify.Data
             Identifier = Mapping.NextElementIdentifier++;
         }
 
-        public Mapping Mapping { get; } // not serializable
-        internal int Identifier { get; } // not serializable
+        [JsonIgnore]
+        public Mapping Mapping { get; }
+
+        [JsonIgnore]
+        internal int Identifier { get; }
 
         public int CompareTo(MappingElement other)
         {

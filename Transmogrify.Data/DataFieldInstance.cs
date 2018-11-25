@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Transmogrify.Data
 {
+    [JsonObject(IsReference = true)]
     public class DataFieldInstance : IComparable<DataFieldInstance>
     {
         public DataFieldInstance(MappingElement element, DataField field)
@@ -10,8 +12,9 @@ namespace Transmogrify.Data
             Field = field;
         }
 
-        public MappingElement Element { get; set; }
-        public DataField Field { get; set; }
+        public MappingElement Element { get; set; } // TODO: just serialize an ID
+
+        public DataField Field { get; set; } // TODO: just serialize an ID
 
         public int CompareTo(DataFieldInstance other)
         {

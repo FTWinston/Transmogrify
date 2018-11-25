@@ -8,7 +8,7 @@
             EndPoint = endPoint;
         }
 
-        public DataEndPoint EndPoint { get; }
+        public DataEndPoint EndPoint { get; } // TODO: just serialize an ID
 
         public override DataItemReader GetReader() => EndPoint.GetReader(this);
 

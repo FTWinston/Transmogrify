@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using Newtonsoft.Json;
+using System.Linq;
 
 namespace Transmogrify.Data
 {
+    [JsonObject(IsReference = true)]
     public class MappingOperation : MappingElement
     {
         public MappingOperation(Mapping mapping, Operation operation)
@@ -15,10 +17,13 @@ namespace Transmogrify.Data
                 .ToArray();
         }
 
-        public Operation Operation { get; set; }
+        public Operation Operation { get; set; } // TODO: just serialize the type name of this operation
 
         public DataFieldInstance[] Inputs { get; } // These point at another element's fields
+        // TODO: just serialize an ID
+
         public DataFieldInstance[] Outputs { get; } // These point at this element's fields
+        // TODO: just serialize an ID
 
         public int X { get; set; }
         public int Y { get; set; }

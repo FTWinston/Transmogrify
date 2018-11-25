@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Transmogrify.Data
 {
+    [JsonObject(IsReference = true)]
     public class DataField : IComparable<DataField>
     {
         public DataField(string name, DataType type)
@@ -11,6 +13,7 @@ namespace Transmogrify.Data
         }
 
         public string Name { get; set; }
+
         public DataType Type { get; set; }
 
         public int CompareTo(DataField other)

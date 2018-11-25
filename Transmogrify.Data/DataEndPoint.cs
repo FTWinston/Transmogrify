@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Transmogrify.Data
 {
+    [JsonObject(IsReference = true)]
     public abstract class DataEndPoint
     {
         public abstract IEnumerable<EndPointDataCollection> PopulateCollections(Mapping mapping);
@@ -20,7 +22,7 @@ namespace Transmogrify.Data
         }
 
         public string Name { get; set; }
-        public TConfig Configuration { get; set; }
 
+        public TConfig Configuration { get; set; }
     }
 }
