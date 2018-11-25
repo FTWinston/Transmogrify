@@ -12,9 +12,9 @@ namespace Transmogrify.Data
             Field = field;
         }
 
-        public MappingElement Element { get; set; } // TODO: just serialize an ID
+        public MappingElement Element { get; set; }
 
-        public DataField Field { get; set; } // TODO: just serialize an ID
+        public DataField Field { get; set; }
 
         public int CompareTo(DataFieldInstance other)
         {

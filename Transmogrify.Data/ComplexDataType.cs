@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Transmogrify.Data
 {
     public class ComplexDataType : DataType
     {
+        [JsonConstructor]
         public ComplexDataType(string name, IList<DataField> fields)
             : base(name, false)
         {

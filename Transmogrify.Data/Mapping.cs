@@ -6,11 +6,11 @@ namespace Transmogrify.Data
     public class Mapping
     {
         [JsonIgnore]
-        Project Project { get; set; }
+        public Project Project { get; set; }
 
-        public DataCollection Source { get; set; } // TODO: should just serialize an ID
+        public EndPointDataCollection Source { get; set; }
 
-        public DataCollection Destination { get; set; } // TODO: should just serialize an ID
+        public EndPointDataCollection Destination { get; set; }
 
         public List<MappingOperation> Operations { get; set; } = new List<MappingOperation>();
 

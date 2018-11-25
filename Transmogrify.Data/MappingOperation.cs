@@ -20,10 +20,8 @@ namespace Transmogrify.Data
         public Operation Operation { get; set; } // TODO: just serialize the type name of this operation
 
         public DataFieldInstance[] Inputs { get; } // These point at another element's fields
-        // TODO: just serialize an ID
 
         public DataFieldInstance[] Outputs { get; } // These point at this element's fields
-        // TODO: just serialize an ID
 
         public int X { get; set; }
         public int Y { get; set; }

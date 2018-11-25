@@ -11,8 +11,8 @@ namespace Transmogrify.Data
             Output = output;
         }
 
-        public DataFieldInstance Source { get; set; } // TODO: just serialize an ID
+        public DataFieldInstance Source { get; set; }
 
-        public DataField Output { get; set; } // TODO: just serialize an ID
+        public DataField Output { get; set; }
     }
 }

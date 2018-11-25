@@ -48,8 +48,8 @@ namespace Transmogrify.Data.EndPoints
                 lines = File.ReadAllLines(endPoint.Configuration.FilePath);
             }
 
-            private PlainTextEndPoint endPoint;
-            private EndPointDataCollection collection;
+            private readonly PlainTextEndPoint endPoint;
+            private readonly EndPointDataCollection collection;
             private int lineNumber;
             private string[] lines;
 
@@ -92,8 +92,8 @@ namespace Transmogrify.Data.EndPoints
                 this.collection = collection;
             }
 
-            private PlainTextEndPoint endPoint;
-            private EndPointDataCollection collection;
+            private readonly PlainTextEndPoint endPoint;
+            private readonly EndPointDataCollection collection;
             private List<string> lines = new List<string>();
 
             public override void Write(ComplexDataItem item)

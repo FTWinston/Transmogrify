@@ -12,6 +12,7 @@ namespace Transmogrify.Data
         }
 
         public string Name { get; }
+
         public bool IsSimple { get; }
     }
 }

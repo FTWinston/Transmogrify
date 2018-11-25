@@ -4,12 +4,12 @@ namespace Transmogrify.Data.Operations.Text
 {
     public class Trim : Operation
     {
-        public override DataField[] Inputs => new[]
+        public override DataField[] Inputs { get; } = new[]
         {
             new DataField("Value", SimpleDataType.String)
         };
 
-        public override DataField[] Outputs => new[]
+        public override DataField[] Outputs { get; } = new[]
         {
             new DataField("Value", SimpleDataType.String)
         };

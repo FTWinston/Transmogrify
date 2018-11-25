@@ -10,7 +10,7 @@ namespace Transmogrify.Data
             ActualType = type;
         }
 
-        public Type ActualType { get; } // TODO: decide how to serialize this
+        public Type ActualType { get; }
 
         public static SimpleDataType String = new SimpleDataType("String", typeof(string));
         public static SimpleDataType Bool = new SimpleDataType("Bool", typeof(bool));
