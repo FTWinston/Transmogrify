@@ -48,12 +48,13 @@ namespace Transmogrify.Tests
             );
         }
 
-        [Fact]
-        public void DeserializeProject()
+        [Theory]
+        [InlineData("Transmogrify.Tests.Project001.json")]
+        public void DeserializeProject(string resourceName)
         {
             string strProject;
 
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Transmogrify.Tests.Project001.json"))
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
             using (StreamReader reader = new StreamReader(stream))
             {
                 strProject = reader.ReadToEnd();
@@ -76,6 +77,30 @@ namespace Transmogrify.Tests
             var project2 = JsonConvert.DeserializeObject<Project>(strProject,
                 ProjectSerialization.GetSerializerSettings()
             );
+        }
+
+        [Theory]
+        [InlineData("Transmogrify.Tests.Project001.json")]
+        public void DeserializeAndSerializeProject(string resourceName)
+        {
+            string strProject;
+
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                strProject = reader.ReadToEnd();
+            }
+
+            var project = JsonConvert.DeserializeObject<Project>(strProject,
+                ProjectSerialization.GetSerializerSettings()
+            );
+
+
+            var strProject2 = JsonConvert.SerializeObject(project, Formatting.Indented,
+                ProjectSerialization.GetSerializerSettings()
+            );
+
+            Assert.Equal(strProject, strProject2);
         }
     }
 }

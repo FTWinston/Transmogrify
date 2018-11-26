@@ -15,7 +15,13 @@ namespace Transmogrify.Data.Serialization
         {
             JObject item = JObject.Load(reader);
 
-            // TODO: this fails because it doesn't resolve refs!
+            // need to work around object references
+            var reference = item["$ref"];
+            if (reference != null)
+            {
+                return serializer.ReferenceResolver.ResolveReference(serializer, reference.Value<string>());
+            }
+
             bool isSimple = item[nameof(DataType.IsSimple)].Value<bool>();
 
             if (isSimple)

@@ -26,12 +26,13 @@
         },
         "Name": "Lines",
         "ItemType": {
+          "$id": "4",
           "Fields": [
             {
-              "$id": "4",
+              "$id": "5",
               "Name": "Value",
               "Type": {
-                "$id": "5",
+                "$id": "6",
                 "ActualType": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
                 "Name": "String",
                 "IsSimple": true
@@ -43,29 +44,30 @@
         },
         "Fields": [
           {
-            "$id": "6",
+            "$id": "7",
             "Element": {
               "$ref": "3"
             },
             "Field": {
-              "$ref": "4"
+              "$ref": "5"
             }
           }
         ]
       },
       "Destination": {
-        "$id": "7",
+        "$id": "8",
         "EndPoint": {
           "$ref": "2"
         },
         "Name": "Lines",
         "ItemType": {
+          "$id": "9",
           "Fields": [
             {
-              "$id": "8",
+              "$id": "10",
               "Name": "Value",
               "Type": {
-                "$ref": "5"
+                "$ref": "6"
               }
             }
           ],
@@ -74,12 +76,12 @@
         },
         "Fields": [
           {
-            "$id": "9",
+            "$id": "11",
             "Element": {
-              "$ref": "7"
+              "$ref": "8"
             },
             "Field": {
-              "$ref": "8"
+              "$ref": "10"
             }
           }
         ]
@@ -88,10 +90,10 @@
       "Outputs": [
         {
           "Source": {
-            "$ref": "6"
+            "$ref": "7"
           },
           "Output": {
-            "$ref": "8"
+            "$ref": "10"
           }
         }
       ]
