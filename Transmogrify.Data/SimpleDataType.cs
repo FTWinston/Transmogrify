@@ -4,10 +4,10 @@ namespace Transmogrify.Data
 {
     public class SimpleDataType : DataType
     {
-        public SimpleDataType(string name, Type type)
+        public SimpleDataType(string name, Type actualType)
             : base(name, true)
         {
-            ActualType = type;
+            ActualType = actualType;
         }
 
         public Type ActualType { get; }

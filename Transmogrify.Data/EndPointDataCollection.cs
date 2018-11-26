@@ -1,9 +1,11 @@
-﻿namespace Transmogrify.Data
+﻿using Newtonsoft.Json;
+
+namespace Transmogrify.Data
 {
     public class EndPointDataCollection : DataCollection
     {
-        public EndPointDataCollection(Mapping mapping, DataEndPoint endPoint, string name, ComplexDataType type)
-            : base(mapping, name, type)
+        public EndPointDataCollection(DataEndPoint endPoint, string name, ComplexDataType itemType)
+            : base(name, itemType)
         {
             EndPoint = endPoint;
         }

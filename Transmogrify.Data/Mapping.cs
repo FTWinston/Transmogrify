@@ -5,9 +5,6 @@ namespace Transmogrify.Data
 {
     public class Mapping
     {
-        [JsonIgnore]
-        public Project Project { get; set; }
-
         public EndPointDataCollection Source { get; set; }
 
         public EndPointDataCollection Destination { get; set; }

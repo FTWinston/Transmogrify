@@ -5,14 +5,12 @@ namespace Transmogrify.Data
 {
     public class MappingElement : IComparable<MappingElement>
     {
-        protected MappingElement(Mapping mapping)
-        {
-            Mapping = mapping;
-            ID = ++Mapping.NextElementIdentifier;
-        }
+        private static int nextElementIdentifier;
 
-        [JsonIgnore]
-        public Mapping Mapping { get; }
+        protected MappingElement()
+        {
+            ID = ++nextElementIdentifier;
+        }
 
         [JsonIgnore]
         internal int ID { get; }

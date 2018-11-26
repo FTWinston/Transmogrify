@@ -4,8 +4,7 @@ namespace Transmogrify.Data
 {
     public class MappingOutput : MappingElement
     {
-        public MappingOutput(Mapping mapping, DataFieldInstance source, DataField output)
-            : base(mapping)
+        public MappingOutput(DataFieldInstance source, DataField output)
         {
             Source = source;
             Output = output;

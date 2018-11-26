@@ -6,7 +6,7 @@ namespace Transmogrify.Data
     public class ComplexDataType : DataType
     {
         [JsonConstructor]
-        public ComplexDataType(string name, IList<DataField> fields)
+        public ComplexDataType(string name, List<DataField> fields)
             : base(name, false)
         {
             Fields = fields;
@@ -15,9 +15,9 @@ namespace Transmogrify.Data
         public ComplexDataType(string name, params DataField[] fields)
             : base(name, false)
         {
-            Fields = fields;
+            Fields = new List<DataField>(fields);
         }
 
-        public IList<DataField> Fields { get; set; }
+        public List<DataField> Fields { get; set; }
     }
 }

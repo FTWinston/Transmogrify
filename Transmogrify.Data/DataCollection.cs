@@ -7,21 +7,22 @@ namespace Transmogrify.Data
     [JsonObject(IsReference = true)]
     public abstract class DataCollection : MappingElement
     {
-        public DataCollection(Mapping mapping, string name, ComplexDataType type)
-            : base(mapping)
+        public DataCollection(string name, ComplexDataType itemType)
+            : base()
         {
             Name = name;
-            ItemType = type;
+            ItemType = itemType;
 
-            Fields = type.Fields.Select(f => new DataFieldInstance(this, f))
-                .ToArray();
+            Fields = itemType.Fields
+                .Select(f => new DataFieldInstance(this, f))
+                .ToList();
         }
 
         public string Name { get; }
 
         public ComplexDataType ItemType { get; }
 
-        public IList<DataFieldInstance> Fields { get; }
+        public List<DataFieldInstance> Fields { get; }
 
         public abstract DataItemReader GetReader();
 

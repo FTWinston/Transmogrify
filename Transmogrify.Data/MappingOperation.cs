@@ -6,8 +6,7 @@ namespace Transmogrify.Data
     [JsonObject(IsReference = true)]
     public class MappingOperation : MappingElement
     {
-        public MappingOperation(Mapping mapping, Operation operation)
-            : base(mapping)
+        public MappingOperation(Operation operation)
         {
             Operation = operation;
 

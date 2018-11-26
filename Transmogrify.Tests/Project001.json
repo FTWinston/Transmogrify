@@ -1,0 +1,100 @@
+﻿{
+  "EndPoints": [
+    {
+      "$id": "1",
+      "$type": "Transmogrify.Data.EndPoints.PlainTextEndPoint, Transmogrify.Data",
+      "Name": "Source",
+      "Configuration": {
+        "FilePath": "source.txt"
+      }
+    },
+    {
+      "$id": "2",
+      "$type": "Transmogrify.Data.EndPoints.PlainTextEndPoint, Transmogrify.Data",
+      "Name": "Destination",
+      "Configuration": {
+        "FilePath": "dest.txt"
+      }
+    }
+  ],
+  "Mappings": [
+    {
+      "Source": {
+        "$id": "3",
+        "EndPoint": {
+          "$ref": "1"
+        },
+        "Name": "Lines",
+        "ItemType": {
+          "Fields": [
+            {
+              "$id": "4",
+              "Name": "Value",
+              "Type": {
+                "$id": "5",
+                "ActualType": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+                "Name": "String",
+                "IsSimple": true
+              }
+            }
+          ],
+          "Name": "Line",
+          "IsSimple": false
+        },
+        "Fields": [
+          {
+            "$id": "6",
+            "Element": {
+              "$ref": "3"
+            },
+            "Field": {
+              "$ref": "4"
+            }
+          }
+        ]
+      },
+      "Destination": {
+        "$id": "7",
+        "EndPoint": {
+          "$ref": "2"
+        },
+        "Name": "Lines",
+        "ItemType": {
+          "Fields": [
+            {
+              "$id": "8",
+              "Name": "Value",
+              "Type": {
+                "$ref": "5"
+              }
+            }
+          ],
+          "Name": "Line",
+          "IsSimple": false
+        },
+        "Fields": [
+          {
+            "$id": "9",
+            "Element": {
+              "$ref": "7"
+            },
+            "Field": {
+              "$ref": "8"
+            }
+          }
+        ]
+      },
+      "Operations": [],
+      "Outputs": [
+        {
+          "Source": {
+            "$ref": "6"
+          },
+          "Output": {
+            "$ref": "8"
+          }
+        }
+      ]
+    }
+  ]
+}

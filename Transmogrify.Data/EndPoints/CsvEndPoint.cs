@@ -16,7 +16,7 @@ namespace Transmogrify.Data.EndPoints
 
         public override IEnumerable<EndPointDataCollection> PopulateCollections(Mapping mapping)
         {
-            yield return new EndPointDataCollection(mapping, this, "Rows", DataType);
+            yield return new EndPointDataCollection(this, "Rows", DataType);
         }
 
         protected internal override DataItemReader GetReader(EndPointDataCollection collection)
