@@ -8,10 +8,12 @@
 
   <ItemGroup>
     <None Remove="Project001.json" />
+    <None Remove="Project002.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Project001.json" />
+    <EmbeddedResource Include="Project002.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Transmogrify.Data\Transmogrify.Data.csproj" />
+    <ProjectReference Include="..\Transmogrify.Operations\Transmogrify.Operations.csproj" />
   </ItemGroup>
 
 </Project>

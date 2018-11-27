@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Transmogrify.Data;
 
-namespace Transmogrify.Data.Operations.Text
+namespace Transmogrify.Operations.Text
 {
     public class Trim : Operation
     {

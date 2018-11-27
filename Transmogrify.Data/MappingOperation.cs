@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Linq;
 
 namespace Transmogrify.Data
@@ -16,7 +17,24 @@ namespace Transmogrify.Data
                 .ToArray();
         }
 
-        public Operation Operation { get; set; } // TODO: just serialize the type name of this operation
+        [JsonConstructor]
+        private MappingOperation(Type operationType)
+            : this(Activator.CreateInstance(operationType) as Operation)
+        {
+
+        }
+
+        [JsonIgnore]
+        public Operation Operation { get; set; }
+
+        [JsonProperty(PropertyName = "Operation")]
+        private Type OperationType
+        {
+            get
+            {
+                return Operation.GetType();
+            }
+        }
 
         public DataFieldInstance[] Inputs { get; } // These point at another element's fields
 

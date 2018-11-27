@@ -1,0 +1,126 @@
+﻿{
+  "EndPoints": [
+    {
+      "$id": "1",
+      "$type": "Transmogrify.Data.EndPoints.PlainTextEndPoint, Transmogrify.Data",
+      "Name": "Source",
+      "Configuration": {
+        "FilePath": "source.txt"
+      }
+    },
+    {
+      "$id": "2",
+      "$type": "Transmogrify.Data.EndPoints.PlainTextEndPoint, Transmogrify.Data",
+      "Name": "Destination",
+      "Configuration": {
+        "FilePath": "dest.txt"
+      }
+    }
+  ],
+  "Mappings": [
+    {
+      "Source": {
+        "$id": "3",
+        "EndPoint": {
+          "$ref": "1"
+        },
+        "Name": "Lines",
+        "ItemType": {
+          "$id": "4",
+          "Fields": [
+            {
+              "$id": "5",
+              "Name": "Value",
+              "Type": {
+                "$id": "6",
+                "ActualType": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+                "Name": "String"
+              }
+            }
+          ],
+          "Name": "Line"
+        },
+        "Fields": [
+          {
+            "$id": "7",
+            "Element": {
+              "$ref": "3"
+            },
+            "Field": {
+              "$ref": "5"
+            }
+          }
+        ]
+      },
+      "Destination": {
+        "$id": "8",
+        "EndPoint": {
+          "$ref": "2"
+        },
+        "Name": "Lines",
+        "ItemType": {
+          "$id": "9",
+          "Fields": [
+            {
+              "$id": "10",
+              "Name": "Value",
+              "Type": {
+                "$ref": "6"
+              }
+            }
+          ],
+          "Name": "Line"
+        },
+        "Fields": [
+          {
+            "$id": "11",
+            "Element": {
+              "$ref": "8"
+            },
+            "Field": {
+              "$ref": "10"
+            }
+          }
+        ]
+      },
+      "Operations": [
+        {
+          "$id": "12",
+          "Operation": "Transmogrify.Operations.Text.Trim, Transmogrify.Operations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+          "Inputs": [
+            {
+              "$ref": "7"
+            }
+          ],
+          "Outputs": [
+            {
+              "$id": "13",
+              "Element": {
+                "$ref": "12"
+              },
+              "Field": {
+                "$id": "14",
+                "Name": "Value",
+                "Type": {
+                  "$ref": "6"
+                }
+              }
+            }
+          ],
+          "X": 0,
+          "Y": 0
+        }
+      ],
+      "Outputs": [
+        {
+          "Source": {
+            "$ref": "13"
+          },
+          "Output": {
+            "$ref": "10"
+          }
+        }
+      ]
+    }
+  ]
+}
