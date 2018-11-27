@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace Transmogrify.Data
@@ -11,14 +11,13 @@ namespace Transmogrify.Data
             Values = new Dictionary<DataField, object>(type.Fields.Count);
         }
 
-        public ComplexDataItem(ComplexDataType type, IList<DataField> fields)
-            : this(type)
+        [JsonConstructor]
+        private ComplexDataItem()
         {
-            foreach (var field in fields)
-                Values.Add(field, null);
+            Values = new Dictionary<DataField, object>();
         }
 
-        public ComplexDataType Type { get; }
+        public ComplexDataType Type { get; set; }
 
         public Dictionary<DataField, object> Values { get; }
     }

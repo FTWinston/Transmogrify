@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 
 namespace Transmogrify.Data
 {
@@ -8,6 +8,12 @@ namespace Transmogrify.Data
         {
             Source = source;
             Output = output;
+        }
+
+        [JsonConstructor]
+        private MappingOutput()
+        {
+
         }
 
         public DataFieldInstance Source { get; set; }

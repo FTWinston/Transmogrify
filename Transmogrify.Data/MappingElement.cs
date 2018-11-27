@@ -3,7 +3,7 @@ using System;
 
 namespace Transmogrify.Data
 {
-    public class MappingElement : IComparable<MappingElement>
+    public abstract class MappingElement : IComparable<MappingElement>
     {
         private static int nextElementIdentifier;
 

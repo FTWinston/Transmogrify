@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
 
 namespace Transmogrify.Data.Serialization
 {
@@ -12,7 +11,7 @@ namespace Transmogrify.Data.Serialization
 
             };
 
-            settings.Converters.Add(new DataTypeCreationConverter());
+            settings.Converters.Add(new DataTypeConverter());
 
             return settings;
         }

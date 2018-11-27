@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace Transmogrify.Data
 {
+    [JsonObject(IsReference = true)]
     public class ComplexDataType : DataType
     {
-        [JsonConstructor]
-        public ComplexDataType(string name, List<DataField> fields)
-            : base(name, false)
-        {
-            Fields = fields;
-        }
-
         public ComplexDataType(string name, params DataField[] fields)
-            : base(name, false)
+            : base(name)
         {
             Fields = new List<DataField>(fields);
+        }
+
+        [JsonConstructor]
+        private ComplexDataType()
+        {
+            Fields = new List<DataField>();
         }
 
         public List<DataField> Fields { get; set; }

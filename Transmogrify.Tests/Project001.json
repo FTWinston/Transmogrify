@@ -34,13 +34,11 @@
               "Type": {
                 "$id": "6",
                 "ActualType": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
-                "Name": "String",
-                "IsSimple": true
+                "Name": "String"
               }
             }
           ],
-          "Name": "Line",
-          "IsSimple": false
+          "Name": "Line"
         },
         "Fields": [
           {
@@ -71,8 +69,7 @@
               }
             }
           ],
-          "Name": "Line",
-          "IsSimple": false
+          "Name": "Line"
         },
         "Fields": [
           {

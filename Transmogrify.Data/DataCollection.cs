@@ -7,8 +7,7 @@ namespace Transmogrify.Data
     [JsonObject(IsReference = true)]
     public abstract class DataCollection : MappingElement
     {
-        public DataCollection(string name, ComplexDataType itemType)
-            : base()
+        protected DataCollection(string name, ComplexDataType itemType)
         {
             Name = name;
             ItemType = itemType;
@@ -18,13 +17,15 @@ namespace Transmogrify.Data
                 .ToList();
         }
 
-        public string Name { get; }
+        protected DataCollection()
+        {
+            Fields = new List<DataFieldInstance>();
+        }
 
-        public ComplexDataType ItemType { get; }
+        public string Name { get; set; }
 
-        // TODO: serializer is adding to default values here. Using array stops it, but that's not what we want.
-        // Can use a static method to create these with a different constructor, or something to that effect.
-        // A further problem is that the destination's fields aren't having their type written out - but the source fields are!
+        public ComplexDataType ItemType { get; set; }
+
         public List<DataFieldInstance> Fields { get; }
 
         public abstract DataItemReader GetReader();

@@ -12,6 +12,12 @@ namespace Transmogrify.Data
             Field = field;
         }
 
+        [JsonConstructor]
+        private DataFieldInstance()
+        {
+
+        }
+
         public MappingElement Element { get; set; }
 
         public DataField Field { get; set; }

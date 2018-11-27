@@ -1,16 +1,24 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Transmogrify.Data
 {
+    [JsonObject(IsReference = true)]
     public class SimpleDataType : DataType
     {
         public SimpleDataType(string name, Type actualType)
-            : base(name, true)
+            : base(name)
         {
             ActualType = actualType;
         }
 
-        public Type ActualType { get; }
+        [JsonConstructor]
+        private SimpleDataType()
+        {
+
+        }
+
+        public Type ActualType { get; set; }
 
         public static SimpleDataType String = new SimpleDataType("String", typeof(string));
         public static SimpleDataType Bool = new SimpleDataType("Bool", typeof(bool));

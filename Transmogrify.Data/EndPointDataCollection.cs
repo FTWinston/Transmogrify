@@ -10,7 +10,13 @@ namespace Transmogrify.Data
             EndPoint = endPoint;
         }
 
-        public DataEndPoint EndPoint { get; }
+        [JsonConstructor]
+        private EndPointDataCollection()
+        {
+            
+        }
+
+        public DataEndPoint EndPoint { get; set; }
 
         public override DataItemReader GetReader() => EndPoint.GetReader(this);
 

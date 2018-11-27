@@ -12,6 +12,12 @@ namespace Transmogrify.Data
             Type = type;
         }
 
+        [JsonConstructor]
+        private DataField()
+        {
+
+        }
+
         public string Name { get; set; }
 
         public DataType Type { get; set; }

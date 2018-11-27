@@ -5,14 +5,16 @@ namespace Transmogrify.Data
     [JsonObject(IsReference = true)]
     public abstract class DataType
     {
-        protected DataType(string name, bool isSimple)
+        protected DataType(string name)
         {
             Name = name;
-            IsSimple = isSimple;
         }
 
-        public string Name { get; }
+        protected DataType()
+        {
 
-        public bool IsSimple { get; }
+        }
+
+        public string Name { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System;
 
 namespace Transmogrify.Data.Serialization
 {
-    class DataTypeCreationConverter : JsonConverter
+    class DataTypeConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
@@ -22,16 +22,24 @@ namespace Transmogrify.Data.Serialization
                 return serializer.ReferenceResolver.ResolveReference(serializer, reference.Value<string>());
             }
 
-            bool isSimple = item[nameof(DataType.IsSimple)].Value<bool>();
+            object newValue;
 
-            if (isSimple)
+            if (item[nameof(SimpleDataType.ActualType)] != null)
             {
-                return item.ToObject<SimpleDataType>();
+                newValue = item.ToObject<SimpleDataType>();
             }
             else
             {
-                return item.ToObject<ComplexDataType>();
+                newValue = item.ToObject<ComplexDataType>();
             }
+
+            var id = item["$id"];
+            if (id != null)
+            {
+                serializer.ReferenceResolver.AddReference(serializer, id.Value<string>(), newValue);
+            }
+
+            return newValue;
         }
 
         public override bool CanWrite => false;
