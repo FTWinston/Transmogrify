@@ -1,4 +1,8 @@
 ﻿{
+  "Dependencies": [
+    "Transmogrify.Data, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "Transmogrify.Operations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+  ],
   "EndPoints": [
     {
       "$id": "1",
