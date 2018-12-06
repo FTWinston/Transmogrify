@@ -44,7 +44,6 @@ namespace Transmogrify.Data.EndPoints
                 Delimiter = Configuration.Delimiter,
                 Quote = Configuration.Quote,
                 Comment = Configuration.Comment,
-                QuoteAllFields = Configuration.AlwaysQuote
             };
 
             return configuration;
