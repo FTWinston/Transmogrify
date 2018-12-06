@@ -13,12 +13,12 @@ namespace Transmogrify.Data
         }
 
         [JsonConstructor]
-        private DataFieldInstance()
+        protected DataFieldInstance()
         {
 
         }
 
-        public MappingElement Element { get; set; }
+        public virtual MappingElement Element { get; set; }
 
         public DataField Field { get; set; }
 

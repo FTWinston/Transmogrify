@@ -99,9 +99,6 @@
           "Outputs": [
             {
               "$id": "13",
-              "Element": {
-                "$ref": "12"
-              },
               "Field": {
                 "$id": "14",
                 "Name": "Value",

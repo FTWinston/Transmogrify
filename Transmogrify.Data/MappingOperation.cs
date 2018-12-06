@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Transmogrify.Data
 {
@@ -11,36 +12,51 @@ namespace Transmogrify.Data
         {
             Operation = operation;
 
-            Inputs = new DataFieldInstance[operation.Inputs.Length];
+            RawInputs = new DataFieldInstance[operation.Inputs.Length];
 
-            Outputs = operation.Outputs.Select(o => new DataFieldInstance(this, o))
+            RawOutputs = operation.Outputs.Select(o => new MappingOperationOutputFieldInstance(this, o))
                 .ToArray();
         }
 
         [JsonConstructor]
         private MappingOperation(Type operationType)
-            : this(Activator.CreateInstance(operationType) as Operation)
         {
-
+            Operation = Activator.CreateInstance(operationType) as Operation;
         }
 
         [JsonIgnore]
         public Operation Operation { get; set; }
 
         [JsonProperty(PropertyName = "Operation")]
-        private Type OperationType
-        {
-            get
-            {
-                return Operation.GetType();
-            }
-        }
+        private Type OperationType => Operation.GetType();
 
-        public DataFieldInstance[] Inputs { get; } // These point at another element's fields
+        [JsonIgnore]
+        public DataFieldInstance[] Inputs => RawInputs; // These point at another element's fields
 
-        public DataFieldInstance[] Outputs { get; } // These point at this element's fields
+        [JsonProperty(PropertyName = "Inputs")]
+        private DataFieldInstance[] RawInputs { get; set; }
+
+        [JsonIgnore]
+        public DataFieldInstance[] Outputs => RawOutputs; // These point at this element's fields
+
+        [JsonProperty(PropertyName = "Outputs")]
+        private MappingOperationOutputFieldInstance[] RawOutputs { get; set; }
 
         public int X { get; set; }
         public int Y { get; set; }
+
+        [OnDeserialized]
+        internal void OnDeserialized(StreamingContext context)
+        {
+            // Once deserialized, set set the element of every output to this.
+            // These weren't serialized, as this is a "parent" of its outputs in the JSON.
+
+            if (RawOutputs == null)
+                return;
+
+            foreach (var output in RawOutputs)
+                if (output != null)
+                    output.Element = this;
+        }
     }
 }
