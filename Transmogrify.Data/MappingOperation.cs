@@ -17,7 +17,7 @@ namespace Transmogrify.Data
 
             var parameters = method.GetParameters();
 
-            var inputParams = parameters.Where(p => p.IsIn);
+            var inputParams = parameters.Where(p => !p.IsOut);
 
             var outputParams = parameters
                 .Where(p => p.IsOut)

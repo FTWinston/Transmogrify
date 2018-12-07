@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmogrify.Data", "Transmogrify.Data\Transmogrify.Data.csproj", "{6D7B0481-AA57-46B3-949F-D1A70FC44836}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmogrify.Engine", "Transmogrify.Engine\Transmogrify.Engine.csproj", "{A7119C21-8C17-4A78-97EF-C6B7C41EA636}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transmogrify.Data", "Transmogrify.Data\Transmogrify.Data.csproj", "{6D7B0481-AA57-46B3-949F-D1A70FC44836}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transmogrify.Tests", "Transmogrify.Tests\Transmogrify.Tests.csproj", "{E8EF9319-2BA7-45A6-8951-973641F35299}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmogrify.Operations", "Transmogrify.Operations\Transmogrify.Operations.csproj", "{7FBFA524-76C5-4753-87E2-9725E613BF42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transmogrify.Operations", "Transmogrify.Operations\Transmogrify.Operations.csproj", "{7FBFA524-76C5-4753-87E2-9725E613BF42}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transmogrify.Engine", "Transmogrify.Engine\Transmogrify.Engine.csproj", "{1B3CF15C-5961-4086-BC12-2CBB35B583DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{6D7B0481-AA57-46B3-949F-D1A70FC44836}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D7B0481-AA57-46B3-949F-D1A70FC44836}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D7B0481-AA57-46B3-949F-D1A70FC44836}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7119C21-8C17-4A78-97EF-C6B7C41EA636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7119C21-8C17-4A78-97EF-C6B7C41EA636}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7119C21-8C17-4A78-97EF-C6B7C41EA636}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7119C21-8C17-4A78-97EF-C6B7C41EA636}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E8EF9319-2BA7-45A6-8951-973641F35299}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E8EF9319-2BA7-45A6-8951-973641F35299}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8EF9319-2BA7-45A6-8951-973641F35299}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{7FBFA524-76C5-4753-87E2-9725E613BF42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FBFA524-76C5-4753-87E2-9725E613BF42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FBFA524-76C5-4753-87E2-9725E613BF42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B3CF15C-5961-4086-BC12-2CBB35B583DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B3CF15C-5961-4086-BC12-2CBB35B583DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B3CF15C-5961-4086-BC12-2CBB35B583DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B3CF15C-5961-4086-BC12-2CBB35B583DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

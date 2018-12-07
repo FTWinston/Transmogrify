@@ -32,7 +32,7 @@ namespace Transmogrify.Tests
         [Theory]
         [InlineData("Transmogrify.Tests.Project001.json")]
         [InlineData("Transmogrify.Tests.Project002.json")]
-        public void DeserializeProject(string resourceName)
+        public Project DeserializeProject(string resourceName)
         {
             string strProject;
 
@@ -45,6 +45,8 @@ namespace Transmogrify.Tests
             var project = JsonConvert.DeserializeObject<Project>(strProject,
                 ProjectSerialization.GetSerializerSettings()
             );
+
+            return project;
         }
 
         [Fact]

@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading.Tasks;
+using Transmogrify.Engine;
 using Xunit;
 
 namespace Transmogrify.Tests

@@ -72,5 +72,66 @@ blah
                     File.Delete(TestProjects.DestinationTextFile);
             }
         }
+
+        [Fact]
+        public async Task DeserializeAndRunProject1()
+        {
+            string resourceName = "Transmogrify.Tests.Project001.json";
+
+            try
+            {
+                File.WriteAllText(TestProjects.SourceTextFile, sourceText);
+
+                var project = new SerializationTests().DeserializeProject(resourceName);
+
+                var runner = new ProjectRunner();
+                await runner.Run(project);
+
+                var destText = File.ReadAllText(TestProjects.DestinationTextFile);
+
+                Assert.Equal(sourceText, destText);
+            }
+            finally
+            {
+                if (File.Exists(TestProjects.SourceTextFile))
+                    File.Delete(TestProjects.SourceTextFile);
+
+                if (File.Exists(TestProjects.DestinationTextFile))
+                    File.Delete(TestProjects.DestinationTextFile);
+            }
+        }
+
+        [Fact]
+        public async Task DeserializeAndRunProject2()
+        {
+            string resourceName = "Transmogrify.Tests.Project002.json";
+
+            try
+            {
+                File.WriteAllText(TestProjects.SourceTextFile, sourceText);
+
+                var project = new SerializationTests().DeserializeProject(resourceName);
+
+                var runner = new ProjectRunner();
+                await runner.Run(project);
+
+                var destText = File.ReadAllText(TestProjects.DestinationTextFile);
+
+                var expectedText = string.Join(Environment.NewLine,
+                    destText.Split(Environment.NewLine)
+                        .Select(l => l.Trim())
+                );
+
+                Assert.Equal(expectedText, destText);
+            }
+            finally
+            {
+                if (File.Exists(TestProjects.SourceTextFile))
+                    File.Delete(TestProjects.SourceTextFile);
+
+                if (File.Exists(TestProjects.DestinationTextFile))
+                    File.Delete(TestProjects.DestinationTextFile);
+            }
+        }
     }
 }

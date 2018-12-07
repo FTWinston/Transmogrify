@@ -31,22 +31,18 @@
         "Name": "Lines",
         "ItemType": {
           "$id": "4",
+          "Name": "Line",
           "Fields": [
             {
               "$id": "5",
               "Name": "Value",
-              "Type": {
-                "$id": "6",
-                "ActualType": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
-                "Name": "String"
-              }
+              "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
             }
-          ],
-          "Name": "Line"
+          ]
         },
         "Fields": [
           {
-            "$id": "7",
+            "$id": "6",
             "Element": {
               "$ref": "3"
             },
@@ -57,54 +53,51 @@
         ]
       },
       "Destination": {
-        "$id": "8",
+        "$id": "7",
         "EndPoint": {
           "$ref": "2"
         },
         "Name": "Lines",
         "ItemType": {
-          "$id": "9",
+          "$id": "8",
+          "Name": "Line",
           "Fields": [
             {
-              "$id": "10",
+              "$id": "9",
               "Name": "Value",
-              "Type": {
-                "$ref": "6"
-              }
+              "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
             }
-          ],
-          "Name": "Line"
+          ]
         },
         "Fields": [
           {
-            "$id": "11",
+            "$id": "10",
             "Element": {
-              "$ref": "8"
+              "$ref": "7"
             },
             "Field": {
-              "$ref": "10"
+              "$ref": "9"
             }
           }
         ]
       },
       "Operations": [
         {
-          "$id": "12",
-          "Operation": "Transmogrify.Operations.Text.Trim, Transmogrify.Operations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+          "$id": "11",
+          "Type": "Transmogrify.Operations.Text, Transmogrify.Operations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+          "Method": "Trim(String)",
           "Inputs": [
             {
-              "$ref": "7"
+              "$ref": "6"
             }
           ],
           "Outputs": [
             {
-              "$id": "13",
+              "$id": "12",
               "Field": {
-                "$id": "14",
+                "$id": "13",
                 "Name": "Value",
-                "Type": {
-                  "$ref": "6"
-                }
+                "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
               }
             }
           ],
@@ -115,10 +108,10 @@
       "Outputs": [
         {
           "Source": {
-            "$ref": "13"
+            "$ref": "12"
           },
           "Output": {
-            "$ref": "10"
+            "$ref": "9"
           }
         }
       ]

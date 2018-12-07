@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Transmogrify.Tests
+namespace Transmogrify.Engine
 {
     public delegate object FastInvokeHandler(object target, object[] paramters);
 

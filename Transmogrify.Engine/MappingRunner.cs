@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Transmogrify.Data;
 
@@ -10,11 +11,13 @@ namespace Transmogrify.Engine
     {
         public Mapping Mapping { get; }
         private Dictionary<DataFieldInstance, object> DataValues { get; }
+        private Dictionary<MethodInfo, FastInvokeHandler> MethodInvokers { get; }
 
         public MappingRunner(Mapping mapping)
         {
             Mapping = mapping;
             DataValues = new Dictionary<DataFieldInstance, object>();
+            MethodInvokers = new Dictionary<MethodInfo, FastInvokeHandler>();
         }
 
         public async Task<ComplexDataItem> Run(ComplexDataItem sourceItem)
@@ -47,6 +50,12 @@ namespace Transmogrify.Engine
         {
             var method = operation.Method;
 
+            if (!MethodInvokers.TryGetValue(method, out FastInvokeHandler invoker))
+            {
+                invoker = FastMethodInvoker.GetMethodInvoker(method);
+                MethodInvokers.Add(method, invoker);
+            }
+
             // TODO: make this more efficient!
             var inputValues = operation.Inputs
                 .Select(i =>
@@ -57,9 +66,13 @@ namespace Transmogrify.Engine
                 })
                 .ToArray();
 
-            var outputValues = await method.Perform(inputValues);
+            // TODO: step-through task for debugging could go here
+            await Task.CompletedTask;
 
-            for (int i = 0; i < method.Outputs.Length; i++)
+            var returnValue = invoker(null, inputValues);
+            var outputValues = new object[] { returnValue };
+
+            for (int i = 0; i < operation.Outputs.Length; i++)
             {
                 var output = operation.Outputs[i];
                 object outputValue = outputValues[i];
