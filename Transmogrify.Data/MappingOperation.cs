@@ -1,16 +1,18 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
+using Transmogrify.Data.Serialization;
 
 namespace Transmogrify.Data
 {
     [JsonObject(IsReference = true)]
     public class MappingOperation : MappingElement
     {
-        public MappingOperation(Operation operation)
+        public MappingOperation(MethodInfo method)
         {
-            Operation = operation;
+            Method = method;
 
             RawInputs = new DataFieldInstance[operation.Inputs.Length];
 
@@ -19,16 +21,21 @@ namespace Transmogrify.Data
         }
 
         [JsonConstructor]
-        private MappingOperation(Type operationType)
+        private MappingOperation(Type methodType, string methodIdentifier)
         {
-            Operation = Activator.CreateInstance(operationType) as Operation;
+            Method = SerializationExtensions.GetMethod(methodType, methodIdentifier);
+
+            if (Method == null)
+                throw new Exception("Couldn't find method");
         }
 
         [JsonIgnore]
-        public Operation Operation { get; set; }
+        public MethodInfo Method { get; }
 
-        [JsonProperty(PropertyName = "Operation")]
-        private Type OperationType => Operation.GetType();
+        [JsonProperty(PropertyName = "Method")]
+        private Type MethodType => Method.DeclaringType;
+
+        private string MethodIdentifier => Method.GetUniqueIdentifier();
 
         [JsonIgnore]
         public DataFieldInstance[] Inputs => RawInputs; // These point at another element's fields
