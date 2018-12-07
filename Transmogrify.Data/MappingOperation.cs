@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Transmogrify.Data.Serialization;
 
 namespace Transmogrify.Data
@@ -14,9 +15,23 @@ namespace Transmogrify.Data
         {
             Method = method;
 
-            RawInputs = new DataFieldInstance[operation.Inputs.Length];
+            var parameters = method.GetParameters();
 
-            RawOutputs = operation.Outputs.Select(o => new MappingOperationOutputFieldInstance(this, o))
+            var inputParams = parameters.Where(p => p.IsIn);
+
+            var outputParams = parameters
+                .Where(p => p.IsOut)
+                .Select(p => new DataField(p.Name, p.ParameterType))
+                .ToList();
+
+            if (method.ReturnType != typeof(void))
+            {
+                outputParams.Insert(new DataField("Value", method.ReturnType));
+            }
+
+            RawInputs = new DataFieldInstance[inputParams.Count()];
+
+            RawOutputs = outputParams.Select(o => new MappingOperationOutputFieldInstance(this, o))
                 .ToArray();
         }
 
@@ -32,9 +47,10 @@ namespace Transmogrify.Data
         [JsonIgnore]
         public MethodInfo Method { get; }
 
-        [JsonProperty(PropertyName = "Method")]
+        [JsonProperty(PropertyName = "Type")]
         private Type MethodType => Method.DeclaringType;
 
+        [JsonProperty(PropertyName = "Method")]
         private string MethodIdentifier => Method.GetUniqueIdentifier();
 
         [JsonIgnore]

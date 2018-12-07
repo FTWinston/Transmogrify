@@ -20,7 +20,7 @@ namespace Transmogrify.Data
 
                 var operationAssemblies = Mappings
                     .SelectMany(m => m.Operations)
-                    .Select(mo => mo.Operation.GetType().Assembly)
+                    .Select(mo => mo.Method.DeclaringType.Assembly)
                     .Distinct();
 
                 return endPointAssemblies
