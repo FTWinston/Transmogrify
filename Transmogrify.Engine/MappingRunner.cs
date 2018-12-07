@@ -43,12 +43,12 @@ namespace Transmogrify.Engine
             }
         }
 
-        private async Task ProcessOperation(MappingOperation operationElement)
+        private async Task ProcessOperation(MappingOperation operation)
         {
-            var operation = operationElement.Operation;
+            var method = operation.Method;
 
             // TODO: make this more efficient!
-            var inputValues = operationElement.Inputs
+            var inputValues = operation.Inputs
                 .Select(i =>
                 {
                     if (!DataValues.TryGetValue(i, out object value))
@@ -57,11 +57,11 @@ namespace Transmogrify.Engine
                 })
                 .ToArray();
 
-            var outputValues = await operation.Perform(inputValues);
+            var outputValues = await method.Perform(inputValues);
 
-            for (int i = 0; i < operation.Outputs.Length; i++)
+            for (int i = 0; i < method.Outputs.Length; i++)
             {
-                var output = operationElement.Outputs[i];
+                var output = operation.Outputs[i];
                 object outputValue = outputValues[i];
                 DataValues[output] = outputValue;
             }

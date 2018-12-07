@@ -26,7 +26,7 @@ namespace Transmogrify.Data
 
             if (method.ReturnType != typeof(void))
             {
-                outputParams.Insert(new DataField("Value", method.ReturnType));
+                outputParams.Insert(0, new DataField("Value", method.ReturnType));
             }
 
             RawInputs = new DataFieldInstance[inputParams.Count()];

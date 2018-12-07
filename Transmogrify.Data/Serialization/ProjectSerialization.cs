@@ -11,8 +11,6 @@ namespace Transmogrify.Data.Serialization
 
             };
 
-            settings.Converters.Add(new DataTypeConverter());
-
             return settings;
         }
     }

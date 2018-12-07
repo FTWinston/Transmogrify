@@ -4,11 +4,11 @@ using System.Collections.Generic;
 namespace Transmogrify.Data
 {
     [JsonObject(IsReference = true)]
-    public class ComplexDataType : DataType
+    public class ComplexDataType
     {
         public ComplexDataType(string name, params DataField[] fields)
-            : base(name)
         {
+            Name = name;
             Fields = new List<DataField>(fields);
         }
 
@@ -17,6 +17,8 @@ namespace Transmogrify.Data
         {
             Fields = new List<DataField>();
         }
+
+        public string Name { get; set; }
 
         public List<DataField> Fields { get; set; }
     }

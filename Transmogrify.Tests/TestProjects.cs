@@ -1,7 +1,8 @@
+using System;
 using System.Linq;
+using System.Reflection;
 using Transmogrify.Data;
 using Transmogrify.Data.EndPoints;
-using Transmogrify.Operations.Text;
 
 namespace Transmogrify.Tests
 {
@@ -53,7 +54,7 @@ namespace Transmogrify.Tests
             mapping.Source = sourceCollection;
             mapping.Destination = destCollection;
 
-            var operation = new MappingOperation(new Trim());
+            var operation = new MappingOperation(GetMethodInfo((Func<string, string>)Transmogrify.Operations.Text.Trim));
             mapping.Operations.Add(operation);
             operation.Inputs[0] = sourceCollection.Fields.First();
 
@@ -62,6 +63,11 @@ namespace Transmogrify.Tests
             project.Mappings.Add(mapping);
 
             return project;
+        }
+
+        static MethodInfo GetMethodInfo(Delegate d)
+        {
+            return d.Method;
         }
     }
 }

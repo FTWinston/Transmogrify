@@ -16,7 +16,7 @@ namespace Transmogrify.Data.EndPoints
         {
             // Data type has a single field, representing a line of the file contents
 
-            var dataType = new ComplexDataType("Line", new DataField("Value", SimpleDataType.String));
+            var dataType = new ComplexDataType("Line", new DataField("Value", typeof(string)));
             var collection = new EndPointDataCollection(this, "Lines", dataType);
 
             yield return collection;

@@ -6,7 +6,7 @@ namespace Transmogrify.Data
     [JsonObject(IsReference = true)]
     public class DataField : IComparable<DataField>
     {
-        public DataField(string name, DataType type)
+        public DataField(string name, Type type)
         {
             Name = name;
             Type = type;
@@ -20,7 +20,7 @@ namespace Transmogrify.Data
 
         public string Name { get; set; }
 
-        public DataType Type { get; set; }
+        public Type Type { get; set; }
 
         public int CompareTo(DataField other)
         {
