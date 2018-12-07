@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Transmogrify.Data;
 using Transmogrify.Engine;
 using Xunit;
 
@@ -16,21 +17,18 @@ blah blah
 blah 
 ";
 
-        [Fact]
-        public async Task RunProject1()
+        private async Task RunProject(Project project, string expectedText)
         {
             try
             {
                 File.WriteAllText(TestProjects.SourceTextFile, sourceText);
-
-                var project = TestProjects.CreateBasicProject1();
 
                 var runner = new ProjectRunner();
                 await runner.Run(project);
 
                 var destText = File.ReadAllText(TestProjects.DestinationTextFile);
 
-                Assert.Equal(sourceText, destText);
+                Assert.Equal(expectedText, destText);
             }
             finally
             {
@@ -43,95 +41,47 @@ blah
         }
 
         [Fact]
+        public async Task RunProject1()
+        {
+            var project = TestProjects.CreateBasicProject1();
+
+            await RunProject(project, sourceText);
+        }
+
+        [Fact]
         public async Task RunProject2()
         {
-            try
-            {
-                File.WriteAllText(TestProjects.SourceTextFile, sourceText);
+            var project = TestProjects.CreateBasicProject2();
 
-                var project = TestProjects.CreateBasicProject2();
+            var expectedText = string.Join(Environment.NewLine,
+                sourceText.Split(Environment.NewLine)
+                    .Select(l => l.Trim())
+            );
 
-                var runner = new ProjectRunner();
-                await runner.Run(project);
-
-                var destText = File.ReadAllText(TestProjects.DestinationTextFile);
-
-                var expectedText = string.Join(Environment.NewLine,
-                    destText.Split(Environment.NewLine)
-                        .Select(l => l.Trim())
-                );
-
-                Assert.Equal(expectedText, destText);
-            }
-            finally
-            {
-                if (File.Exists(TestProjects.SourceTextFile))
-                    File.Delete(TestProjects.SourceTextFile);
-
-                if (File.Exists(TestProjects.DestinationTextFile))
-                    File.Delete(TestProjects.DestinationTextFile);
-            }
+            await RunProject(project, expectedText);
         }
 
         [Fact]
         public async Task DeserializeAndRunProject1()
         {
             string resourceName = "Transmogrify.Tests.Project001.json";
+            var project = new SerializationTests().DeserializeProject(resourceName);
 
-            try
-            {
-                File.WriteAllText(TestProjects.SourceTextFile, sourceText);
-
-                var project = new SerializationTests().DeserializeProject(resourceName);
-
-                var runner = new ProjectRunner();
-                await runner.Run(project);
-
-                var destText = File.ReadAllText(TestProjects.DestinationTextFile);
-
-                Assert.Equal(sourceText, destText);
-            }
-            finally
-            {
-                if (File.Exists(TestProjects.SourceTextFile))
-                    File.Delete(TestProjects.SourceTextFile);
-
-                if (File.Exists(TestProjects.DestinationTextFile))
-                    File.Delete(TestProjects.DestinationTextFile);
-            }
+            await RunProject(project, sourceText);
         }
 
         [Fact]
         public async Task DeserializeAndRunProject2()
         {
             string resourceName = "Transmogrify.Tests.Project002.json";
+            var project = new SerializationTests().DeserializeProject(resourceName);
 
-            try
-            {
-                File.WriteAllText(TestProjects.SourceTextFile, sourceText);
+            var expectedText = string.Join(Environment.NewLine,
+                sourceText.Split(Environment.NewLine)
+                    .Select(l => l.Trim())
+            );
 
-                var project = new SerializationTests().DeserializeProject(resourceName);
-
-                var runner = new ProjectRunner();
-                await runner.Run(project);
-
-                var destText = File.ReadAllText(TestProjects.DestinationTextFile);
-
-                var expectedText = string.Join(Environment.NewLine,
-                    destText.Split(Environment.NewLine)
-                        .Select(l => l.Trim())
-                );
-
-                Assert.Equal(expectedText, destText);
-            }
-            finally
-            {
-                if (File.Exists(TestProjects.SourceTextFile))
-                    File.Delete(TestProjects.SourceTextFile);
-
-                if (File.Exists(TestProjects.DestinationTextFile))
-                    File.Delete(TestProjects.DestinationTextFile);
-            }
+            await RunProject(project, expectedText);
         }
     }
 }
