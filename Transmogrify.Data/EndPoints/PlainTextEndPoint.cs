@@ -16,7 +16,7 @@ namespace Transmogrify.Data.EndPoints
         {
             // Data type has a single field, representing a line of the file contents
 
-            var dataType = new ComplexDataType("Line", new DataField("Value", typeof(string)));
+            var dataType = new DataStructureType("Line", new DataField("Value", typeof(string)));
             var collection = new EndPointDataCollection(this, "Lines", dataType);
 
             yield return collection;
@@ -53,13 +53,13 @@ namespace Transmogrify.Data.EndPoints
             private int lineNumber;
             private string[] lines;
 
-            public override ComplexDataItem Current
+            public override DataStructure Current
             {
                 get
                 {
                     var line = lines[lineNumber];
 
-                    var item = new ComplexDataItem(collection.ItemType);
+                    var item = new DataStructure(collection.ItemType);
 
                     item.Values.Add(collection.ItemType.Fields.First(), line);
 
@@ -96,7 +96,7 @@ namespace Transmogrify.Data.EndPoints
             private readonly EndPointDataCollection collection;
             private List<string> lines = new List<string>();
 
-            public override void Write(ComplexDataItem item)
+            public override void Write(DataStructure item)
             {
                 lines.Add(item.Values.First().Value.ToString());
             }

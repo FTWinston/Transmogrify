@@ -31,7 +31,7 @@ namespace Transmogrify.Data.EndPoints
 
         // TODO: if populating from a file, read all field headings ... just call them Column 1 ... X if HasHeaders is false
         // Collections has a single item, representing the file contents...
-        public ComplexDataType DataType { get; set; }
+        public DataStructureType DataType { get; set; }
 
         public CsvHelper.Configuration.Configuration ConvertConfiguration()
         {
@@ -83,7 +83,7 @@ namespace Transmogrify.Data.EndPoints
             private CsvHelper.CsvReader csvReader;
             private IEnumerator<dynamic> recordEnumerator;
 
-            public override ComplexDataItem Current
+            public override DataStructure Current
             {
                 get
                 {
@@ -92,7 +92,7 @@ namespace Transmogrify.Data.EndPoints
                     var csvRecord = recordEnumerator.Current;
                     Type recordType = csvRecord.GetType();
 
-                    var item = new ComplexDataItem(collection.ItemType);
+                    var item = new DataStructure(collection.ItemType);
 
                     var fieldEnumerator = collection.ItemType.Fields.GetEnumerator();
 
@@ -149,7 +149,7 @@ namespace Transmogrify.Data.EndPoints
             private StreamWriter streamWriter;
             private CsvHelper.CsvWriter csvWriter;
 
-            public override void Write(ComplexDataItem item)
+            public override void Write(DataStructure item)
             {
                 foreach (var field in item.Values)
                 {

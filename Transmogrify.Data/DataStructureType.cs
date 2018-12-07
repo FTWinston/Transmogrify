@@ -4,16 +4,16 @@ using System.Collections.Generic;
 namespace Transmogrify.Data
 {
     [JsonObject(IsReference = true)]
-    public class ComplexDataType
+    public class DataStructureType
     {
-        public ComplexDataType(string name, params DataField[] fields)
+        public DataStructureType(string name, params DataField[] fields)
         {
             Name = name;
             Fields = new List<DataField>(fields);
         }
 
         [JsonConstructor]
-        private ComplexDataType()
+        private DataStructureType()
         {
             Fields = new List<DataField>();
         }

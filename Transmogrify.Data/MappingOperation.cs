@@ -38,7 +38,7 @@ namespace Transmogrify.Data
         [JsonConstructor]
         private MappingOperation(Type methodType, string methodIdentifier)
         {
-            Method = SerializationExtensions.GetMethod(methodType, methodIdentifier);
+            Method = MethodSerialization.GetMethod(methodType, methodIdentifier);
 
             if (Method == null)
                 throw new Exception("Couldn't find method");
@@ -51,7 +51,7 @@ namespace Transmogrify.Data
         private Type MethodType => Method.DeclaringType;
 
         [JsonProperty(PropertyName = "Method")]
-        private string MethodIdentifier => Method.GetUniqueIdentifier();
+        private string MethodIdentifier => MethodSerialization.GetUniqueIdentifier(Method);
 
         [JsonIgnore]
         public DataFieldInstance[] Inputs => RawInputs; // These point at another element's fields

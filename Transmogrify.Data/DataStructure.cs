@@ -3,21 +3,21 @@ using System.Collections.Generic;
 
 namespace Transmogrify.Data
 {
-    public class ComplexDataItem
+    public class DataStructure
     {
-        public ComplexDataItem(ComplexDataType type)
+        public DataStructure(DataStructureType type)
         {
             Type = type;
             Values = new Dictionary<DataField, object>(type.Fields.Count);
         }
 
         [JsonConstructor]
-        private ComplexDataItem()
+        private DataStructure()
         {
             Values = new Dictionary<DataField, object>();
         }
 
-        public ComplexDataType Type { get; set; }
+        public DataStructureType Type { get; set; }
 
         public Dictionary<DataField, object> Values { get; }
     }

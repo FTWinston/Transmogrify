@@ -4,9 +4,9 @@ using System.Reflection;
 
 namespace Transmogrify.Data.Serialization
 {
-    static class SerializationExtensions
+    static class MethodSerialization
     {
-        public static string GetUniqueIdentifier(this MethodInfo mi)
+        public static string GetUniqueIdentifier(MethodInfo mi)
         {
             string signatureString = string.Join(",", mi.GetParameters().Select(p => p.ParameterType.Name).ToArray());
 
@@ -22,7 +22,7 @@ namespace Transmogrify.Data.Serialization
         public static MethodInfo GetMethod(Type type, string methodIdentifier)
         {
             return type.GetMethods()
-                .FirstOrDefault(mi => mi.GetUniqueIdentifier() == methodIdentifier);
+                .FirstOrDefault(mi => GetUniqueIdentifier(mi) == methodIdentifier);
         }
     }
 }

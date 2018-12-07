@@ -4,7 +4,7 @@ namespace Transmogrify.Data
 {
     public class EndPointDataCollection : DataCollection
     {
-        public EndPointDataCollection(DataEndPoint endPoint, string name, ComplexDataType itemType)
+        public EndPointDataCollection(DataEndPoint endPoint, string name, DataStructureType itemType)
             : base(name, itemType)
         {
             EndPoint = endPoint;

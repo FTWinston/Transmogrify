@@ -7,7 +7,7 @@ namespace Transmogrify.Data
     {
         public abstract void Dispose();
 
-        public abstract void Write(ComplexDataItem item);
+        public abstract void Write(DataStructure item);
 
         public abstract void Flush();
     }

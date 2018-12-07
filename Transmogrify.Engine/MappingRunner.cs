@@ -20,10 +20,10 @@ namespace Transmogrify.Engine
             MethodInvokers = new Dictionary<MethodInfo, FastInvokeHandler>();
         }
 
-        public async Task<ComplexDataItem> Run(ComplexDataItem sourceItem)
+        public async Task<DataStructure> Run(DataStructure sourceItem)
         {
             DataValues.Clear();
-            var destItem = new ComplexDataItem(Mapping.Destination.ItemType);
+            var destItem = new DataStructure(Mapping.Destination.ItemType);
 
             ReadSourceValues(sourceItem);
 
@@ -37,7 +37,7 @@ namespace Transmogrify.Engine
             return destItem;
         }
 
-        private void ReadSourceValues(ComplexDataItem sourceItem)
+        private void ReadSourceValues(DataStructure sourceItem)
         {
             foreach (var sourceField in Mapping.Source.Fields)
             {
@@ -80,7 +80,7 @@ namespace Transmogrify.Engine
             }
         }
 
-        private void WriteDestinationValues(ComplexDataItem destItem)
+        private void WriteDestinationValues(DataStructure destItem)
         {
             foreach (var outputElement in Mapping.Outputs)
             {

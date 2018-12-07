@@ -7,7 +7,7 @@ namespace Transmogrify.Data
     [JsonObject(IsReference = true)]
     public abstract class DataCollection : MappingElement
     {
-        protected DataCollection(string name, ComplexDataType itemType)
+        protected DataCollection(string name, DataStructureType itemType)
         {
             Name = name;
             ItemType = itemType;
@@ -24,7 +24,7 @@ namespace Transmogrify.Data
 
         public string Name { get; set; }
 
-        public ComplexDataType ItemType { get; set; }
+        public DataStructureType ItemType { get; set; }
 
         public List<DataFieldInstance> Fields { get; }
 

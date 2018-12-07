@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Transmogrify.Data
 {
-    public abstract class DataItemReader : IEnumerator<ComplexDataItem>
+    public abstract class DataItemReader : IEnumerator<DataStructure>
     {
-        public abstract ComplexDataItem Current { get; }
+        public abstract DataStructure Current { get; }
 
         object IEnumerator.Current => Current;
 
