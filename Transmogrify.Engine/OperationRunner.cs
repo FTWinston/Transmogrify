@@ -6,35 +6,34 @@ namespace Transmogrify.Engine
 {
     public class OperationRunner
     {
-        private Dictionary<MethodInfo, FastInvokeHandler> MethodInvokers { get; }
+        private Dictionary<MethodInfo, MethodData> MethodCallData { get; }
 
         public OperationRunner()
         {
-            MethodInvokers = new Dictionary<MethodInfo, FastInvokeHandler>();
+            MethodCallData = new Dictionary<MethodInfo, MethodData>();
         }
         
         public object[] Run(Operation operation, object[] inputValues)
         {
-            // TODO: if using out parameters, they won't be passed in here; add them in!
-
+            // TODO: construct full parameter array. Use methodData.InputParameters.
+            // If using out parameters, they won't be passed in here; add them in!
+            
             var method = operation.Method;
 
-            if (!MethodInvokers.TryGetValue(method, out FastInvokeHandler invoker))
+            if (!MethodCallData.TryGetValue(method, out MethodData methodData))
             {
-                // TODO: invoker should include info on return type being passed out (bool) and parameters being passed out (as out or ref params)
-
-                invoker = FastMethodInvoker.GetMethodInvoker(method);
-                MethodInvokers.Add(method, invoker);
+                methodData = MethodDataService.GetData(method);
+                MethodCallData.Add(method, methodData);
             }
 
-            var returnValue = invoker(null, inputValues);
+            var returnValue = methodData.Delegate(null, inputValues);
 
             // if return type is void, return value will be null; don't output that. (But do output any regular null return values.)
-            var outputValues = method.ReturnType == typeof(void)
+            var outputValues = methodData.OutputReturnType
                 ? new object[] { }
                 : new object[] { returnValue };
 
-            // TODO: account for out and ref parameters
+            // TODO: use methodData.OutputParameters
 
             return outputValues;
         }

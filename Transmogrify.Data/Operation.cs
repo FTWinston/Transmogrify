@@ -16,10 +16,10 @@ namespace Transmogrify.Data
 
             var parameters = method.GetParameters();
 
-            var inputParams = parameters.Where(p => !p.IsOut);
+            var inputParams = parameters.Where(IsInput);
 
             var outputParams = parameters
-                .Where(p => p.IsOut)
+                .Where(IsOutput)
                 .Select(p => new DataField(p.Name, p.ParameterType))
                 .ToList();
 
@@ -41,6 +41,16 @@ namespace Transmogrify.Data
 
             if (Method == null)
                 throw new Exception("Couldn't find method");
+        }
+
+        public static bool IsInput(ParameterInfo param)
+        {
+            return !param.IsOut;
+        }
+
+        public static bool IsOutput(ParameterInfo param)
+        {
+            return param.IsOut || param.ParameterType.IsByRef;
         }
 
         [JsonIgnore]

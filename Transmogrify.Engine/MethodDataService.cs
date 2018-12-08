@@ -1,19 +1,53 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using Transmogrify.Data;
 
 namespace Transmogrify.Engine
 {
-    delegate object FastInvokeHandler(object target, object[] paramters);
+    delegate object MethodInvoker(object target, object[] paramters);
 
-    class FastMethodInvoker
+    class MethodDataService
     {
-        public static FastInvokeHandler GetMethodInvoker(MethodInfo methodInfo)
+        public static MethodData GetData(MethodInfo methodInfo)
+        {
+            var parameters = methodInfo.GetParameters();
+
+            var inputs = DetectInputParameters(parameters);
+            var outputs = DetectOutputParameters(parameters);
+
+            return new MethodData()
+            {
+                Delegate = GetDelegate(methodInfo),
+                OutputReturnType = methodInfo.ReturnType == typeof(void),
+                InputParameters = inputs,
+                OutputParameters = outputs,
+                NumOutputs = outputs.Count(o => o),
+            };
+        }
+
+        private static bool[] DetectInputParameters(ParameterInfo[] parameters)
+        {
+            return parameters
+                .Select(Operation.IsInput)
+                .ToArray();
+        }
+
+        private static bool[] DetectOutputParameters(ParameterInfo[] parameters)
+        {
+            return parameters
+                .Select(Operation.IsOutput)
+                .ToArray();
+        }
+
+        private static MethodData.CallDelegate GetDelegate(MethodInfo methodInfo)
         {
             DynamicMethod dynamicMethod = new DynamicMethod(string.Empty, typeof(object), new Type[] { typeof(object), typeof(object[]) }, methodInfo.DeclaringType.Module);
             ILGenerator il = dynamicMethod.GetILGenerator();
             ParameterInfo[] ps = methodInfo.GetParameters();
             Type[] paramTypes = new Type[ps.Length];
+
             for (int i = 0; i < paramTypes.Length; i++)
             {
                 if (ps[i].ParameterType.IsByRef)
@@ -21,12 +55,14 @@ namespace Transmogrify.Engine
                 else
                     paramTypes[i] = ps[i].ParameterType;
             }
+
             LocalBuilder[] locals = new LocalBuilder[paramTypes.Length];
 
             for (int i = 0; i < paramTypes.Length; i++)
             {
                 locals[i] = il.DeclareLocal(paramTypes[i], true);
             }
+
             for (int i = 0; i < paramTypes.Length; i++)
             {
                 il.Emit(OpCodes.Ldarg_1);
@@ -35,10 +71,12 @@ namespace Transmogrify.Engine
                 EmitCastToReference(il, paramTypes[i]);
                 il.Emit(OpCodes.Stloc, locals[i]);
             }
+
             if (!methodInfo.IsStatic)
             {
                 il.Emit(OpCodes.Ldarg_0);
             }
+
             for (int i = 0; i < paramTypes.Length; i++)
             {
                 if (ps[i].ParameterType.IsByRef)
@@ -46,10 +84,12 @@ namespace Transmogrify.Engine
                 else
                     il.Emit(OpCodes.Ldloc, locals[i]);
             }
+
             if (methodInfo.IsStatic)
                 il.EmitCall(OpCodes.Call, methodInfo, null);
             else
                 il.EmitCall(OpCodes.Callvirt, methodInfo, null);
+
             if (methodInfo.ReturnType == typeof(void))
                 il.Emit(OpCodes.Ldnull);
             else
@@ -69,8 +109,7 @@ namespace Transmogrify.Engine
             }
 
             il.Emit(OpCodes.Ret);
-            FastInvokeHandler invoder = (FastInvokeHandler)dynamicMethod.CreateDelegate(typeof(FastInvokeHandler));
-            return invoder;
+            return (MethodData.CallDelegate)dynamicMethod.CreateDelegate(typeof(MethodData.CallDelegate));
         }
 
         private static void EmitCastToReference(ILGenerator il, System.Type type)
