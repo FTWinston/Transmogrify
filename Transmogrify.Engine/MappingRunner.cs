@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Transmogrify.Data;
 
@@ -10,14 +9,14 @@ namespace Transmogrify.Engine
     public class MappingRunner
     {
         public Mapping Mapping { get; }
+        public OperationRunner OperationRunner { get; }
         private Dictionary<DataFieldInstance, object> DataValues { get; }
-        private Dictionary<MethodInfo, FastInvokeHandler> MethodInvokers { get; }
 
         public MappingRunner(Mapping mapping)
         {
             Mapping = mapping;
+            OperationRunner = new OperationRunner();
             DataValues = new Dictionary<DataFieldInstance, object>();
-            MethodInvokers = new Dictionary<MethodInfo, FastInvokeHandler>();
         }
 
         public async Task<DataStructure> Run(DataStructure sourceItem)
@@ -48,14 +47,6 @@ namespace Transmogrify.Engine
 
         private async Task ProcessOperation(Operation operation)
         {
-            var method = operation.Method;
-
-            if (!MethodInvokers.TryGetValue(method, out FastInvokeHandler invoker))
-            {
-                invoker = FastMethodInvoker.GetMethodInvoker(method);
-                MethodInvokers.Add(method, invoker);
-            }
-
             // TODO: make this more efficient!
             var inputValues = operation.Inputs
                 .Select(i =>
@@ -66,11 +57,7 @@ namespace Transmogrify.Engine
                 })
                 .ToArray();
 
-            // TODO: step-through task for debugging could go here
-            await Task.CompletedTask;
-
-            var returnValue = invoker(null, inputValues);
-            var outputValues = new object[] { returnValue };
+            object[] outputValues = OperationRunner.Run(operation, inputValues);
 
             for (int i = 0; i < operation.Outputs.Length; i++)
             {
@@ -78,6 +65,9 @@ namespace Transmogrify.Engine
                 object outputValue = outputValues[i];
                 DataValues[output] = outputValue;
             }
+
+            // TODO: step-through task for debugging could go here
+            await Task.CompletedTask;
         }
 
         private void WriteDestinationValues(DataStructure destItem)

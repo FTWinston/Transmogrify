@@ -4,9 +4,9 @@ using System.Reflection.Emit;
 
 namespace Transmogrify.Engine
 {
-    public delegate object FastInvokeHandler(object target, object[] paramters);
+    delegate object FastInvokeHandler(object target, object[] paramters);
 
-    public class FastMethodInvoker
+    class FastMethodInvoker
     {
         public static FastInvokeHandler GetMethodInvoker(MethodInfo methodInfo)
         {
