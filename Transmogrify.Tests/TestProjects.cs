@@ -54,7 +54,7 @@ namespace Transmogrify.Tests
             mapping.Source = sourceCollection;
             mapping.Destination = destCollection;
 
-            var operation = new MappingOperation(GetMethodInfo((Func<string, string>)Transmogrify.Operations.Text.Trim));
+            var operation = new Operation(GetMethodInfo((Func<string, string>)Transmogrify.Operations.Text.Trim));
             mapping.Operations.Add(operation);
             operation.Inputs[0] = sourceCollection.Fields.First();
 

@@ -4,17 +4,18 @@ using System;
 namespace Transmogrify.Data
 {
     [JsonObject(IsReference = true)]
-    public class MappingOperationOutputFieldInstance : DataFieldInstance
+    public class OperationOutputFieldInstance : DataFieldInstance
     {
-        public MappingOperationOutputFieldInstance(MappingElement element, DataField field)
+        public OperationOutputFieldInstance(MappingElement element, DataField field)
             : base(element, field)
         {
         }
 
         [JsonConstructor]
-        private MappingOperationOutputFieldInstance()
+        private OperationOutputFieldInstance()
             : base()
         {
+
 
         }
 

@@ -9,7 +9,7 @@ namespace Transmogrify.Data
 
         public EndPointDataCollection Destination { get; set; }
 
-        public List<MappingOperation> Operations { get; set; } = new List<MappingOperation>();
+        public List<Operation> Operations { get; set; } = new List<Operation>();
 
         public List<MappingOutput> Outputs { get; set; } = new List<MappingOutput>();
 

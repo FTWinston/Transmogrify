@@ -46,7 +46,7 @@ namespace Transmogrify.Engine
             }
         }
 
-        private async Task ProcessOperation(MappingOperation operation)
+        private async Task ProcessOperation(Operation operation)
         {
             var method = operation.Method;
 
