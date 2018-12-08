@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Transmogrify.Data;
 
@@ -15,25 +16,69 @@ namespace Transmogrify.Engine
         
         public object[] Run(Operation operation, object[] inputValues)
         {
-            // TODO: construct full parameter array. Use methodData.InputParameters.
-            // If using out parameters, they won't be passed in here; add them in!
-            
-            var method = operation.Method;
+            var methodInfo = operation.Method;
 
-            if (!MethodCallData.TryGetValue(method, out MethodData methodData))
+            if (!MethodCallData.TryGetValue(methodInfo, out MethodData methodData))
             {
-                methodData = MethodDataService.GetData(method);
-                MethodCallData.Add(method, methodData);
+                var callDelegate = MethodInvokerService.GetInvoker(methodInfo);
+
+                methodData = new MethodData(methodInfo, callDelegate);
+
+                MethodCallData.Add(methodInfo, methodData);
             }
 
-            var returnValue = methodData.Delegate(null, inputValues);
+            object[] parameters = GetParameters(methodData, inputValues);
+
+            var returnValue = methodData.Delegate(null, parameters);
+
+            return GetOutputs(methodData, returnValue, parameters);
+        }
+
+        private object[] GetParameters(MethodData methodData, object[] inputValues)
+        {
+            if (methodData.UseInputsDirectly)
+                return inputValues;
+
+            // populate, leaving blanks for any out parameters
+            object[] parameters = new object[methodData.InputParameters.Length];
+
+            int iRead = 0;
+            for (int iParam = 0; iParam < parameters.Length; iParam++)
+            {
+                if (methodData.InputParameters[iParam])
+                {
+                    parameters[iParam] = inputValues[iRead++];
+                }
+            }
+
+            return parameters;
+        }
+
+        private object[] GetOutputs(MethodData methodData, object returnValue, object[] parameters)
+        {
+            if (methodData.ReturnParametersDirectly)
+                return parameters;
 
             // if return type is void, return value will be null; don't output that. (But do output any regular null return values.)
-            var outputValues = methodData.OutputReturnType
-                ? new object[] { }
-                : new object[] { returnValue };
+            var outputValues = new object[methodData.NumOutputs];
 
-            // TODO: use methodData.OutputParameters
+            int iWrite;
+            if (methodData.OutputReturnType)
+            {
+                outputValues[0] = returnValue;
+                iWrite = 1;
+            }
+            else
+                iWrite = 0;
+
+            // populate outputValues from parameters, for indexes where methodData.OutputParameters is true
+            for (int iParam = 0; iParam < parameters.Length; iParam++)
+            {
+                if (methodData.OutputParameters[iParam])
+                {
+                    outputValues[iWrite++] = parameters[iParam];
+                }
+            }
 
             return outputValues;
         }

@@ -1,47 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using Transmogrify.Data;
-
 namespace Transmogrify.Engine
 {
-    delegate object MethodInvoker(object target, object[] paramters);
+    delegate object MethodInvoker(object target, object[] parameters);
 
-    class MethodDataService
+    class MethodInvokerService
     {
-        public static MethodData GetData(MethodInfo methodInfo)
-        {
-            var parameters = methodInfo.GetParameters();
-
-            var inputs = DetectInputParameters(parameters);
-            var outputs = DetectOutputParameters(parameters);
-
-            return new MethodData()
-            {
-                Delegate = GetDelegate(methodInfo),
-                OutputReturnType = methodInfo.ReturnType == typeof(void),
-                InputParameters = inputs,
-                OutputParameters = outputs,
-                NumOutputs = outputs.Count(o => o),
-            };
-        }
-
-        private static bool[] DetectInputParameters(ParameterInfo[] parameters)
-        {
-            return parameters
-                .Select(Operation.IsInput)
-                .ToArray();
-        }
-
-        private static bool[] DetectOutputParameters(ParameterInfo[] parameters)
-        {
-            return parameters
-                .Select(Operation.IsOutput)
-                .ToArray();
-        }
-
-        private static MethodData.CallDelegate GetDelegate(MethodInfo methodInfo)
+        public static MethodInvoker GetInvoker(MethodInfo methodInfo)
         {
             DynamicMethod dynamicMethod = new DynamicMethod(string.Empty, typeof(object), new Type[] { typeof(object), typeof(object[]) }, methodInfo.DeclaringType.Module);
             ILGenerator il = dynamicMethod.GetILGenerator();
@@ -109,7 +75,7 @@ namespace Transmogrify.Engine
             }
 
             il.Emit(OpCodes.Ret);
-            return (MethodData.CallDelegate)dynamicMethod.CreateDelegate(typeof(MethodData.CallDelegate));
+            return (MethodInvoker)dynamicMethod.CreateDelegate(typeof(MethodInvoker));
         }
 
         private static void EmitCastToReference(ILGenerator il, System.Type type)
