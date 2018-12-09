@@ -48,6 +48,7 @@ namespace Transmogrify.Engine
         private async Task ProcessOperation(Operation operation)
         {
             // TODO: make this more efficient!
+            // Perhaps DataValues could use integer keys, and we store an array of inputDataIndices and outputDataIndices for each operation?
             var inputValues = operation.Inputs
                 .Select(i =>
                 {
@@ -59,11 +60,11 @@ namespace Transmogrify.Engine
 
             object[] outputValues = OperationRunner.Run(operation, inputValues);
 
+            // TODO: can this be made more efficient?
             for (int i = 0; i < operation.Outputs.Length; i++)
             {
                 var output = operation.Outputs[i];
-                object outputValue = outputValues[i];
-                DataValues[output] = outputValue;
+                DataValues[output] = outputValues[i];
             }
 
             // TODO: step-through task for debugging could go here

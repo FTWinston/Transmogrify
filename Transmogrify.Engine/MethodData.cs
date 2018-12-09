@@ -39,14 +39,14 @@ namespace Transmogrify.Engine
         private static bool[] DetectInputParameters(ParameterInfo[] parameters)
         {
             return parameters
-                .Select(Operation.IsInput)
+                .Select(p => p.UseAsInput())
                 .ToArray();
         }
 
         private static bool[] DetectOutputParameters(ParameterInfo[] parameters)
         {
             return parameters
-                .Select(Operation.IsOutput)
+                .Select(p => p.UseAsOutput())
                 .ToArray();
         }
     }

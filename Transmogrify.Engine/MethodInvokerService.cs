@@ -5,8 +5,9 @@ namespace Transmogrify.Engine
 {
     delegate object MethodInvoker(object target, object[] parameters);
 
-    class MethodInvokerService
+    static class MethodInvokerService
     {
+        // Based on https://www.codeproject.com/Articles/14593/A-General-Fast-Method-Invoker
         public static MethodInvoker GetInvoker(MethodInfo methodInfo)
         {
             DynamicMethod dynamicMethod = new DynamicMethod(string.Empty, typeof(object), new Type[] { typeof(object), typeof(object[]) }, methodInfo.DeclaringType.Module);

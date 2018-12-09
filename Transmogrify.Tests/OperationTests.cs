@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Transmogrify.Data;
 using Transmogrify.Engine;
-using Transmogrify.Operations;
 using Xunit;
 
 namespace Transmogrify.Tests
