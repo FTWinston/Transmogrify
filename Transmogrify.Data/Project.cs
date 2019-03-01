@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -10,7 +9,7 @@ namespace Transmogrify.Data
     public class Project
     {
         [JsonProperty(Order = 1, PropertyName = "Dependencies")]
-        private List<string> DependentAssemblies
+        private string[] DependentAssemblies
         {
             get
             {
@@ -26,7 +25,7 @@ namespace Transmogrify.Data
                 return endPointAssemblies
                     .Union(operationAssemblies)
                     .Select(a => a.FullName)
-                    .ToList();
+                    .ToArray();
             }
             set
             {
@@ -35,6 +34,7 @@ namespace Transmogrify.Data
                 foreach (var assemblyName in value)
                 {
                     if (alreadyLoaded.Contains(assemblyName))
+                        continue;
 
                     Assembly.Load(assemblyName);
                 }
