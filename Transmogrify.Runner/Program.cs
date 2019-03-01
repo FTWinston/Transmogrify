@@ -20,7 +20,7 @@ namespace Transmogrify.Runner
                 return;
             }
 
-            Console.WriteLine($"Ready to run {args.Length} projects...");
+            Console.WriteLine($"Ready to run {args.Length} project(s)...");
             Console.WriteLine();
 
             foreach (var arg in args)

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -31,12 +32,23 @@ namespace Transmogrify.Data
             {
                 var alreadyLoaded = new HashSet<string>(AppDomain.CurrentDomain.GetAssemblies().Select(a => a.FullName));
 
-                foreach (var assemblyName in value)
+                foreach (var strAssemblyName in value)
                 {
-                    if (alreadyLoaded.Contains(assemblyName))
+                    if (alreadyLoaded.Contains(strAssemblyName))
                         continue;
 
-                    Assembly.Load(assemblyName);
+                    var assemblyName = new AssemblyName(strAssemblyName);
+
+                    var assemblyPath = $"{assemblyName.Name}.dll";
+
+                    var assembly = Assembly.LoadFrom(assemblyPath);
+
+                    if (assembly.FullName != strAssemblyName)
+                    {
+                        Console.WriteLine($"Warning, loaded unexpected version of {assemblyName.Name}");
+                        Console.WriteLine($"Specified in project: {strAssemblyName}");
+                        Console.WriteLine($"In local directory:   {assembly.FullName}");
+                    }
                 }
             }
         }
