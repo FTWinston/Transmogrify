@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transmogrify.Operations", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transmogrify.Engine", "Transmogrify.Engine\Transmogrify.Engine.csproj", "{1B3CF15C-5961-4086-BC12-2CBB35B583DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmogrify.Runner", "Transmogrify.Runner\Transmogrify.Runner.csproj", "{FB49B09B-0CCA-4D0E-A10E-E179FC436F76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transmogrify.Runner", "Transmogrify.Runner\Transmogrify.Runner.csproj", "{FB49B09B-0CCA-4D0E-A10E-E179FC436F76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmogrify", "Transmogrify\Transmogrify.csproj", "{A3380D15-505E-4758-AD49-6A01B595FCB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{FB49B09B-0CCA-4D0E-A10E-E179FC436F76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB49B09B-0CCA-4D0E-A10E-E179FC436F76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB49B09B-0CCA-4D0E-A10E-E179FC436F76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3380D15-505E-4758-AD49-6A01B595FCB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3380D15-505E-4758-AD49-6A01B595FCB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3380D15-505E-4758-AD49-6A01B595FCB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3380D15-505E-4758-AD49-6A01B595FCB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
