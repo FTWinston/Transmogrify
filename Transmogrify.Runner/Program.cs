@@ -41,11 +41,7 @@ namespace Transmogrify.Runner
 
             Console.WriteLine($"Loading {path}...");
 
-            var strProject = await File.ReadAllTextAsync(path);
-
-            var settings = ProjectSerialization.GetSerializerSettings();
-
-            var project = JsonConvert.DeserializeObject<Project>(strProject, settings);
+            var project = ProjectSerialization.LoadFromFile(path);
 
             var runner = new ProjectRunner();
 

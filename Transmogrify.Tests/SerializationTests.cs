@@ -14,9 +14,7 @@ namespace Transmogrify.Tests
         {
             var project = TestProjects.CreateBasicProject1();
 
-            var strProject = JsonConvert.SerializeObject(project, Formatting.Indented,
-                ProjectSerialization.GetSerializerSettings()
-            );
+            var strProject = ProjectSerialization.SerializeProject(project);
         }
 
         [Fact]
@@ -24,9 +22,7 @@ namespace Transmogrify.Tests
         {
             var project = TestProjects.CreateBasicProject2();
 
-            var strProject = JsonConvert.SerializeObject(project, Formatting.Indented,
-                ProjectSerialization.GetSerializerSettings()
-            );
+            var strProject = ProjectSerialization.SerializeProject(project);
         }
 
         [Theory]
@@ -42,9 +38,7 @@ namespace Transmogrify.Tests
                 strProject = reader.ReadToEnd();
             }
 
-            var project = JsonConvert.DeserializeObject<Project>(strProject,
-                ProjectSerialization.GetSerializerSettings()
-            );
+            var project = ProjectSerialization.LoadFromString(strProject);
 
             return project;
         }
@@ -54,13 +48,9 @@ namespace Transmogrify.Tests
         {
             var project = TestProjects.CreateBasicProject1();
 
-            var strProject = JsonConvert.SerializeObject(project, Formatting.Indented,
-                ProjectSerialization.GetSerializerSettings()
-            );
+            var strProject = ProjectSerialization.SerializeProject(project);
 
-            var project2 = JsonConvert.DeserializeObject<Project>(strProject,
-                ProjectSerialization.GetSerializerSettings()
-            );
+            var project2 = ProjectSerialization.LoadFromString(strProject);
         }
 
         [Fact]
@@ -68,13 +58,9 @@ namespace Transmogrify.Tests
         {
             var project = TestProjects.CreateBasicProject2();
 
-            var strProject = JsonConvert.SerializeObject(project, Formatting.Indented,
-                ProjectSerialization.GetSerializerSettings()
-            );
+            var strProject = ProjectSerialization.SerializeProject(project);
 
-            var project2 = JsonConvert.DeserializeObject<Project>(strProject,
-                ProjectSerialization.GetSerializerSettings()
-            );
+            var project2 = ProjectSerialization.LoadFromString(strProject);
         }
 
         [Theory]
@@ -90,14 +76,9 @@ namespace Transmogrify.Tests
                 strProject = reader.ReadToEnd();
             }
 
-            var project = JsonConvert.DeserializeObject<Project>(strProject,
-                ProjectSerialization.GetSerializerSettings()
-            );
+            var project = ProjectSerialization.LoadFromString(strProject);
 
-
-            var strProject2 = JsonConvert.SerializeObject(project, Formatting.Indented,
-                ProjectSerialization.GetSerializerSettings()
-            );
+            var strProject2 = ProjectSerialization.SerializeProject(project);
 
             Assert.Equal(strProject, strProject2);
         }

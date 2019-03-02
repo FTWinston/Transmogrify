@@ -6,6 +6,8 @@ namespace Transmogrify.Data
     [JsonObject(IsReference = true)]
     public abstract class DataEndPoint
     {
+        public string Name { get; set; }
+
         public abstract IEnumerable<EndPointDataCollection> PopulateCollections(Mapping mapping);
 
         protected internal abstract DataItemReader GetReader(EndPointDataCollection collection);
@@ -21,8 +23,6 @@ namespace Transmogrify.Data
             Name = name;
             Configuration = new TConfig();
         }
-
-        public string Name { get; set; }
 
         public TConfig Configuration { get; set; }
     }
