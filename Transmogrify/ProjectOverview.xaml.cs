@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Transmogrify.Controls;
+using Transmogrify.Data;
+using Transmogrify.Data.EndPoints;
+using Transmogrify.Services;
 
 namespace Transmogrify
 {
@@ -25,6 +19,34 @@ namespace Transmogrify
             InitializeComponent();
         }
 
+        ProjectService ProjectService { get; } = ServiceContainer.Resolve<ProjectService>();
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+
+            ProjectService.AddEndPoint(new PlainTextEndPoint("Source 1"));
+            ProjectService.AddEndPoint(new PlainTextEndPoint("Destination 1"));
+            ProjectService.AddEndPoint(new PlainTextEndPoint("Source 2"));
+
+            var brushes = new[] { Brushes.LightSkyBlue, Brushes.Red, Brushes.Green };
+            var iBrush = 0;
+
+            foreach (var endpoint in ProjectService.EndPoints)
+            {
+                var endpointDisplay = new ProjectEndpoint
+                {
+                    Fill = brushes[iBrush++],
+                    Text = endpoint.Name,
+                    Tag = endpoint,
+                };
+
+                endpointDisplay.MouseUp += (o, e) => SelectEndpoint(endpoint);
+
+                projectCanvas.Children.Add(endpointDisplay);
+            }
+        }
+
         private void ProjectCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ResizeCanvasElements(projectCanvas.ActualWidth, projectCanvas.ActualHeight);
@@ -35,28 +57,39 @@ namespace Transmogrify
             var endpointWidth = totalWidth * 0.4;
             var endpointHeight = totalHeight * 0.4;
 
-            var aspectRatio = 100.0 / 75.0;
+            var aspectRatio = ProjectEndpoint.AspectRatio;
 
             if (endpointWidth > endpointHeight * aspectRatio)
                 endpointWidth = endpointHeight * aspectRatio;
             else
                 endpointHeight = endpointWidth / aspectRatio;
 
-            endpoint1.Width = endpointWidth;
-            endpoint2.Width = endpointWidth;
-            endpoint3.Width = endpointWidth;
+            var canvasCenterX = totalWidth * 0.5;
+            var canvasCenterY = totalHeight * 0.5;
 
-            endpoint1.Height = endpointHeight;
-            endpoint2.Height = endpointHeight;
-            endpoint3.Height = endpointHeight;
+            var radius = Math.Min(totalWidth * 0.5 - endpointWidth * 0.4, totalHeight * 0.5 - endpointHeight * 0.4);
 
-            Canvas.SetLeft(endpoint1, totalWidth * 0.1);
-            Canvas.SetLeft(endpoint2, totalWidth * 0.9 - endpointWidth);
-            Canvas.SetLeft(endpoint3, totalWidth * 0.5 - endpointWidth / 2);
+            var angleStep = Math.PI * 2 / ProjectService.EndPoints.Length;
+            var currentAngle = -angleStep / 2;
 
-            Canvas.SetTop(endpoint1, totalHeight * 0.1);
-            Canvas.SetTop(endpoint2, totalHeight * 0.1);
-            Canvas.SetTop(endpoint3, totalHeight * 0.9 - endpointHeight);
+            foreach (ProjectEndpoint endpointDisplay in projectCanvas.Children)
+            {
+                endpointDisplay.Width = endpointWidth;
+                endpointDisplay.Height = endpointHeight;
+
+                var displayCenterX = Math.Sin(currentAngle) * radius + canvasCenterX;
+                var displayCenterY = -Math.Cos(currentAngle) * radius + canvasCenterY;
+
+                Canvas.SetLeft(endpointDisplay, displayCenterX - endpointWidth * 0.5);
+                Canvas.SetTop(endpointDisplay, displayCenterY - endpointHeight * 0.5);
+
+                currentAngle += angleStep;
+            }
+        }
+
+        private void SelectEndpoint(DataEndPoint endpoint)
+        {
+
         }
 
         private void ButtonExit_Click(object sender, RoutedEventArgs e)

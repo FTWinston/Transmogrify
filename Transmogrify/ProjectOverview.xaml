@@ -38,10 +38,6 @@
             </RibbonTab>
         </Ribbon>
 
-        <Canvas x:Name="projectCanvas" SizeChanged="ProjectCanvas_SizeChanged" >
-            <Ellipse x:Name="endpoint1" Fill="Blue" Height="75" Width="100" Canvas.Top="10" Canvas.Left="10" />
-            <Ellipse x:Name="endpoint2" Fill="Red" Height="75" Width="100" Canvas.Top="10" Canvas.Left="190" />
-            <Ellipse x:Name="endpoint3" Fill="Green" Height="75" Width="100" Canvas.Top="190" Canvas.Left="100" />
-        </Canvas>
+        <Canvas x:Name="projectCanvas" SizeChanged="ProjectCanvas_SizeChanged" />
     </DockPanel>
 </Page>

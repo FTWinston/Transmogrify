@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Controls\ProjectEndpoint.xaml" />
     <None Remove="ProjectOverview.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +21,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\ProjectEndpoint.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\ProjectEndpoint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="ProjectOverview.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
