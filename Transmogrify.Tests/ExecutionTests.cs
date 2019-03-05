@@ -65,7 +65,8 @@ blah
         public async Task DeserializeAndRunProject1()
         {
             string resourceName = "Transmogrify.Tests.Project001.json";
-            var project = new SerializationTests().DeserializeProject(resourceName);
+            string configResourceName = "Transmogrify.Tests.Project001.config.json";
+            var project = new SerializationTests().DeserializeProject(resourceName, configResourceName);
 
             await RunProject(project, sourceText);
         }
@@ -74,7 +75,8 @@ blah
         public async Task DeserializeAndRunProject2()
         {
             string resourceName = "Transmogrify.Tests.Project002.json";
-            var project = new SerializationTests().DeserializeProject(resourceName);
+            string configResourceName = "Transmogrify.Tests.Project002.config.json";
+            var project = new SerializationTests().DeserializeProject(resourceName, configResourceName);
 
             var expectedText = string.Join(Environment.NewLine,
                 sourceText.Split(Environment.NewLine)

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Transmogrify.Data.EndPoints
 {
-    public class CsvEndPoint : DataEndPoint<CsvEndPoint.CsvConfig>
+    public class CsvEndPoint : DataEndPoint<CsvEndPoint.CsvDesign, CsvEndPoint.CsvConfig>
     {
         public CsvEndPoint(string name)
             : base(name)
@@ -43,19 +43,17 @@ namespace Transmogrify.Data.EndPoints
             var configuration = new CsvHelper.Configuration.Configuration
             {
                 SanitizeForInjection = true,
-                HasHeaderRecord = Configuration.HasHeaders,
-                Delimiter = Configuration.Delimiter,
-                Quote = Configuration.Quote,
-                Comment = Configuration.Comment,
+                HasHeaderRecord = Design.HasHeaders,
+                Delimiter = Design.Delimiter,
+                Quote = Design.Quote,
+                Comment = Design.Comment,
             };
 
             return configuration;
         }
 
-        public class CsvConfig
+        public class CsvDesign
         {
-            public string FilePath { get; set; }
-
             public bool HasHeaders { get; set; } = true;
 
             public string Delimiter { get; set; } = ",";
@@ -65,6 +63,11 @@ namespace Transmogrify.Data.EndPoints
             public char Comment { get; set; } = '#';
 
             public bool AlwaysQuote { get; set; } = false;
+        }
+
+        public class CsvConfig
+        {
+            public string FilePath { get; set; }
         }
 
         private class CsvReader : DataItemReader

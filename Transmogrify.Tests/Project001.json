@@ -7,17 +7,13 @@
       "$id": "1",
       "$type": "Transmogrify.Data.EndPoints.PlainTextEndPoint, Transmogrify.Data",
       "Name": "Source",
-      "Configuration": {
-        "FilePath": "source.txt"
-      }
+      "Design": {}
     },
     {
       "$id": "2",
       "$type": "Transmogrify.Data.EndPoints.PlainTextEndPoint, Transmogrify.Data",
       "Name": "Destination",
-      "Configuration": {
-        "FilePath": "dest.txt"
-      }
+      "Design": {}
     }
   ],
   "Mappings": [

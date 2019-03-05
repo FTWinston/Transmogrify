@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Transmogrify.Data.EndPoints
 {
-    public class TSqlEndPoint : DataEndPoint<TSqlEndPoint.TSqlConfig>
+    public class TSqlEndPoint : DataEndPoint<TSqlEndPoint.TSqlDesign, TSqlEndPoint.TSqlConfig>
     {
         public TSqlEndPoint(string name)
             : base(name)
@@ -28,6 +28,11 @@ namespace Transmogrify.Data.EndPoints
         protected internal override DataItemWriter GetWriter(EndPointDataCollection collection)
         {
             throw new System.NotImplementedException();
+        }
+
+        public class TSqlDesign
+        {
+            // TODO: save used table structure etc?
         }
 
         public class TSqlConfig

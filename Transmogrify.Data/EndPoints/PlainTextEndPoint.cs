@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Transmogrify.Data.EndPoints
 {
-    public class PlainTextEndPoint : DataEndPoint<PlainTextEndPoint.PlainTextConfig>
+    public class PlainTextEndPoint : DataEndPoint<PlainTextEndPoint.PlainTextDesign, PlainTextEndPoint.PlainTextConfig>
     {
         public PlainTextEndPoint(string name)
             : base(name)
@@ -33,6 +33,11 @@ namespace Transmogrify.Data.EndPoints
         protected internal override DataItemWriter GetWriter(EndPointDataCollection collection)
         {
             return new PlainTextWriter(this, collection);
+        }
+
+        public class PlainTextDesign
+        {
+            
         }
 
         public class PlainTextConfig

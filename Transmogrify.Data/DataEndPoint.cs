@@ -18,18 +18,43 @@ namespace Transmogrify.Data
         protected internal abstract DataItemReader GetReader(EndPointDataCollection collection);
 
         protected internal abstract DataItemWriter GetWriter(EndPointDataCollection collection);
+
+        internal abstract bool TrySetConfiguration(object configuration);
+
+        internal abstract object GetConfiguration();
     }
 
-    public abstract class DataEndPoint<TConfig> : DataEndPoint
+    public abstract class DataEndPoint<TDesign, TConfig> : DataEndPoint
+        where TDesign : new()
         where TConfig : new()
     {
         protected DataEndPoint(string name)
         {
             Name = name;
+            Design = new TDesign();
             Configuration = new TConfig();
         }
 
         [JsonProperty(Order = 2)]
+        public TDesign Design { get; set; }
+
+        [JsonIgnore]
         public TConfig Configuration { get; set; }
+
+        internal override bool TrySetConfiguration(object configuration)
+        {
+            if (configuration is TConfig tconfig)
+            {
+                Configuration = tconfig;
+                return true;
+            }
+
+            return false;
+        }
+
+        internal override object GetConfiguration()
+        {
+            return Configuration;
+        }
     }
 }

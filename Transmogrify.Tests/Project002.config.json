@@ -1,0 +1,8 @@
+﻿{
+  "Source": {
+    "FilePath": "source.txt"
+  },
+  "Destination": {
+    "FilePath": "dest.txt"
+  }
+}

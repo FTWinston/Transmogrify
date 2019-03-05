@@ -25,20 +25,46 @@ namespace Transmogrify.Tests
             var strProject = ProjectSerialization.SerializeProject(project);
         }
 
+        [Fact]
+        public void SerializeProject1Config()
+        {
+            var project = TestProjects.CreateBasicProject1();
+
+            var strConfig = ProjectSerialization.SerializeProjectConfig(project);
+        }
+
+        [Fact]
+        public void SerializeProject2Config()
+        {
+            var project = TestProjects.CreateBasicProject2();
+
+            var strConfig = ProjectSerialization.SerializeProjectConfig(project);
+        }
+
         [Theory]
-        [InlineData("Transmogrify.Tests.Project001.json")]
-        [InlineData("Transmogrify.Tests.Project002.json")]
-        public Project DeserializeProject(string resourceName)
+        [InlineData("Transmogrify.Tests.Project001.json", "Transmogrify.Tests.Project001.config.json")]
+        [InlineData("Transmogrify.Tests.Project002.json", "Transmogrify.Tests.Project002.config.json")]
+        public Project DeserializeProject(string projectResourceName, string configResourceName)
         {
             string strProject;
 
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(projectResourceName))
             using (StreamReader reader = new StreamReader(stream))
             {
                 strProject = reader.ReadToEnd();
             }
 
             var project = ProjectSerialization.LoadFromString(strProject);
+
+            string strConfig;
+
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(configResourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                strConfig = reader.ReadToEnd();
+            }
+
+            ProjectSerialization.LoadConfigFromString(project, strConfig);
 
             return project;
         }
@@ -61,6 +87,26 @@ namespace Transmogrify.Tests
             var strProject = ProjectSerialization.SerializeProject(project);
 
             var project2 = ProjectSerialization.LoadFromString(strProject);
+        }
+
+        [Fact]
+        public void SerializeAndDeserializeProject1Config()
+        {
+            var project = TestProjects.CreateBasicProject1();
+
+            var strConfig = ProjectSerialization.SerializeProjectConfig(project);
+
+            ProjectSerialization.LoadConfigFromString(project, strConfig);
+        }
+
+        [Fact]
+        public void SerializeAndDeserializeProject2Config()
+        {
+            var project = TestProjects.CreateBasicProject2();
+
+            var strConfig = ProjectSerialization.SerializeProjectConfig(project);
+
+            ProjectSerialization.LoadConfigFromString(project, strConfig);
         }
 
         [Theory]

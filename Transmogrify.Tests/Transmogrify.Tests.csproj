@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -7,11 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Project001.config.json" />
     <None Remove="Project001.json" />
+    <None Remove="Project002.config.json" />
     <None Remove="Project002.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Project002.config.json" />
+    <EmbeddedResource Include="Project001.config.json" />
     <EmbeddedResource Include="Project001.json" />
     <EmbeddedResource Include="Project002.json" />
   </ItemGroup>

@@ -39,9 +39,21 @@ namespace Transmogrify.Runner
                 return;
             }
 
+            var configPath = ProjectSerialization.DetermineConfigPath(path);
+
+            if (!File.Exists(configPath))
+            {
+                Console.WriteLine($"Project config file not found: {configPath}");
+                return;
+            }
+
             Console.WriteLine($"Loading {path}...");
 
             var project = ProjectSerialization.LoadFromFile(path);
+
+            Console.WriteLine($"Loading {configPath}...");
+
+            ProjectSerialization.LoadConfigFromFile(project, configPath);
 
             var runner = new ProjectRunner();
 
