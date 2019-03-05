@@ -7,6 +7,7 @@ namespace Transmogrify.Data
     [JsonObject(IsReference = true)]
     public abstract class DataEndPoint
     {
+        [JsonProperty(Order = 1)]
         public string Name { get; set; }
 
         [JsonIgnore]
@@ -28,6 +29,7 @@ namespace Transmogrify.Data
             Configuration = new TConfig();
         }
 
+        [JsonProperty(Order = 2)]
         public TConfig Configuration { get; set; }
     }
 }
