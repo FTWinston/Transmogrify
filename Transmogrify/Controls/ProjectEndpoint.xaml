@@ -6,8 +6,10 @@
              xmlns:local="clr-namespace:Transmogrify.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="75">
-    <Grid>
-        <Ellipse Fill="{Binding Path=Fill}" />
-        <TextBlock Text="{Binding Path=Text}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-    </Grid>
+    <Viewbox Stretch="Uniform" StretchDirection="Both">
+        <Grid>
+            <Ellipse Fill="{Binding Path=Fill}" Stroke="Black" StrokeThickness="1" Width="100" Height="75" />
+            <TextBlock Text="{Binding Path=Text}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
+    </Viewbox>
 </UserControl>

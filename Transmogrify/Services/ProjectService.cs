@@ -78,5 +78,25 @@ namespace Transmogrify.Services
             if (didRemove)
                 HasChanges = true;
         }
+
+        public Mapping[] Mappings => CurrentProject?.Mappings.ToArray();
+
+        public void AddMapping(Mapping mapping)
+        {
+            if (CurrentProject.Mappings.Contains(mapping))
+                return;
+
+            CurrentProject.Mappings.Add(mapping);
+
+            HasChanges = true;
+        }
+
+        public void RemoveMapping(Mapping mapping)
+        {
+            var didRemove = CurrentProject.Mappings.Remove(mapping);
+
+            if (didRemove)
+                HasChanges = true;
+        }
     }
 }

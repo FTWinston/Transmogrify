@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -29,23 +31,49 @@ namespace Transmogrify
             ProjectService.AddEndPoint(new PlainTextEndPoint("Destination 1"));
             ProjectService.AddEndPoint(new PlainTextEndPoint("Source 2"));
 
-            var brushes = new[] { Brushes.LightSkyBlue, Brushes.Red, Brushes.Green };
-            var iBrush = 0;
+            {
+                Mapping mapping = new Mapping();
+                var sourceCollection = ProjectService.EndPoints[0].PopulateCollections(mapping).First();
+                var destCollection = ProjectService.EndPoints[1].PopulateCollections(mapping).First();
+                mapping.Source = sourceCollection;
+                mapping.Destination = destCollection;
+
+                mapping.Outputs.Add(new MappingOutput(sourceCollection.Fields.First(), destCollection.Fields.First().Field));
+
+                ProjectService.AddMapping(mapping);
+            }
+
+            {
+                Mapping mapping = new Mapping();
+                var sourceCollection = ProjectService.EndPoints[0].PopulateCollections(mapping).First();
+                var destCollection = ProjectService.EndPoints[1].PopulateCollections(mapping).First();
+                mapping.Source = sourceCollection;
+                mapping.Destination = destCollection;
+
+                mapping.Outputs.Add(new MappingOutput(sourceCollection.Fields.First(), destCollection.Fields.First().Field));
+
+                ProjectService.AddMapping(mapping);
+            }
 
             foreach (var endpoint in ProjectService.EndPoints)
             {
+                var color = Color.FromArgb(endpoint.Color.A, endpoint.Color.R, endpoint.Color.G, endpoint.Color.B);
+
                 var endpointDisplay = new ProjectEndpoint
                 {
-                    Fill = brushes[iBrush++],
+                    Fill = new SolidColorBrush(color),
                     Text = endpoint.Name,
                     Tag = endpoint,
                 };
 
                 endpointDisplay.MouseUp += (o, e) => SelectEndpoint(endpoint);
 
+                EndpointDisplays.Add(endpointDisplay);
                 projectCanvas.Children.Add(endpointDisplay);
             }
         }
+
+        private List<ProjectEndpoint> EndpointDisplays { get; } = new List<ProjectEndpoint>();
 
         private void ProjectCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -72,7 +100,7 @@ namespace Transmogrify
             var angleStep = Math.PI * 2 / ProjectService.EndPoints.Length;
             var currentAngle = -angleStep / 2;
 
-            foreach (ProjectEndpoint endpointDisplay in projectCanvas.Children)
+            foreach (ProjectEndpoint endpointDisplay in EndpointDisplays)
             {
                 endpointDisplay.Width = endpointWidth;
                 endpointDisplay.Height = endpointHeight;

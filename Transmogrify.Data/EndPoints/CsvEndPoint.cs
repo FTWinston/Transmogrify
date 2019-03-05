@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace Transmogrify.Data.EndPoints
         {
 
         }
+
+        public override Color Color => Color.GreenYellow;
 
         public override IEnumerable<EndPointDataCollection> PopulateCollections(Mapping mapping)
         {

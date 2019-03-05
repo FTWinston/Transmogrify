@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Transmogrify.Data
 {
@@ -7,6 +8,9 @@ namespace Transmogrify.Data
     public abstract class DataEndPoint
     {
         public string Name { get; set; }
+
+        [JsonIgnore]
+        public abstract Color Color { get; }
 
         public abstract IEnumerable<EndPointDataCollection> PopulateCollections(Mapping mapping);
 
