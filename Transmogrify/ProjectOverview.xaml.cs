@@ -29,7 +29,7 @@ namespace Transmogrify
 
             ProjectService.AddEndPoint(new PlainTextEndPoint("Source 1"));
             ProjectService.AddEndPoint(new PlainTextEndPoint("Destination 1"));
-            ProjectService.AddEndPoint(new PlainTextEndPoint("Source 2"));
+            ProjectService.AddEndPoint(new PlainTextEndPoint("Destination 2"));
 
             {
                 Mapping mapping = new Mapping();
@@ -46,7 +46,7 @@ namespace Transmogrify
             {
                 Mapping mapping = new Mapping();
                 var sourceCollection = ProjectService.EndPoints[0].PopulateCollections(mapping).First();
-                var destCollection = ProjectService.EndPoints[1].PopulateCollections(mapping).First();
+                var destCollection = ProjectService.EndPoints[2].PopulateCollections(mapping).First();
                 mapping.Source = sourceCollection;
                 mapping.Destination = destCollection;
 
@@ -84,19 +84,25 @@ namespace Transmogrify
 
                 MappingDisplays.Add(mappingDisplay);
                 projectCanvas.Children.Add(mappingDisplay);
-
             }
         }
 
         private List<ProjectEndpoint> EndpointDisplays { get; } = new List<ProjectEndpoint>();
         private List<ProjectMapping> MappingDisplays { get; } = new List<ProjectMapping>();
 
+        #region positioning
         private void ProjectCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ResizeCanvasElements(projectCanvas.ActualWidth, projectCanvas.ActualHeight);
         }
 
         private void ResizeCanvasElements(double totalWidth, double totalHeight)
+        {
+            PositionEndpoints(totalWidth, totalHeight);
+            PositionMappings();
+        }
+
+        private void PositionEndpoints(double totalWidth, double totalHeight)
         {
             var endpointWidth = totalWidth * 0.4;
             var endpointHeight = totalHeight * 0.4;
@@ -111,7 +117,7 @@ namespace Transmogrify
             var canvasCenterX = totalWidth * 0.5;
             var canvasCenterY = totalHeight * 0.5;
 
-            var radius = Math.Min(totalWidth * 0.5 - endpointWidth * 0.4, totalHeight * 0.5 - endpointHeight * 0.4);
+            var distanceFromCenter = Math.Min(totalWidth * 0.5 - endpointWidth * 0.4, totalHeight * 0.5 - endpointHeight * 0.4);
 
             var angleStep = Math.PI * 2 / ProjectService.EndPoints.Length;
             var currentAngle = -angleStep / 2;
@@ -121,17 +127,60 @@ namespace Transmogrify
                 endpointDisplay.Width = endpointWidth;
                 endpointDisplay.Height = endpointHeight;
 
-                var displayCenterX = Math.Sin(currentAngle) * radius + canvasCenterX;
-                var displayCenterY = -Math.Cos(currentAngle) * radius + canvasCenterY;
+                var displayOffsetX = Math.Sin(currentAngle) * distanceFromCenter;
+                var displayOffsetY = -Math.Cos(currentAngle) * distanceFromCenter / ProjectEndpoint.AspectRatio;
 
-                Canvas.SetLeft(endpointDisplay, displayCenterX - endpointWidth * 0.5);
-                Canvas.SetTop(endpointDisplay, displayCenterY - endpointHeight * 0.5);
+                Canvas.SetLeft(endpointDisplay, displayOffsetX + canvasCenterX - endpointWidth * 0.5);
+                Canvas.SetTop(endpointDisplay, displayOffsetY + canvasCenterY - endpointHeight * 0.5);
 
                 currentAngle += angleStep;
             }
-
-            // TODO: position mappings
         }
+
+        private void PositionMappings()
+        {
+            foreach (ProjectMapping mappingDisplay in MappingDisplays)
+            {
+                PositionMapping(mappingDisplay);
+            }
+        }
+
+        private void PositionMapping(ProjectMapping mappingDisplay)
+        {
+            var mapping = mappingDisplay.Tag as Mapping;
+
+            var endpointDisplay1 = EndpointDisplays.First(d => d.Tag == mapping.Source.EndPoint);
+            var endpointDisplay2 = EndpointDisplays.First(d => d.Tag == mapping.Destination.EndPoint);
+
+            var x1 = Canvas.GetLeft(endpointDisplay1) + endpointDisplay1.Width / 2;
+            var x2 = Canvas.GetLeft(endpointDisplay2) + endpointDisplay2.Width / 2;
+            var y1 = Canvas.GetTop(endpointDisplay1) + endpointDisplay1.Height / 2;
+            var y2 = Canvas.GetTop(endpointDisplay2) + endpointDisplay2.Height / 2;
+
+            var dx = Math.Abs(x2 - x1);
+            var dy = Math.Abs(y2 - y1);
+
+            var minX = Math.Min(x1, x2);
+            var minY = Math.Min(y1, y2);
+
+            var midX = minX + dx / 2;
+            var midY = minY + dy / 2;
+
+            var length = Math.Sqrt(dx * dx + dy * dy);
+            var scale = length / ProjectMapping.BaseLength;
+
+            var angle = Math.Atan(dy / dx) * 180.0 / Math.PI;
+
+            var group = new TransformGroup();
+
+            group.Children.Add(new ScaleTransform(scale, 1));
+            group.Children.Add(new TranslateTransform(minX, minY - ProjectMapping.BaseHeight / 2));
+            group.Children.Add(new RotateTransform(angle, midX * scale, midY));
+
+            mappingDisplay.RenderTransform = group;
+        }
+
+        #endregion positioning
 
         private void SelectEndpoint(DataEndPoint endpoint)
         {

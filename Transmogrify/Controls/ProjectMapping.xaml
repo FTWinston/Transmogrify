@@ -5,10 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Transmogrify.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="100">
-    <Viewbox Stretch="Uniform" StretchDirection="Both">
-        <Grid Width="100" Height="30">
-            <TextBlock Text="{Binding Path=Text}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </Grid>
-    </Viewbox>
+             d:DesignHeight="30" d:DesignWidth="150">
+    <Grid Width="150" Height="30">
+        <Line X1="0" X2="150" Y1="15" Y2="15" Stroke="Black" StrokeThickness="3" />
+        <TextBlock Text="{Binding Path=Text}" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" />
+    </Grid>
 </UserControl>

@@ -7,8 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="75">
     <Viewbox Stretch="Uniform" StretchDirection="Both">
-        <Grid>
-            <Ellipse Fill="{Binding Path=Fill}" Stroke="Black" StrokeThickness="1" Width="100" Height="75" />
+        <Grid Width="100" Height="75">
+            <Ellipse Fill="{Binding Path=Fill}" Stroke="Black" StrokeThickness="1" />
             <TextBlock Text="{Binding Path=Text}" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Grid>
     </Viewbox>

@@ -14,5 +14,9 @@ namespace Transmogrify.Controls
         }
 
         public string Text { get; set; }
+
+        public static double BaseLength => 150.0;
+
+        public static double BaseHeight => 30.0;
     }
 }
