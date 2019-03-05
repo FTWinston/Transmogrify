@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="Controls\ProjectEndpoint.xaml" />
+    <None Remove="Controls\ProjectMapping.xaml" />
     <None Remove="ProjectOverview.xaml" />
   </ItemGroup>
 
@@ -24,10 +25,16 @@
     <Compile Update="Controls\ProjectEndpoint.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Controls\ProjectMapping.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <Page Update="Controls\ProjectEndpoint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\ProjectMapping.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="ProjectOverview.xaml">

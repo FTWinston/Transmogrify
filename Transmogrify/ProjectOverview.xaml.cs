@@ -71,9 +71,25 @@ namespace Transmogrify
                 EndpointDisplays.Add(endpointDisplay);
                 projectCanvas.Children.Add(endpointDisplay);
             }
+
+            foreach (var mapping in ProjectService.Mappings)
+            {
+                var mappingDisplay = new ProjectMapping
+                {
+                    Text = "Mapping name",
+                    Tag = mapping,
+                };
+
+                mappingDisplay.MouseUp += (o, e) => SelectMapping(mapping);
+
+                MappingDisplays.Add(mappingDisplay);
+                projectCanvas.Children.Add(mappingDisplay);
+
+            }
         }
 
         private List<ProjectEndpoint> EndpointDisplays { get; } = new List<ProjectEndpoint>();
+        private List<ProjectMapping> MappingDisplays { get; } = new List<ProjectMapping>();
 
         private void ProjectCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -113,9 +129,16 @@ namespace Transmogrify
 
                 currentAngle += angleStep;
             }
+
+            // TODO: position mappings
         }
 
         private void SelectEndpoint(DataEndPoint endpoint)
+        {
+
+        }
+
+        private void SelectMapping(Mapping mapping)
         {
 
         }
