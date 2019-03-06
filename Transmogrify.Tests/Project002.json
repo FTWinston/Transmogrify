@@ -23,6 +23,7 @@
   ],
   "Mappings": [
     {
+      "Name": "Basic mapping",
       "Source": {
         "$id": "3",
         "EndPoint": {

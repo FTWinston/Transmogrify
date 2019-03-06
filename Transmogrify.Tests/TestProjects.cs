@@ -24,6 +24,7 @@ namespace Transmogrify.Tests
             project.EndPoints.Add(dest);
 
             Mapping mapping = new Mapping();
+            mapping.Name = "Empty mapping";
             var sourceCollection = source.PopulateCollections(mapping).First();
             var destCollection = dest.PopulateCollections(mapping).First();
             mapping.Source = sourceCollection;
@@ -49,6 +50,7 @@ namespace Transmogrify.Tests
             project.EndPoints.Add(dest);
 
             Mapping mapping = new Mapping();
+            mapping.Name = "Basic mapping";
             var sourceCollection = source.PopulateCollections(mapping).First();
             var destCollection = dest.PopulateCollections(mapping).First();
             mapping.Source = sourceCollection;

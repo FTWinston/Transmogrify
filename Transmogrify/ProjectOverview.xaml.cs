@@ -33,6 +33,7 @@ namespace Transmogrify
 
             {
                 Mapping mapping = new Mapping();
+                mapping.Name = "Mapping 1";
                 var sourceCollection = ProjectService.EndPoints[0].PopulateCollections(mapping).First();
                 var destCollection = ProjectService.EndPoints[1].PopulateCollections(mapping).First();
                 mapping.Source = sourceCollection;
@@ -45,6 +46,7 @@ namespace Transmogrify
 
             {
                 Mapping mapping = new Mapping();
+                mapping.Name = "Mapping 2";
                 var sourceCollection = ProjectService.EndPoints[0].PopulateCollections(mapping).First();
                 var destCollection = ProjectService.EndPoints[2].PopulateCollections(mapping).First();
                 mapping.Source = sourceCollection;
@@ -76,7 +78,7 @@ namespace Transmogrify
             {
                 var mappingDisplay = new ProjectMapping
                 {
-                    Text = "Mapping name",
+                    Text = mapping.Name,
                     Tag = mapping,
                 };
 
