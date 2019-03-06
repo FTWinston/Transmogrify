@@ -57,6 +57,20 @@ namespace Transmogrify
                 ProjectService.AddMapping(mapping);
             }
 
+            foreach (var mapping in ProjectService.Mappings)
+            {
+                var mappingDisplay = new ProjectMapping
+                {
+                    Text = mapping.Name,
+                    Tag = mapping,
+                };
+
+                mappingDisplay.MouseUp += (o, e) => SelectMapping(mapping);
+
+                MappingDisplays.Add(mappingDisplay);
+                projectCanvas.Children.Add(mappingDisplay);
+            }
+
             foreach (var endpoint in ProjectService.EndPoints)
             {
                 var color = Color.FromArgb(endpoint.Color.A, endpoint.Color.R, endpoint.Color.G, endpoint.Color.B);
@@ -72,20 +86,6 @@ namespace Transmogrify
 
                 EndpointDisplays.Add(endpointDisplay);
                 projectCanvas.Children.Add(endpointDisplay);
-            }
-
-            foreach (var mapping in ProjectService.Mappings)
-            {
-                var mappingDisplay = new ProjectMapping
-                {
-                    Text = mapping.Name,
-                    Tag = mapping,
-                };
-
-                mappingDisplay.MouseUp += (o, e) => SelectMapping(mapping);
-
-                MappingDisplays.Add(mappingDisplay);
-                projectCanvas.Children.Add(mappingDisplay);
             }
         }
 
@@ -106,8 +106,40 @@ namespace Transmogrify
 
         private void PositionEndpoints(double totalWidth, double totalHeight)
         {
-            var endpointWidth = totalWidth * 0.4;
-            var endpointHeight = totalHeight * 0.4;
+            DetermineEndpointSize(totalWidth, totalHeight, out double endpointWidth, out double endpointHeight);
+
+            // We precalculate these angles so that we can account for "unused space"
+            // e.g. with 3 endpoints, one will angle "straight down" but none will angle "straight up", leaving space at the top
+
+            var angleStep = Math.PI * 2 / EndpointDisplays.Count;
+            var startAngle = -angleStep / 2;
+            var unitOffsets = Enumerable.Range(0, EndpointDisplays.Count)
+                .Select(index => startAngle + angleStep * index) // get the angle to travel out from the center when placing each endpoint
+                .Select(angle => new Point(Math.Sin(angle), -Math.Cos(angle))) // determine the x & y offset for each angle
+                .ToArray();
+
+            DetermineCenterAndOffsetDistance(totalWidth, totalHeight, endpointWidth, endpointHeight, unitOffsets, out double centerX, out double centerY, out double distanceFromCenter);
+
+            int iEndpoint = 0;
+            foreach (ProjectEndpoint endpointDisplay in EndpointDisplays)
+            {
+                endpointDisplay.Width = endpointWidth;
+                endpointDisplay.Height = endpointHeight;
+
+                var offset = unitOffsets[iEndpoint++];
+
+                var displayOffsetX = offset.X * distanceFromCenter;
+                var displayOffsetY = offset.Y * distanceFromCenter;// / ProjectEndpoint.AspectRatio;
+
+                Canvas.SetLeft(endpointDisplay, displayOffsetX + centerX - endpointWidth * 0.5);
+                Canvas.SetTop(endpointDisplay, displayOffsetY + centerY - endpointHeight * 0.5);
+            }
+        }
+
+        private static void DetermineEndpointSize(double totalWidth, double totalHeight, out double endpointWidth, out double endpointHeight)
+        {
+            endpointWidth = totalWidth * 0.25;
+            endpointHeight = totalHeight * 0.25;
 
             var aspectRatio = ProjectEndpoint.AspectRatio;
 
@@ -115,28 +147,59 @@ namespace Transmogrify
                 endpointWidth = endpointHeight * aspectRatio;
             else
                 endpointHeight = endpointWidth / aspectRatio;
+        }
 
-            var canvasCenterX = totalWidth * 0.5;
-            var canvasCenterY = totalHeight * 0.5;
+        private static void DetermineCenterAndOffsetDistance(double totalWidth, double totalHeight, double endpointWidth, double endpointHeight, Point[] unitEndpointOffsets, out double centerX, out double centerY, out double distanceFromCenter)
+        {
+            // determine aspect ratio of useable window area
+            var edgePadding = Math.Min(totalWidth * 0.05, totalHeight * 0.05);
+            var useableWidth = Math.Max(totalWidth - edgePadding - edgePadding, 1);
+            var useableHeight = Math.Max(totalHeight - edgePadding - edgePadding, 1);
+            var useableAspectRatio = useableWidth / useableHeight;
 
-            var distanceFromCenter = Math.Min(totalWidth * 0.5 - endpointWidth * 0.4, totalHeight * 0.5 - endpointHeight * 0.4);
+            // determine aspect ratio of bounds endpoints will be placed in
+            var minUnitOffsetX = unitEndpointOffsets.Min(o => o.X);
+            var minUnitOffsetY = unitEndpointOffsets.Min(o => o.Y);
+            var maxUnitOffsetX = unitEndpointOffsets.Max(o => o.X);
+            var maxUnitOffsetY = unitEndpointOffsets.Max(o => o.Y);
 
-            var angleStep = Math.PI * 2 / ProjectService.EndPoints.Length;
-            var currentAngle = -angleStep / 2;
+            var unitOffsetWidth = Math.Max(maxUnitOffsetX - minUnitOffsetX, 0.01);
+            var unitOffsetHeight = Math.Max(maxUnitOffsetY - minUnitOffsetY, 0.01);
 
-            foreach (ProjectEndpoint endpointDisplay in EndpointDisplays)
+            var renderAspectRatio = unitOffsetWidth / unitOffsetHeight;
+
+            // determine biggest possible width & height for render area
+            double renderWidth, renderHeight;
+
+            if (renderAspectRatio >= useableAspectRatio)
             {
-                endpointDisplay.Width = endpointWidth;
-                endpointDisplay.Height = endpointHeight;
-
-                var displayOffsetX = Math.Sin(currentAngle) * distanceFromCenter;
-                var displayOffsetY = -Math.Cos(currentAngle) * distanceFromCenter / ProjectEndpoint.AspectRatio;
-
-                Canvas.SetLeft(endpointDisplay, displayOffsetX + canvasCenterX - endpointWidth * 0.5);
-                Canvas.SetTop(endpointDisplay, displayOffsetY + canvasCenterY - endpointHeight * 0.5);
-
-                currentAngle += angleStep;
+                renderWidth = useableWidth;
+                renderHeight = useableWidth / renderAspectRatio;
             }
+            else
+            {
+                renderHeight = useableHeight;
+                renderWidth = useableHeight * renderAspectRatio;
+            }
+
+            // determine where the "center" fits into the render area, as it may not be the middle of it
+            var renderCenterX = renderWidth * Math.Abs(minUnitOffsetX) / unitOffsetWidth;
+            var renderCenterY = renderHeight * Math.Abs(minUnitOffsetY) / unitOffsetHeight;
+
+            // assuming the render area is to be centered, determine where the "center" fits on the window area
+            centerX = renderCenterX - renderWidth / 2 + totalWidth / 2;
+            centerY = renderCenterY - renderHeight / 2 + totalHeight / 2;
+
+            // determine how much to scale up the distances based on the unit endpoints not filling a full [-1, 1] range
+            var scale = Math.Max(unitOffsetWidth, unitOffsetHeight) / 2;
+            if (scale == 0)
+                scale = 1;
+
+            // determine how far from the "center" endpoints should be placed
+            var maxDistanceX = totalWidth * 0.5 - endpointWidth * 0.5 - edgePadding;
+            var maxDistanceY = totalHeight * 0.5 - endpointHeight * 0.5 - edgePadding;
+
+            distanceFromCenter = Math.Min(maxDistanceX, maxDistanceY) / scale;
         }
 
         private void PositionMappings()
