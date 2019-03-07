@@ -187,19 +187,81 @@ namespace Transmogrify
             var renderCenterY = renderHeight * Math.Abs(minUnitOffsetY) / unitOffsetHeight;
 
             // assuming the render area is to be centered, determine where the "center" fits on the window area
-            centerX = renderCenterX - renderWidth / 2 + totalWidth / 2;
-            centerY = renderCenterY - renderHeight / 2 + totalHeight / 2;
+            centerX = (totalWidth - renderWidth) * 0.5 + renderCenterX;
+            centerY = (totalHeight - renderHeight) * 0.5 + renderCenterY;
 
-            // determine how much to scale up the distances based on the unit endpoints not filling a full [-1, 1] range
-            var scale = Math.Max(unitOffsetWidth, unitOffsetHeight) / 2;
-            if (scale == 0)
-                scale = 1;
+            // determine the distance from this center that endpoints should be placed, so they touch the edges of the render area.
+            distanceFromCenter = DetermineDistanceFromCenter
+            (
+                renderWidth - endpointWidth,
+                renderHeight - endpointHeight,
+                renderCenterX - endpointWidth * 0.5,
+                renderCenterY - endpointHeight * 0.5,
+                unitEndpointOffsets.First()
+            );
+        }
 
-            // determine how far from the "center" endpoints should be placed
-            var maxDistanceX = totalWidth * 0.5 - endpointWidth * 0.5 - edgePadding;
-            var maxDistanceY = totalHeight * 0.5 - endpointHeight * 0.5 - edgePadding;
+        private static double DetermineDistanceFromCenter(double boundsWidth, double boundsHeight, double startX, double startY, Point unitOffset)
+        {
+            // take the line from the center represented by this unit, find where it intersects each bounding line of the render area, go with the shortest distance.
+            if (unitOffset.X > -0.0001 && unitOffset.X < 0.0001)
+            {
+                return unitOffset.Y > 0
+                    ? boundsHeight - startY
+                    : startY;
+            }
+            else if (unitOffset.Y > -0.0001 && unitOffset.Y < 0.0001)
+            {
+                return unitOffset.X > 0
+                    ? boundsWidth - startX
+                    : startX;
+            }
+            else
+            {
+                var gradient = unitOffset.Y / unitOffset.X;
+                double maxDistance;
 
-            distanceFromCenter = Math.Min(maxDistanceX, maxDistanceY) / scale;
+                // only consider an edge line if we're pointing toward it
+                if (unitOffset.X > 0)
+                    maxDistance = GetDistanceToLine(startX, startY, gradient, boundsWidth, true);
+                else
+                    maxDistance = GetDistanceToLine(startX, startY, gradient, 0, true);
+
+                if (unitOffset.Y > 0)
+                    maxDistance = Math.Min(maxDistance, GetDistanceToLine(startX, startY, gradient, boundsHeight, false));
+                else
+                    maxDistance = Math.Min(maxDistance, GetDistanceToLine(startX, startY, gradient, 0, false));
+
+                return maxDistance;
+            }
+        }
+
+        private static double GetDistanceToLine(double startX, double startY, double gradient, double lineValue, bool isVertical)
+        {
+            // y = mx + c, aka
+            // startY = gradient * startX + c
+            var c = startY - gradient * startX;
+
+            double dx, dy;
+
+            if (isVertical)
+            {
+                // intersectY = gradient * lineValue + c
+                var intersectY = gradient * lineValue + c;
+
+                dx = startX - lineValue;
+                dy = startY - intersectY;
+            }
+            else
+            {
+                // lineValue = gradient * intersectX + c
+                var intersectX = (lineValue - c) / gradient;
+
+                dx = startX - intersectX;
+                dy = startY - lineValue;
+            }
+
+            return Math.Sqrt(dx * dx + dy * dy);
         }
 
         private void PositionMappings()
