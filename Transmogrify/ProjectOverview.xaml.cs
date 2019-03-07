@@ -299,8 +299,8 @@ namespace Transmogrify
 
             var group = new TransformGroup();
 
-            group.Children.Add(new RotateTransform(angle, 0, ProjectMapping.BaseHeight / 2));
-            group.Children.Add(new TranslateTransform(minX, minY - ProjectMapping.BaseHeight / 2));
+            group.Children.Add(new RotateTransform(angle, 0, mappingDisplay.Height / 2));
+            group.Children.Add(new TranslateTransform(minX, minY - mappingDisplay.Height / 2));
 
             mappingDisplay.RenderTransform = group;
         }

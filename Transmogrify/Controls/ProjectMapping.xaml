@@ -7,8 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="150">
     <Grid>
-        <Line X1="0" X2="150" Y1="15" Y2="15" Stroke="Black" StrokeThickness="3" Stretch="Fill" />
-        <Label Height="30" Content="{Binding Path=Text}" Background="White"
+        <Polyline x:Name="line" Points="0,15 150,15" Stroke="Black" StrokeThickness="3" Stretch="Fill" />
+        <Label x:Name="label" Height="30" Content="{Binding Path=Text}" Background="White"
                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Grid>
