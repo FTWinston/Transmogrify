@@ -293,14 +293,12 @@ namespace Transmogrify
             var midX = minX + dx / 2;
             var midY = minY + dy / 2;
 
-            var length = Math.Sqrt(dx * dx + dy * dy);
-            var scale = length / ProjectMapping.BaseLength;
+            mappingDisplay.Width = Math.Sqrt(dx * dx + dy * dy);
 
             var angle = Math.Atan(dy / dx) * 180.0 / Math.PI;
 
             var group = new TransformGroup();
 
-            group.Children.Add(new ScaleTransform(scale, 1));
             group.Children.Add(new RotateTransform(angle, 0, ProjectMapping.BaseHeight / 2));
             group.Children.Add(new TranslateTransform(minX, minY - ProjectMapping.BaseHeight / 2));
 
