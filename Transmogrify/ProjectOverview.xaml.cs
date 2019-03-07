@@ -301,8 +301,8 @@ namespace Transmogrify
             var group = new TransformGroup();
 
             group.Children.Add(new ScaleTransform(scale, 1));
+            group.Children.Add(new RotateTransform(angle, 0, ProjectMapping.BaseHeight / 2));
             group.Children.Add(new TranslateTransform(minX, minY - ProjectMapping.BaseHeight / 2));
-            group.Children.Add(new RotateTransform(angle, midX * scale, midY));
 
             mappingDisplay.RenderTransform = group;
         }
