@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -18,24 +19,30 @@ namespace Transmogrify.Controls
 
         public string Text { get; set; }
 
-        public static double BaseHeight => 30.0;
+        public static double BaseHeight => 18;
 
-        private bool? curveDownward;
-        public bool? CurveDownward
+        private int curve;
+        public int Curve
         {
-            get { return curveDownward; }
+            get { return curve; }
             set
             {
-                curveDownward = value;
+                curve = value;
 
-                if (curveDownward.HasValue)
+                if (curve == 0)
                 {
-                    label.VerticalContentAlignment = curveDownward.Value
-                        ? VerticalAlignment.Top
-                        : VerticalAlignment.Bottom;
+                    label.VerticalAlignment = VerticalAlignment.Center;
+
+                    Height = BaseHeight;
                 }
                 else
-                    label.VerticalContentAlignment = VerticalAlignment.Center;
+                {
+                    label.VerticalAlignment = curve > 0
+                        ? VerticalAlignment.Bottom
+                        : VerticalAlignment.Top;
+
+                    Height = BaseHeight * (Math.Abs(curve) + 1);
+                }
             }
         }
 
@@ -45,22 +52,19 @@ namespace Transmogrify.Controls
 
             double endY, midY;
 
-            if (curveDownward.HasValue)
+            if (curve == 0)
             {
-                if (curveDownward.Value)
-                {
-                    endY = BaseHeight / 2;
-                    midY = Height - endY;
-                }
-                else
-                {
-                    midY = BaseHeight / 2;
-                    endY = Height - midY;
-                }
+                endY = midY = Height / 2;
+            }
+            else if (curve > 0)
+            {
+                endY = BaseHeight / 2;
+                midY = Height - endY;
             }
             else
             {
-                endY = midY = Height / 2;
+                midY = BaseHeight / 2;
+                endY = Height - midY;
             }
 
             line.Points.Clear();
