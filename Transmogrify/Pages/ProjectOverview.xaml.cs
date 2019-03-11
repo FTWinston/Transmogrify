@@ -11,9 +11,6 @@ using Transmogrify.Services;
 
 namespace Transmogrify.Pages
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class ProjectOverview : Page
     {
         public ProjectOverview()
@@ -27,35 +24,8 @@ namespace Transmogrify.Pages
         {
             base.OnInitialized(e);
 
-            ProjectService.AddEndPoint(new PlainTextEndPoint("Source 1"));
-            ProjectService.AddEndPoint(new PlainTextEndPoint("Destination 1"));
-            ProjectService.AddEndPoint(new PlainTextEndPoint("Destination 2"));
-
-            {
-                Mapping mapping = new Mapping();
-                mapping.Name = "Mapping 1";
-                var sourceCollection = ProjectService.EndPoints[0].PopulateCollections(mapping).First();
-                var destCollection = ProjectService.EndPoints[1].PopulateCollections(mapping).First();
-                mapping.Source = sourceCollection;
-                mapping.Destination = destCollection;
-
-                mapping.Outputs.Add(new MappingOutput(sourceCollection.Fields.First(), destCollection.Fields.First().Field));
-
-                ProjectService.AddMapping(mapping);
-            }
-
-            {
-                Mapping mapping = new Mapping();
-                mapping.Name = "Mapping 2";
-                var sourceCollection = ProjectService.EndPoints[0].PopulateCollections(mapping).First();
-                var destCollection = ProjectService.EndPoints[2].PopulateCollections(mapping).First();
-                mapping.Source = sourceCollection;
-                mapping.Destination = destCollection;
-
-                mapping.Outputs.Add(new MappingOutput(sourceCollection.Fields.First(), destCollection.Fields.First().Field));
-
-                ProjectService.AddMapping(mapping);
-            }
+            if (!ProjectService.EndPoints.Any())
+                AddDummyProject();
 
             foreach (var mapping in ProjectService.Mappings)
             {
@@ -86,6 +56,39 @@ namespace Transmogrify.Pages
 
                 EndpointDisplays.Add(endpointDisplay);
                 projectCanvas.Children.Add(endpointDisplay);
+            }
+        }
+
+        private void AddDummyProject()
+        {
+            ProjectService.AddEndPoint(new PlainTextEndPoint("Source 1"));
+            ProjectService.AddEndPoint(new PlainTextEndPoint("Destination 1"));
+            ProjectService.AddEndPoint(new PlainTextEndPoint("Destination 2"));
+
+            {
+                Mapping mapping = new Mapping();
+                mapping.Name = "Mapping 1";
+                var sourceCollection = ProjectService.EndPoints[0].PopulateCollections(mapping).First();
+                var destCollection = ProjectService.EndPoints[1].PopulateCollections(mapping).First();
+                mapping.Source = sourceCollection;
+                mapping.Destination = destCollection;
+
+                mapping.Outputs.Add(new MappingOutput(sourceCollection.Fields.First(), destCollection.Fields.First().Field));
+
+                ProjectService.AddMapping(mapping);
+            }
+
+            {
+                Mapping mapping = new Mapping();
+                mapping.Name = "Mapping 2";
+                var sourceCollection = ProjectService.EndPoints[0].PopulateCollections(mapping).First();
+                var destCollection = ProjectService.EndPoints[2].PopulateCollections(mapping).First();
+                mapping.Source = sourceCollection;
+                mapping.Destination = destCollection;
+
+                mapping.Outputs.Add(new MappingOutput(sourceCollection.Fields.First(), destCollection.Fields.First().Field));
+
+                ProjectService.AddMapping(mapping);
             }
         }
 
@@ -309,12 +312,14 @@ namespace Transmogrify.Pages
 
         private void SelectEndpoint(DataEndPoint endpoint)
         {
-
+            var editor = new EndpointEditor(endpoint);
+            NavigationService.Navigate(editor);
         }
 
         private void SelectMapping(Mapping mapping)
         {
-
+            var editor = new MappingEditor(mapping);
+            NavigationService.Navigate(editor);
         }
 
         private void ButtonExit_Click(object sender, RoutedEventArgs e)

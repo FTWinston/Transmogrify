@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pages\EndpointEditor.xaml" />
+    <None Remove="Pages\MappingEditor.xaml" />
     <None Remove="Pages\ProjectOverview.xaml" />
     <None Remove="Pages\ProjectOverviewControls\ProjectEndpoint.xaml" />
     <None Remove="Pages\ProjectOverviewControls\ProjectMapping.xaml" />
@@ -22,6 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Pages\EndpointEditor.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\MappingEditor.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Pages\ProjectOverviewControls\ProjectEndpoint.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -31,6 +39,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Pages\EndpointEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\MappingEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Pages\ProjectOverviewControls\ProjectEndpoint.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
