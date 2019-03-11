@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Controls\ProjectEndpoint.xaml" />
-    <None Remove="Controls\ProjectMapping.xaml" />
-    <None Remove="ProjectOverview.xaml" />
+    <None Remove="Pages\ProjectOverview.xaml" />
+    <None Remove="Pages\ProjectOverviewControls\ProjectEndpoint.xaml" />
+    <None Remove="Pages\ProjectOverviewControls\ProjectMapping.xaml" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.1" />
   </ItemGroup>
@@ -22,22 +22,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\ProjectEndpoint.xaml.cs">
+    <Compile Update="Pages\ProjectOverviewControls\ProjectEndpoint.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\ProjectMapping.xaml.cs">
+    <Compile Update="Pages\ProjectOverviewControls\ProjectMapping.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Controls\ProjectEndpoint.xaml">
+    <Page Update="Pages\ProjectOverviewControls\ProjectEndpoint.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Controls\ProjectMapping.xaml">
+    <Page Update="Pages\ProjectOverviewControls\ProjectMapping.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="ProjectOverview.xaml">
+    <Page Update="Pages\ProjectOverview.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

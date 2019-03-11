@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Transmogrify"
         Height="450" Width="800"
-        Source="ProjectOverview.xaml"
+        Source="Pages/ProjectOverview.xaml"
         ShowsNavigationUI="False"
 >
 </NavigationWindow>

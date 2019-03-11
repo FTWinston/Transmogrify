@@ -4,12 +4,12 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Transmogrify.Controls;
 using Transmogrify.Data;
 using Transmogrify.Data.EndPoints;
+using Transmogrify.Pages.ProjectOverviewControls;
 using Transmogrify.Services;
 
-namespace Transmogrify
+namespace Transmogrify.Pages
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
