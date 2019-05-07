@@ -15,24 +15,24 @@
             
             <RibbonTab Header="Project tab">
                 <RibbonGroup Header="Project">
-                    <Button Content="New" />
-                    <Button Content="Open" />
-                    <Button Content="Save" />
-                    <Button Content="Exit" Click="ButtonExit_Click" />
+                    <RibbonButton Label="New" KeyTip="N" />
+                    <RibbonButton Label="Open" KeyTip="O" />
+                    <RibbonButton Label="Save" KeyTip="S" />
+                    <RibbonButton Label="Exit" Click="ButtonExit_Click" />
                 </RibbonGroup>
                 <RibbonGroup Header="Misc">
-                    <Button Content="External libraries" />
-                    <Button Content="Run project" />
+                    <RibbonButton Label="External libraries" KeyTip="L" />
+                    <RibbonButton Label="Run project" KeyTip="R" />
                 </RibbonGroup>
                 <RibbonGroup Header="Endpoints">
-                    <Button Content="Add" />
-                    <Button Content="Edit" />
-                    <Button Content="Delete"/>
+                    <RibbonButton Label="Add" KeyTip="A" />
+                    <RibbonButton Label="Edit" />
+                    <RibbonButton Label="Delete" />
                 </RibbonGroup>
                 <RibbonGroup Header="Mappings">
-                    <Button Content="Add" />
-                    <Button Content="Edit" />
-                    <Button Content="Delete "/>
+                    <RibbonButton Label="Add" KeyTip="M" />
+                    <RibbonButton Label="Edit" />
+                    <RibbonButton Label="Delete "/>
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>
