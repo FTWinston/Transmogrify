@@ -25,12 +25,8 @@
                     <RibbonButton Label="Run project" KeyTip="R" />
                 </RibbonGroup>
                 <RibbonGroup Header="Endpoints" x:Name="addEndpointGroup">
-                    <RibbonMenuButton Label="Add endpoint" KeyTip="A">
-                        <RibbonGallery
-                            SelectedValuePath="Content"
-                            MaxColumnCount="1">
-                            <RibbonGalleryCategory x:Name="endpointListItems" />
-                        </RibbonGallery>
+                    <RibbonMenuButton Label="Add endpoint" KeyTip="E" x:Name="endpointListItems">
+                        
                     </RibbonMenuButton>
                     <RibbonButton Label="Edit" />
                     <RibbonButton Label="Delete" />

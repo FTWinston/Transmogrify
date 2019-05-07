@@ -48,20 +48,25 @@ namespace Transmogrify.Pages
 
             foreach (var endpoint in ProjectService.EndPoints)
             {
-                var color = Color.FromArgb(endpoint.Color.A, endpoint.Color.R, endpoint.Color.G, endpoint.Color.B);
-
-                var endpointDisplay = new ProjectEndpoint
-                {
-                    Fill = new SolidColorBrush(color),
-                    Text = endpoint.Name,
-                    Tag = endpoint,
-                };
-
-                endpointDisplay.MouseUp += (o, e) => SelectEndpoint(endpoint);
-
-                EndpointDisplays.Add(endpointDisplay);
-                projectCanvas.Children.Add(endpointDisplay);
+                AddEndPointToCanvas(endpoint);
             }
+        }
+
+        private void AddEndPointToCanvas(DataEndPoint endpoint)
+        {
+            var color = Color.FromRgb(endpoint.Color.R, endpoint.Color.G, endpoint.Color.B);
+
+            var endpointDisplay = new ProjectEndpoint
+            {
+                Fill = new SolidColorBrush(color),
+                Text = endpoint.Name,
+                Tag = endpoint,
+            };
+
+            endpointDisplay.MouseUp += (o, e) => SelectEndpoint(endpoint);
+
+            EndpointDisplays.Add(endpointDisplay);
+            projectCanvas.Children.Add(endpointDisplay);
         }
 
         private void AddEndPointTypesToMenu()
@@ -74,19 +79,33 @@ namespace Transmogrify.Pages
             {
                 var tmpInstance = CreateEndPoint(endpointType, "tmp");
 
-                RibbonGalleryItem item = new RibbonGalleryItem()
+                RibbonButton menuItem = new RibbonButton()
                 {
-                    Content = endpointType.Name.Replace("EndPoint", " endpoint"), // TODO: need a better way of getting a name. An attribute, maybe?
-                    Foreground = new SolidColorBrush(Color.FromRgb(tmpInstance.Color.R, tmpInstance.Color.G, tmpInstance.Color.B)) // TODO: do they have to use System.Drawing.Color?
+                    Label = endpointType.Name.Replace("EndPoint", " endpoint"), // TODO: need a better way of getting a name. An attribute, maybe?
+                    Background = new SolidColorBrush(Color.FromRgb(tmpInstance.Color.R, tmpInstance.Color.G, tmpInstance.Color.B)),
                 };
 
-                endpointListItems.Items.Add(item);
+                menuItem.Click += (o, e) => AddEndPoint(endpointType);
+
+                endpointListItems.Items.Add(menuItem);
             }
         }
 
         private DataEndPoint CreateEndPoint(Type type, string name)
         {
             return Activator.CreateInstance(type, new[] { name }) as DataEndPoint;
+        }
+
+        private void AddEndPoint(Type type)
+        {
+            var endpoint = CreateEndPoint(type, "New endpoint");
+
+            ProjectService.AddEndPoint(endpoint);
+
+            AddEndPointToCanvas(endpoint);
+
+            PositionEndpoints(projectCanvas.ActualWidth, projectCanvas.ActualHeight);
+            PositionMappings();
         }
 
         private void AddDummyProject()
