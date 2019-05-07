@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+      xmlns:projectoverviewcontrols="clr-namespace:Transmogrify.Pages.ProjectOverviewControls"
+      mc:Ignorable="d"
     Title="Transmogrify - Project"
     d:DesignHeight="450" d:DesignWidth="800"
 >
@@ -39,6 +40,6 @@
             </RibbonTab>
         </Ribbon>
 
-        <Canvas x:Name="projectCanvas" SizeChanged="ProjectCanvas_SizeChanged" />
+        <projectoverviewcontrols:ProjectCanvas x:Name="projectCanvas" />
     </DockPanel>
 </Page>
