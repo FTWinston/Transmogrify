@@ -13,6 +13,10 @@ namespace Transmogrify
             base.OnStartup(e);
 
             ServiceContainer.Build();
+
+            ServiceContainer
+                .Resolve<LibraryService>()
+                .LoadLibraryAssemblies();
         }
     }
 }

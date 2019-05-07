@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Transmogrify.Data\Transmogrify.Data.csproj" />
     <ProjectReference Include="..\Transmogrify.Engine\Transmogrify.Engine.csproj" />
+    <ProjectReference Include="..\Transmogrify.Operations\Transmogrify.Operations.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,6 +14,10 @@ namespace Transmogrify
                 .RegisterType<ProjectService>()
                 .SingleInstance();
 
+            builder
+                .RegisterType<LibraryService>()
+                .SingleInstance();
+
             Container = builder.Build();
         }
 

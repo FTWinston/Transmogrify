@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Transmogrify.Data
 {
@@ -14,41 +12,21 @@ namespace Transmogrify.Data
             get
             {
                 var endPointAssemblies = EndPoints
-                    .Select(ep => ep.GetType().Assembly)
-                    .Distinct();
+                    .Select(ep => ep.GetType().Assembly);
 
                 var operationAssemblies = Mappings
                     .SelectMany(m => m.Operations)
-                    .Select(mo => mo.Method.DeclaringType.Assembly)
-                    .Distinct();
+                    .Select(mo => mo.Method.DeclaringType.Assembly);
 
                 return endPointAssemblies
                     .Union(operationAssemblies)
+                    .Distinct()
                     .Select(a => a.FullName)
                     .ToArray();
             }
             set
             {
-                var alreadyLoaded = new HashSet<string>(AppDomain.CurrentDomain.GetAssemblies().Select(a => a.FullName));
-
-                foreach (var strAssemblyName in value)
-                {
-                    if (alreadyLoaded.Contains(strAssemblyName))
-                        continue;
-
-                    var assemblyName = new AssemblyName(strAssemblyName);
-
-                    var assemblyPath = $"{assemblyName.Name}.dll";
-
-                    var assembly = Assembly.LoadFrom(assemblyPath);
-
-                    if (assembly.FullName != strAssemblyName)
-                    {
-                        Console.WriteLine($"Warning, loaded unexpected version of {assemblyName.Name}");
-                        Console.WriteLine($"Specified in project: {strAssemblyName}");
-                        Console.WriteLine($"In local directory:   {assembly.FullName}");
-                    }
-                }
+                AssemblyLoader.LoadAssemblies(value);
             }
         }
 

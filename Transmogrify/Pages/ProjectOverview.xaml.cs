@@ -21,6 +21,8 @@ namespace Transmogrify.Pages
 
         ProjectService ProjectService { get; } = ServiceContainer.Resolve<ProjectService>();
 
+        LibraryService LibraryService { get; } = ServiceContainer.Resolve<LibraryService>();
+
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -66,23 +68,25 @@ namespace Transmogrify.Pages
         {
             endpointListItems.Items.Clear();
 
-            // TODO: are we just calling this too early or do we need to do something to load the assemblies we care about?
-            // Perhaps a good config setting would be Assemblies to Load on Startup
-
-            var endpointTypes = FunctionalityService.GetAvailableEndpointTypes();
+            var endpointTypes = LibraryService.GetAvailableEndpointTypes();
 
             foreach (var endpointType in endpointTypes)
             {
+                var tmpInstance = CreateEndPoint(endpointType, "tmp");
+
                 RibbonGalleryItem item = new RibbonGalleryItem()
                 {
-                    Content = endpointType.Name,
-                    Foreground = new SolidColorBrush(Colors.Green)
+                    Content = endpointType.Name.Replace("EndPoint", " endpoint"), // TODO: need a better way of getting a name. An attribute, maybe?
+                    Foreground = new SolidColorBrush(Color.FromRgb(tmpInstance.Color.R, tmpInstance.Color.G, tmpInstance.Color.B)) // TODO: do they have to use System.Drawing.Color?
                 };
-
-                // TODO: create instance and get name and color from that
 
                 endpointListItems.Items.Add(item);
             }
+        }
+
+        private DataEndPoint CreateEndPoint(Type type, string name)
+        {
+            return Activator.CreateInstance(type, new[] { name }) as DataEndPoint;
         }
 
         private void AddDummyProject()
