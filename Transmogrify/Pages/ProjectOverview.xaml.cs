@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Ribbon;
 using System.Windows.Media;
 using Transmogrify.Data;
 using Transmogrify.Data.EndPoints;
@@ -23,6 +24,8 @@ namespace Transmogrify.Pages
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
+
+            AddEndPointTypesToMenu();
 
             if (!ProjectService.EndPoints.Any())
                 AddDummyProject();
@@ -56,6 +59,29 @@ namespace Transmogrify.Pages
 
                 EndpointDisplays.Add(endpointDisplay);
                 projectCanvas.Children.Add(endpointDisplay);
+            }
+        }
+
+        private void AddEndPointTypesToMenu()
+        {
+            endpointListItems.Items.Clear();
+
+            // TODO: are we just calling this too early or do we need to do something to load the assemblies we care about?
+            // Perhaps a good config setting would be Assemblies to Load on Startup
+
+            var endpointTypes = FunctionalityService.GetAvailableEndpointTypes();
+
+            foreach (var endpointType in endpointTypes)
+            {
+                RibbonGalleryItem item = new RibbonGalleryItem()
+                {
+                    Content = endpointType.Name,
+                    Foreground = new SolidColorBrush(Colors.Green)
+                };
+
+                // TODO: create instance and get name and color from that
+
+                endpointListItems.Items.Add(item);
             }
         }
 

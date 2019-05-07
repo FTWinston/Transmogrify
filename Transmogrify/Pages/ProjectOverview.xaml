@@ -24,12 +24,18 @@
                     <RibbonButton Label="External libraries" KeyTip="L" />
                     <RibbonButton Label="Run project" KeyTip="R" />
                 </RibbonGroup>
-                <RibbonGroup Header="Endpoints">
-                    <RibbonButton Label="Add" KeyTip="A" />
+                <RibbonGroup Header="Endpoints" x:Name="addEndpointGroup">
+                    <RibbonMenuButton Label="Add endpoint" KeyTip="A">
+                        <RibbonGallery
+                            SelectedValuePath="Content"
+                            MaxColumnCount="1">
+                            <RibbonGalleryCategory x:Name="endpointListItems" />
+                        </RibbonGallery>
+                    </RibbonMenuButton>
                     <RibbonButton Label="Edit" />
                     <RibbonButton Label="Delete" />
                 </RibbonGroup>
-                <RibbonGroup Header="Mappings">
+                <RibbonGroup Header="Add Mappings">
                     <RibbonButton Label="Add" KeyTip="M" />
                     <RibbonButton Label="Edit" />
                     <RibbonButton Label="Delete "/>
