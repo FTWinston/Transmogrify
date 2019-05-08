@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Ribbon;
-using System.Windows.Media;
 using Transmogrify.Data;
 using Transmogrify.Data.EndPoints;
 using Transmogrify.Services;
@@ -12,65 +10,26 @@ namespace Transmogrify.Pages
 {
     public partial class ProjectOverview : Page
     {
+        ProjectService ProjectService { get; } = ServiceContainer.Resolve<ProjectService>();
+
         public ProjectOverview()
         {
             InitializeComponent();
         }
 
-        ProjectService ProjectService { get; } = ServiceContainer.Resolve<ProjectService>();
-
-        LibraryService LibraryService { get; } = ServiceContainer.Resolve<LibraryService>();
-
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
 
-            AddEndPointTypesToMenu();
-
             if (!ProjectService.EndPoints.Any())
                 AddDummyProject();
 
-            foreach (var mapping in ProjectService.Mappings)
-            {
-                projectCanvas.AddMapping(mapping);
-            }
-
-            foreach (var endpoint in ProjectService.EndPoints)
-            {
-                projectCanvas.AddEndPoint(endpoint);
-            }
-        }
-
-        private void AddEndPointTypesToMenu()
-        {
-            endpointListItems.Items.Clear();
-
-            var endpointTypes = LibraryService.GetAvailableEndpointTypes();
-
-            foreach (var endpointType in endpointTypes)
-            {
-                var tmpInstance = CreateEndPoint(endpointType, "tmp");
-
-                RibbonButton menuItem = new RibbonButton()
-                {
-                    Label = tmpInstance.TypeName + " endpoint",
-                    Background = new SolidColorBrush(Color.FromRgb(tmpInstance.Color.R, tmpInstance.Color.G, tmpInstance.Color.B)),
-                };
-
-                menuItem.Click += (o, e) => CreateAndAddEndPoint(endpointType);
-
-                endpointListItems.Items.Add(menuItem);
-            }
-        }
-
-        private DataEndPoint CreateEndPoint(Type type, string name)
-        {
-            return Activator.CreateInstance(type, new[] { name }) as DataEndPoint;
+            projectCanvas.AddProjectElements();
         }
 
         private void CreateAndAddEndPoint(Type type)
         {
-            var endpoint = CreateEndPoint(type, "New endpoint");
+            var endpoint = ProjectService.CreateEndPoint(type, "New endpoint");
 
             ProjectService.AddEndPoint(endpoint);
             projectCanvas.AddEndPoint(endpoint);
@@ -111,9 +70,9 @@ namespace Transmogrify.Pages
             }
         }
 
-        private void ButtonExit_Click(object sender, RoutedEventArgs e)
+        private void OverviewRibbon_EndpointCreating(object sender, Type endpointType)
         {
-            Application.Current.Shutdown();
+            CreateAndAddEndPoint(endpointType);
         }
 
         private void ProjectCanvas_MappingSelected(object sender, Mapping mapping)

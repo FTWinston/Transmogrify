@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Transmogrify.Data;
+using Transmogrify.Services;
 
 namespace Transmogrify.Pages.ProjectOverviewControls
 {
@@ -13,17 +14,20 @@ namespace Transmogrify.Pages.ProjectOverviewControls
     /// </summary>
     public partial class ProjectCanvas : UserControl
     {
-        public ProjectCanvas()
-        {
-            InitializeComponent();
-        }
+        ProjectService ProjectService { get; } = ServiceContainer.Resolve<ProjectService>();
 
         public event EventHandler<DataEndPoint> EndpointSelected;
 
         public event EventHandler<Mapping> MappingSelected;
 
         private List<ProjectEndpoint> EndpointDisplays { get; } = new List<ProjectEndpoint>();
+
         private List<ProjectMapping> MappingDisplays { get; } = new List<ProjectMapping>();
+
+        public ProjectCanvas()
+        {
+            InitializeComponent();
+        }
 
         public void AddEndPoint(DataEndPoint endpoint)
         {
@@ -54,6 +58,22 @@ namespace Transmogrify.Pages.ProjectOverviewControls
 
             MappingDisplays.Add(mappingDisplay);
             canvas.Children.Add(mappingDisplay);
+        }
+
+        public void Clear()
+        {
+            MappingDisplays.Clear();
+            EndpointDisplays.Clear();
+            canvas.Children.Clear();
+        }
+
+        public void AddProjectElements()
+        {
+            foreach (var mapping in ProjectService.Mappings)
+                AddMapping(mapping);
+
+            foreach (var endpoint in ProjectService.EndPoints)
+                AddEndPoint(endpoint);
         }
 
         #region positioning
@@ -270,6 +290,5 @@ namespace Transmogrify.Pages.ProjectOverviewControls
         }
 
         #endregion positioning
-
     }
 }

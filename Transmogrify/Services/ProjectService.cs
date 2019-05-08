@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Transmogrify.Data;
 using Transmogrify.Data.Serialization;
 
@@ -57,6 +58,11 @@ namespace Transmogrify.Services
             }
 
             return true;
+        }
+
+        public DataEndPoint CreateEndPoint(Type type, string name)
+        {
+            return Activator.CreateInstance(type, new[] { name }) as DataEndPoint;
         }
 
         public DataEndPoint[] EndPoints => CurrentProject?.EndPoints.ToArray();

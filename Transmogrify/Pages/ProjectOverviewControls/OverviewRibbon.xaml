@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Transmogrify.Pages.ProjectOverviewControls.OverviewRibbon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignWidth="200" d:DesignHeight="75">
+    <Ribbon>
+        <Ribbon.ApplicationMenu>
+            <RibbonApplicationMenu Visibility="Collapsed"/>
+        </Ribbon.ApplicationMenu>
+
+        <RibbonTab Header="Project tab">
+            <RibbonGroup Header="Project">
+                <RibbonButton Label="New" KeyTip="N" />
+                <RibbonButton Label="Open" KeyTip="O" />
+                <RibbonButton Label="Save" KeyTip="S" />
+                <RibbonButton Label="Exit" Click="ButtonExit_Click" />
+            </RibbonGroup>
+            <RibbonGroup Header="Misc">
+                <RibbonButton Label="External libraries" KeyTip="L" />
+                <RibbonButton Label="Run project" KeyTip="R" />
+            </RibbonGroup>
+            <RibbonGroup Header="Endpoints" x:Name="addEndpointGroup">
+                <RibbonMenuButton Label="Add endpoint" KeyTip="E" x:Name="endpointListItems">
+
+                </RibbonMenuButton>
+                <RibbonButton Label="Edit" />
+                <RibbonButton Label="Delete" />
+            </RibbonGroup>
+            <RibbonGroup Header="Add Mappings">
+                <RibbonButton Label="Add" KeyTip="M" />
+                <RibbonButton Label="Edit" />
+                <RibbonButton Label="Delete "/>
+            </RibbonGroup>
+        </RibbonTab>
+    </Ribbon>
+</UserControl>

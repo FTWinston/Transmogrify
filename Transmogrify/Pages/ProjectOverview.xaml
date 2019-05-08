@@ -9,36 +9,10 @@
     d:DesignHeight="450" d:DesignWidth="800"
 >
     <DockPanel>
-        <Ribbon DockPanel.Dock="Top">
-            <Ribbon.ApplicationMenu>
-                <RibbonApplicationMenu Visibility="Collapsed"/>
-            </Ribbon.ApplicationMenu>
-            
-            <RibbonTab Header="Project tab">
-                <RibbonGroup Header="Project">
-                    <RibbonButton Label="New" KeyTip="N" />
-                    <RibbonButton Label="Open" KeyTip="O" />
-                    <RibbonButton Label="Save" KeyTip="S" />
-                    <RibbonButton Label="Exit" Click="ButtonExit_Click" />
-                </RibbonGroup>
-                <RibbonGroup Header="Misc">
-                    <RibbonButton Label="External libraries" KeyTip="L" />
-                    <RibbonButton Label="Run project" KeyTip="R" />
-                </RibbonGroup>
-                <RibbonGroup Header="Endpoints" x:Name="addEndpointGroup">
-                    <RibbonMenuButton Label="Add endpoint" KeyTip="E" x:Name="endpointListItems">
-                        
-                    </RibbonMenuButton>
-                    <RibbonButton Label="Edit" />
-                    <RibbonButton Label="Delete" />
-                </RibbonGroup>
-                <RibbonGroup Header="Add Mappings">
-                    <RibbonButton Label="Add" KeyTip="M" />
-                    <RibbonButton Label="Edit" />
-                    <RibbonButton Label="Delete "/>
-                </RibbonGroup>
-            </RibbonTab>
-        </Ribbon>
+        <projectoverviewcontrols:OverviewRibbon
+            DockPanel.Dock="Top"
+            EndpointCreating="OverviewRibbon_EndpointCreating"
+        />
 
         <projectoverviewcontrols:ProjectCanvas
             x:Name="projectCanvas"

@@ -10,6 +10,7 @@
     <None Remove="Pages\EndpointEditor.xaml" />
     <None Remove="Pages\MappingEditor.xaml" />
     <None Remove="Pages\ProjectOverview.xaml" />
+    <None Remove="Pages\ProjectOverviewControls\OverviewRibbon.xaml" />
     <None Remove="Pages\ProjectOverviewControls\ProjectCanvas.xaml" />
     <None Remove="Pages\ProjectOverviewControls\ProjectEndpoint.xaml" />
     <None Remove="Pages\ProjectOverviewControls\ProjectMapping.xaml" />
@@ -32,6 +33,9 @@
     <Compile Update="Pages\MappingEditor.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Pages\ProjectOverviewControls\OverviewRibbon.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Pages\ProjectOverviewControls\ProjectEndpoint.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -49,6 +53,9 @@
     </Page>
     <Page Update="Pages\MappingEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\ProjectOverviewControls\OverviewRibbon.xaml">
+      <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\ProjectOverviewControls\ProjectEndpoint.xaml">
       <Generator>MSBuild:Compile</Generator>
