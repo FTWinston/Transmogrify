@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,7 +6,6 @@ using System.Windows.Controls.Ribbon;
 using System.Windows.Media;
 using Transmogrify.Data;
 using Transmogrify.Data.EndPoints;
-using Transmogrify.Pages.ProjectOverviewControls;
 using Transmogrify.Services;
 
 namespace Transmogrify.Pages
@@ -113,21 +111,21 @@ namespace Transmogrify.Pages
             }
         }
 
-        private void SelectEndpoint(DataEndPoint endpoint)
+        private void ButtonExit_Click(object sender, RoutedEventArgs e)
         {
-            var editor = new EndpointEditor(endpoint);
-            NavigationService.Navigate(editor);
+            Application.Current.Shutdown();
         }
 
-        private void SelectMapping(Mapping mapping)
+        private void ProjectCanvas_MappingSelected(object sender, Mapping mapping)
         {
             var editor = new MappingEditor(mapping);
             NavigationService.Navigate(editor);
         }
 
-        private void ButtonExit_Click(object sender, RoutedEventArgs e)
+        private void ProjectCanvas_EndpointSelected(object sender, DataEndPoint endpoint)
         {
-            Application.Current.Shutdown();
+            var editor = new EndpointEditor(endpoint);
+            NavigationService.Navigate(editor);
         }
     }
 }

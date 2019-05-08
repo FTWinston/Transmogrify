@@ -18,6 +18,10 @@ namespace Transmogrify.Pages.ProjectOverviewControls
             InitializeComponent();
         }
 
+        public event EventHandler<DataEndPoint> EndpointSelected;
+
+        public event EventHandler<Mapping> MappingSelected;
+
         private List<ProjectEndpoint> EndpointDisplays { get; } = new List<ProjectEndpoint>();
         private List<ProjectMapping> MappingDisplays { get; } = new List<ProjectMapping>();
 
@@ -32,8 +36,7 @@ namespace Transmogrify.Pages.ProjectOverviewControls
                 Tag = endpoint,
             };
 
-            // TODO: get this going again
-            // endpointDisplay.MouseUp += (o, e) => SelectEndpoint(endpoint);
+            endpointDisplay.MouseUp += (o, e) => EndpointSelected(this, endpoint);
 
             EndpointDisplays.Add(endpointDisplay);
             canvas.Children.Add(endpointDisplay);
@@ -47,15 +50,14 @@ namespace Transmogrify.Pages.ProjectOverviewControls
                 Tag = mapping,
             };
 
-            // TODO: get this going again
-            // mappingDisplay.MouseUp += (o, e) => SelectMapping(mapping);
+            mappingDisplay.MouseUp += (o, e) => MappingSelected(this, mapping);
 
             MappingDisplays.Add(mappingDisplay);
             canvas.Children.Add(mappingDisplay);
         }
 
         #region positioning
-        private void canvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Reposition(canvas.ActualWidth, canvas.ActualHeight);
         }

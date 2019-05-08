@@ -40,6 +40,10 @@
             </RibbonTab>
         </Ribbon>
 
-        <projectoverviewcontrols:ProjectCanvas x:Name="projectCanvas" />
+        <projectoverviewcontrols:ProjectCanvas
+            x:Name="projectCanvas"
+            EndpointSelected="ProjectCanvas_EndpointSelected"
+            MappingSelected="ProjectCanvas_MappingSelected"
+        />
     </DockPanel>
 </Page>
