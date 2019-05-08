@@ -15,6 +15,8 @@ namespace Transmogrify.Data.EndPoints
 
         }
 
+        public override string TypeName => "CSV";
+
         public override Color Color => Color.GreenYellow;
 
         public override IEnumerable<EndPointDataCollection> PopulateCollections(Mapping mapping)

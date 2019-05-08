@@ -11,6 +11,8 @@ namespace Transmogrify.Data.EndPoints
 
         }
 
+        public override string TypeName => "T-SQL";
+
         public override Color Color => Color.IndianRed;
 
         public override IEnumerable<EndPointDataCollection> PopulateCollections(Mapping mapping)

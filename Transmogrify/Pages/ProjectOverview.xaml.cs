@@ -53,7 +53,7 @@ namespace Transmogrify.Pages
 
                 RibbonButton menuItem = new RibbonButton()
                 {
-                    Label = endpointType.Name.Replace("EndPoint", " endpoint"), // TODO: need a better way of getting a name. An attribute, maybe?
+                    Label = tmpInstance.TypeName + " endpoint",
                     Background = new SolidColorBrush(Color.FromRgb(tmpInstance.Color.R, tmpInstance.Color.G, tmpInstance.Color.B)),
                 };
 

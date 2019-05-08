@@ -11,6 +11,9 @@ namespace Transmogrify.Data
         public string Name { get; set; }
 
         [JsonIgnore]
+        public abstract string TypeName { get; }
+
+        [JsonIgnore]
         public abstract Color Color { get; }
 
         public abstract IEnumerable<EndPointDataCollection> PopulateCollections(Mapping mapping);

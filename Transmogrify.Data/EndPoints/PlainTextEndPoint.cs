@@ -13,6 +13,8 @@ namespace Transmogrify.Data.EndPoints
 
         }
 
+        public override string TypeName => "Plain text";
+
         public override Color Color => Color.LightGray;
 
         public override IEnumerable<EndPointDataCollection> PopulateCollections(Mapping mapping)
