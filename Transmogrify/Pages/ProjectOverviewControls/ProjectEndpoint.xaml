@@ -8,7 +8,7 @@
     <Viewbox Stretch="Uniform" StretchDirection="Both">
         <Grid Width="100" Height="75">
             <Grid.Resources>
-                <Style x:Key="EllipseStyle" x:Name="EllipseStyle" TargetType="Ellipse">
+                <Style x:Key="EllipseStyle" TargetType="Ellipse">
                     <Setter Property="Stroke" Value="Black" />
 
                     <Style.Triggers>
@@ -17,7 +17,7 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-                <Style x:Key="TextStyle" x:Name="TextStyle" TargetType="TextBlock">
+                <Style x:Key="TextStyle" TargetType="TextBlock">
                     <Setter Property="Foreground" Value="Black" />
 
                     <Style.Triggers>

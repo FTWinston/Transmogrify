@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -7,8 +8,10 @@ namespace Transmogrify.Pages.ProjectOverviewControls
     /// <summary>
     /// Interaction logic for ProjectMapping.xaml
     /// </summary>
-    public partial class ProjectMapping : UserControl
+    public partial class ProjectMapping : UserControl, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public ProjectMapping()
         {
             InitializeComponent();
@@ -16,7 +19,16 @@ namespace Transmogrify.Pages.ProjectOverviewControls
             Height = BaseHeight;
         }
 
-        public string Text { get; set; }
+        private string text;
+        public string Text
+        {
+            get => text;
+            set
+            {
+                text = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Text)));
+            }
+        }
 
         public static double BaseHeight => 18;
 

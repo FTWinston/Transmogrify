@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.ComponentModel;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Transmogrify.Pages.ProjectOverviewControls
@@ -6,11 +7,31 @@ namespace Transmogrify.Pages.ProjectOverviewControls
     /// <summary>
     /// Interaction logic for ProjectEndpoint.xaml
     /// </summary>
-    public partial class ProjectEndpoint : UserControl
+    public partial class ProjectEndpoint : UserControl, INotifyPropertyChanged
     {
-        public Brush Fill { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public string Text { get; set; }
+        private Brush fill;
+        public Brush Fill
+        {
+            get => fill;
+            set
+            {
+                fill = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Fill)));
+            }
+        }
+
+        private string text;
+        public string Text
+        {
+            get => text;
+            set
+            {
+                text = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Text)));
+            }
+        }
 
         private bool highlight = false;
         public bool Highlight
@@ -19,8 +40,7 @@ namespace Transmogrify.Pages.ProjectOverviewControls
             set
             {
                 highlight = value;
-                DataContext = null;
-                DataContext = this; // Needed to rebind, for some reason
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Highlight)));
             }
         }
 
@@ -31,8 +51,7 @@ namespace Transmogrify.Pages.ProjectOverviewControls
             set
             {
                 hovering = value;
-                DataContext = null;
-                DataContext = this; // Needed to rebind, for some reason
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Hovering)));
             }
         }
 
