@@ -12,11 +12,15 @@ namespace Transmogrify.Pages.ProjectOverviewControls
     /// </summary>
     public partial class OverviewRibbon : UserControl
     {
-        LibraryService LibraryService { get; } = ServiceContainer.Resolve<LibraryService>();
+        private LibraryService LibraryService { get; } = ServiceContainer.Resolve<LibraryService>();
 
-        ProjectService ProjectService { get; } = ServiceContainer.Resolve<ProjectService>();
+        private ProjectService ProjectService { get; } = ServiceContainer.Resolve<ProjectService>();
 
         public event EventHandler<Type> EndpointCreating;
+
+        public event EventHandler MappingCreating;
+
+        public event EventHandler MappingCancelled;
 
         public OverviewRibbon()
         {
@@ -41,7 +45,7 @@ namespace Transmogrify.Pages.ProjectOverviewControls
                     Background = new SolidColorBrush(Color.FromRgb(tmpInstance.Color.R, tmpInstance.Color.G, tmpInstance.Color.B)),
                 };
 
-                menuItem.Click += (o, e) => EndpointCreating(o, endpointType);
+                menuItem.Click += (o, e) => EndpointCreating?.Invoke(o, endpointType);
 
                 endpointListItems.Items.Add(menuItem);
             }
@@ -52,6 +56,22 @@ namespace Transmogrify.Pages.ProjectOverviewControls
             // TODO: confirm event?
 
             Application.Current.Shutdown();
+        }
+
+        private void BtnAddMapping_Click(object sender, RoutedEventArgs e)
+        {
+            btnAddMapping.Visibility = Visibility.Collapsed;
+            btnCancelMapping.Visibility = Visibility.Visible;
+
+            MappingCreating?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void BtnCancelMapping_Click(object sender, RoutedEventArgs e)
+        {
+            btnAddMapping.Visibility = Visibility.Visible;
+            btnCancelMapping.Visibility = Visibility.Collapsed;
+
+            MappingCancelled?.Invoke(this, EventArgs.Empty);
         }
     }
 }

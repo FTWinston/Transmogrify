@@ -5,5 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              d:DesignHeight="18" d:DesignWidth="150">
-    <Canvas x:Name="canvas" SizeChanged="Canvas_SizeChanged" />
+    <Canvas x:Name="canvas" SizeChanged="Canvas_SizeChanged">
+        <TextBlock
+            Foreground="Black"
+            Background="White"
+            FontSize="24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            x:Name="prompt"
+            IsHitTestVisible="False"
+            Text=""
+            Panel.ZIndex="99"
+        />
+    </Canvas>
 </UserControl>

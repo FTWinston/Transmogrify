@@ -12,6 +12,8 @@
         <projectoverviewcontrols:OverviewRibbon
             DockPanel.Dock="Top"
             EndpointCreating="OverviewRibbon_EndpointCreating"
+            MappingCreating="OverviewRibbon_MappingCreating"
+            MappingCancelled="OverviewRibbon_MappingCancelled"
         />
 
         <projectoverviewcontrols:ProjectCanvas

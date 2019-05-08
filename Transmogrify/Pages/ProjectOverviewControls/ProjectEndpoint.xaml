@@ -7,8 +7,42 @@
              d:DesignWidth="100" d:DesignHeight="75">
     <Viewbox Stretch="Uniform" StretchDirection="Both">
         <Grid Width="100" Height="75">
-            <Ellipse Fill="{Binding Path=Fill}" Stroke="Black" StrokeThickness="1" />
-            <TextBlock Text="{Binding Path=Text}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Grid.Resources>
+                <Style x:Key="EllipseStyle" x:Name="EllipseStyle" TargetType="Ellipse">
+                    <Setter Property="Stroke" Value="Black" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Highlight}" Value="true">
+                            <Setter Property="Stroke" Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <Style x:Key="TextStyle" x:Name="TextStyle" TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="Black" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Hovering}" Value="true">
+                            <Setter Property="Foreground" Value="White" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Resources>
+            
+            <Ellipse
+                Style="{StaticResource EllipseStyle}"
+                Fill="{Binding Path=Fill}"
+                StrokeThickness="1"
+                MouseEnter="Ellipse_MouseEnter"
+                MouseLeave="Ellipse_MouseLeave"
+            />
+            <TextBlock
+                Style="{StaticResource TextStyle}"
+                Text="{Binding Path=Text}"
+                x:Name="name"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsHitTestVisible="false"
+            />
         </Grid>
     </Viewbox>
 </UserControl>

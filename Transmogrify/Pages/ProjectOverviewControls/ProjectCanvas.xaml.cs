@@ -14,15 +14,38 @@ namespace Transmogrify.Pages.ProjectOverviewControls
     /// </summary>
     public partial class ProjectCanvas : UserControl
     {
-        ProjectService ProjectService { get; } = ServiceContainer.Resolve<ProjectService>();
+        private ProjectService ProjectService { get; } = ServiceContainer.Resolve<ProjectService>();
 
         public event EventHandler<DataEndPoint> EndpointSelected;
 
         public event EventHandler<Mapping> MappingSelected;
 
-        private List<ProjectEndpoint> EndpointDisplays { get; } = new List<ProjectEndpoint>();
+        public string Prompt
+        {
+            get => prompt.Text;
+            set => prompt.Text = value;
+        }
 
-        private List<ProjectMapping> MappingDisplays { get; } = new List<ProjectMapping>();
+        private DataEndPoint highlightEndpoint;
+        public DataEndPoint HighlightEndpoint
+        {
+            get => highlightEndpoint;
+            set
+            {
+                // TODO: this has no effect
+                if (highlightEndpoint != null && EndpointDisplays.TryGetValue(highlightEndpoint, out ProjectEndpoint prevDisplay))
+                    prevDisplay.Highlight = false;
+
+                highlightEndpoint = value;
+
+                if (value != null && EndpointDisplays.TryGetValue(highlightEndpoint, out ProjectEndpoint endpointDisplay))
+                    endpointDisplay.Highlight = true;
+            }
+        }
+
+        private Dictionary<DataEndPoint, ProjectEndpoint> EndpointDisplays { get; } = new Dictionary<DataEndPoint, ProjectEndpoint>();
+
+        private Dictionary<Mapping, ProjectMapping> MappingDisplays { get; } = new Dictionary<Mapping, ProjectMapping>();
 
         public ProjectCanvas()
         {
@@ -42,7 +65,7 @@ namespace Transmogrify.Pages.ProjectOverviewControls
 
             endpointDisplay.MouseUp += (o, e) => EndpointSelected(this, endpoint);
 
-            EndpointDisplays.Add(endpointDisplay);
+            EndpointDisplays.Add(endpoint, endpointDisplay);
             canvas.Children.Add(endpointDisplay);
         }
 
@@ -56,7 +79,7 @@ namespace Transmogrify.Pages.ProjectOverviewControls
 
             mappingDisplay.MouseUp += (o, e) => MappingSelected(this, mapping);
 
-            MappingDisplays.Add(mappingDisplay);
+            MappingDisplays.Add(mapping, mappingDisplay);
             canvas.Children.Add(mappingDisplay);
         }
 
@@ -90,6 +113,9 @@ namespace Transmogrify.Pages.ProjectOverviewControls
 
         private void PositionEndpoints(double totalWidth, double totalHeight)
         {
+            if (EndpointDisplays.Count == 0)
+                return;
+
             DetermineEndpointSize(totalWidth, totalHeight, out double endpointWidth, out double endpointHeight);
 
             // We precalculate these angles so that we can account for "unused space"
@@ -105,7 +131,7 @@ namespace Transmogrify.Pages.ProjectOverviewControls
             DetermineCenterAndOffsetDistance(totalWidth, totalHeight, endpointWidth, endpointHeight, unitOffsets, out double centerX, out double centerY, out double distanceFromCenter);
 
             int iEndpoint = 0;
-            foreach (ProjectEndpoint endpointDisplay in EndpointDisplays)
+            foreach (ProjectEndpoint endpointDisplay in EndpointDisplays.Values)
             {
                 endpointDisplay.Width = endpointWidth;
                 endpointDisplay.Height = endpointHeight;
@@ -250,7 +276,7 @@ namespace Transmogrify.Pages.ProjectOverviewControls
 
         private void PositionMappings()
         {
-            foreach (ProjectMapping mappingDisplay in MappingDisplays)
+            foreach (ProjectMapping mappingDisplay in MappingDisplays.Values)
             {
                 PositionMapping(mappingDisplay);
             }
@@ -260,8 +286,8 @@ namespace Transmogrify.Pages.ProjectOverviewControls
         {
             var mapping = mappingDisplay.Tag as Mapping;
 
-            var endpointDisplay1 = EndpointDisplays.First(d => d.Tag == mapping.Source.EndPoint);
-            var endpointDisplay2 = EndpointDisplays.First(d => d.Tag == mapping.Destination.EndPoint);
+            var endpointDisplay1 = EndpointDisplays[mapping.Source.EndPoint];
+            var endpointDisplay2 = EndpointDisplays[mapping.Destination.EndPoint];
 
             var x1 = Canvas.GetLeft(endpointDisplay1) + endpointDisplay1.Width / 2;
             var x2 = Canvas.GetLeft(endpointDisplay2) + endpointDisplay2.Width / 2;

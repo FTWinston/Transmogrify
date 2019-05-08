@@ -22,16 +22,25 @@
                 <RibbonButton Label="Run project" KeyTip="R" />
             </RibbonGroup>
             <RibbonGroup Header="Endpoints" x:Name="addEndpointGroup">
-                <RibbonMenuButton Label="Add endpoint" KeyTip="E" x:Name="endpointListItems">
+                <RibbonMenuButton Label="Add endpoint..." KeyTip="E" x:Name="endpointListItems">
 
                 </RibbonMenuButton>
                 <RibbonButton Label="Edit" />
                 <RibbonButton Label="Delete" />
             </RibbonGroup>
-            <RibbonGroup Header="Add Mappings">
-                <RibbonButton Label="Add" KeyTip="M" />
-                <RibbonButton Label="Edit" />
-                <RibbonButton Label="Delete "/>
+            <RibbonGroup Header="Mappings">
+                <RibbonButton
+                    Label="Add new mapping..."
+                    KeyTip="M"
+                    x:Name="btnAddMapping"
+                    Click="BtnAddMapping_Click"
+                />
+                <RibbonButton
+                    Label="Cancel adding mapping"
+                    x:Name="btnCancelMapping"
+                    Click="BtnCancelMapping_Click"
+                    Visibility="Collapsed"
+                />
             </RibbonGroup>
         </RibbonTab>
     </Ribbon>

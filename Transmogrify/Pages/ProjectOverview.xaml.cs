@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using Transmogrify.Data;
 using Transmogrify.Data.EndPoints;
@@ -10,7 +9,15 @@ namespace Transmogrify.Pages
 {
     public partial class ProjectOverview : Page
     {
-        ProjectService ProjectService { get; } = ServiceContainer.Resolve<ProjectService>();
+        public enum OverviewState
+        {
+            Normal = 1,
+            AddingMapping = 2,
+        }
+
+        private ProjectService ProjectService { get; } = ServiceContainer.Resolve<ProjectService>();
+
+        private OverviewState State { get; set; } = OverviewState.Normal;
 
         public ProjectOverview()
         {
@@ -77,14 +84,82 @@ namespace Transmogrify.Pages
 
         private void ProjectCanvas_MappingSelected(object sender, Mapping mapping)
         {
+            if (State == OverviewState.Normal)
+            {
+                OpenMapping(mapping);
+            }
+        }
+
+        private void OpenEndpoint(DataEndPoint endpoint)
+        {
+            var editor = new EndpointEditor(endpoint);
+            NavigationService.Navigate(editor);
+        }
+
+        private void OpenMapping(Mapping mapping)
+        {
             var editor = new MappingEditor(mapping);
             NavigationService.Navigate(editor);
         }
 
         private void ProjectCanvas_EndpointSelected(object sender, DataEndPoint endpoint)
         {
-            var editor = new EndpointEditor(endpoint);
-            NavigationService.Navigate(editor);
+            if (State == OverviewState.Normal)
+            {
+                OpenEndpoint(endpoint);
+            }
+            else if (State == OverviewState.AddingMapping)
+            {
+                if (mappingCreationSelectedEndpoint == null)
+                {
+                    mappingCreationSelectedEndpoint =
+                    projectCanvas.HighlightEndpoint = endpoint;
+
+                    projectCanvas.Prompt = "Select endpoint to map TO";
+                }
+                else
+                {
+                    if (endpoint == mappingCreationSelectedEndpoint)
+                        return;
+
+                    var mapping = CreateAndAddMapping(mappingCreationSelectedEndpoint, endpoint, "New mapping");
+
+                    mappingCreationSelectedEndpoint =
+                    projectCanvas.HighlightEndpoint = null;
+                    projectCanvas.Prompt = null;
+
+                    OpenMapping(mapping);
+                }
+            }
+        }
+
+        private Mapping CreateAndAddMapping(DataEndPoint source, DataEndPoint destination, string name)
+        {
+            Mapping mapping = new Mapping();
+            mapping.Name = name;
+            mapping.Source = source.PopulateCollections(mapping).First();
+            mapping.Destination = destination.PopulateCollections(mapping).First();
+
+            ProjectService.AddMapping(mapping);
+            projectCanvas.AddMapping(mapping);
+
+            return mapping;
+        }
+
+        private DataEndPoint mappingCreationSelectedEndpoint = null;
+        private void OverviewRibbon_MappingCreating(object sender, EventArgs e)
+        {
+            projectCanvas.HighlightEndpoint = null;
+            projectCanvas.Prompt = "Select endpoint to map FROM";
+
+            State = OverviewState.AddingMapping;
+        }
+
+        private void OverviewRibbon_MappingCancelled(object sender, EventArgs e)
+        {
+            mappingCreationSelectedEndpoint =
+            projectCanvas.HighlightEndpoint = null;
+            projectCanvas.Prompt = null;
         }
     }
 }
