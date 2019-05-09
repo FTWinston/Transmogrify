@@ -11,6 +11,10 @@
     <DockPanel>
         <projectoverviewcontrols:OverviewRibbon
             DockPanel.Dock="Top"
+            NewProject="OverviewRibbon_NewProject"
+            OpenProject="OverviewRibbon_OpenProject"
+            SaveProject="OverviewRibbon_SaveProject"
+            ExitApplication="OverviewRibbon_ExitApplication"
             EndpointCreating="OverviewRibbon_EndpointCreating"
             MappingCreating="OverviewRibbon_MappingCreating"
             MappingCancelled="OverviewRibbon_MappingCancelled"

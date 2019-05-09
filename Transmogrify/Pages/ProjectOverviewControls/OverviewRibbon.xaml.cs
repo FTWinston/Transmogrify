@@ -16,6 +16,8 @@ namespace Transmogrify.Pages.ProjectOverviewControls
 
         private ProjectService ProjectService { get; } = ServiceContainer.Resolve<ProjectService>();
 
+        public event EventHandler NewProject, OpenProject, SaveProject, ExitApplication;
+
         public event EventHandler<Type> EndpointCreating;
 
         public event EventHandler MappingCreating;
@@ -51,11 +53,24 @@ namespace Transmogrify.Pages.ProjectOverviewControls
             }
         }
 
+        private void ButtonNew_Click(object sender, RoutedEventArgs e)
+        {
+            NewProject?.Invoke(sender, EventArgs.Empty);
+        }
+
+        private void ButtonOpen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenProject?.Invoke(sender, EventArgs.Empty);
+        }
+
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveProject?.Invoke(sender, EventArgs.Empty);
+        }
+
         private void ButtonExit_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: confirm event?
-
-            Application.Current.Shutdown();
+            ExitApplication?.Invoke(sender, EventArgs.Empty);
         }
 
         private void BtnAddMapping_Click(object sender, RoutedEventArgs e)

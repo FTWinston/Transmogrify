@@ -12,9 +12,9 @@
 
         <RibbonTab Header="Project tab">
             <RibbonGroup Header="Project">
-                <RibbonButton Label="New" KeyTip="N" />
-                <RibbonButton Label="Open" KeyTip="O" />
-                <RibbonButton Label="Save" KeyTip="S" />
+                <RibbonButton Label="New" KeyTip="N" Click="ButtonNew_Click" />
+                <RibbonButton Label="Open" KeyTip="O" Click="ButtonOpen_Click" />
+                <RibbonButton Label="Save" KeyTip="S" Click="ButtonSave_Click" />
                 <RibbonButton Label="Exit" Click="ButtonExit_Click" />
             </RibbonGroup>
             <RibbonGroup Header="Misc">
