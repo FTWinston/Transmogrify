@@ -16,13 +16,11 @@ namespace Transmogrify.Pages.ProjectOverviewControls
 
         private ProjectService ProjectService { get; } = ServiceContainer.Resolve<ProjectService>();
 
-        public event EventHandler NewProject, OpenProject, SaveProject, ExitApplication;
+        public event EventHandler NewProject, OpenProject, SaveProject, ExitApplication, ShowLibrary;
 
         public event EventHandler<Type> EndpointCreating;
 
-        public event EventHandler MappingCreating;
-
-        public event EventHandler MappingCancelled;
+        public event EventHandler MappingCreating, MappingCancelled;
 
         public OverviewRibbon()
         {
@@ -71,6 +69,11 @@ namespace Transmogrify.Pages.ProjectOverviewControls
         private void ButtonExit_Click(object sender, RoutedEventArgs e)
         {
             ExitApplication?.Invoke(sender, EventArgs.Empty);
+        }
+
+        private void ButtonLibrary_Click(object sender, RoutedEventArgs e)
+        {
+            ShowLibrary?.Invoke(sender, EventArgs.Empty);
         }
 
         private void BtnAddMapping_Click(object sender, RoutedEventArgs e)

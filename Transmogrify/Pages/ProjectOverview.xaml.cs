@@ -216,5 +216,11 @@ namespace Transmogrify.Pages
                 Application.Current.Shutdown();
             }
         }
+
+        private void OverviewRibbon_ShowLibrary(object sender, EventArgs e)
+        {
+            new LibraryWindow()
+                .ShowDialog();
+        }
     }
 }

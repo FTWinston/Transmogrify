@@ -18,7 +18,7 @@
                 <RibbonButton Label="Exit" Click="ButtonExit_Click" />
             </RibbonGroup>
             <RibbonGroup Header="Misc">
-                <RibbonButton Label="External libraries" KeyTip="L" />
+                <RibbonButton Label="External libraries" KeyTip="L" Click="ButtonLibrary_Click" />
                 <RibbonButton Label="Run project" KeyTip="R" />
             </RibbonGroup>
             <RibbonGroup Header="Endpoints" x:Name="addEndpointGroup">
