@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
+using Transmogrify.Services;
 
 namespace Transmogrify
 {
@@ -7,13 +9,27 @@ namespace Transmogrify
     /// </summary>
     public partial class LibraryWindow : Window
     {
+        private LibraryService LibraryService { get; } = ServiceContainer.Resolve<LibraryService>();
+
+        private List<string> LibraryPaths;
+
         public LibraryWindow()
         {
-            // Don't know why but properties on the markup are being ignored.
-            WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            Height = 350;
-            Width = 400;
-            Title = "Transmogrify library resources";
+            InitializeComponent();
+            LibraryPaths = new List<string>(LibraryService.Library);
+            DataContext = LibraryPaths;
+        }
+
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
+        {
+            LibraryService.UpdateLibrary(LibraryPaths);
+
+            Close();
+        }
+
+        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
